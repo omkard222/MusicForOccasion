@@ -1,0 +1,8 @@
+.input.form-group
+  = f.semantic_fields_for :bank_account do |bf|
+    = bf.label :bank_name, class: 'label-control control-label'
+    = bf.input :bank_name, label: false
+    = bf.label :name, class: 'label-control control-label'
+    = bf.input :name, label: false
+    = bf.label :acc_number, class: 'label-control control-label'
+    = bf.input :acc_number, label: false

@@ -1,0 +1,18 @@
+!!! 5
+%html
+  %head
+    %meta{ 'content' => 'text/html; charset=UTF-8', 'http-equiv' => 'Content-Type' }
+    = stylesheet_link_tag 'mailer', media: 'all'
+  %body.mailer-body
+    .header.wrapper
+      = image_tag 'mailer/logo.png', alt: 'gigBazaar', class: 'logo'
+    .content.wrapper
+      = content_for?(:content) ? yield(:content) : yield
+      %hr.line
+      %p.preferences-note
+        = t('.email_notifications_preferences', link: link_to(t('.email_notifications'), notifications_url)).html_safe
+        %br
+        = t '.you_can_manage'
+        %br
+        = link_to t('.privacy_policy'), privacy_policy_url, class: 'privacy-policy'
+    .footer-note= t('.footer_note')

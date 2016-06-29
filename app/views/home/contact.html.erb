@@ -1,0 +1,44 @@
+<div class="pages">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-header">
+          <h1>Let's Talk</h1>
+        </div>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2">
+            <% flash.each do |key, message| %>
+                <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+                  <button type="button" class="close" data-dismiss="alert">x</button>
+                  <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+                </div>
+            <% end %>
+
+            <%= form_for :contact_us, url: submit_contact_us_path do |f| %>
+              <div class="form-group">
+                <h3>Name *</h3>
+                <input name='name' type="text" class="form-control" required placeholder="Joe Doe">
+              </div>
+              <div class="form-group">
+                <h3>Email Address *</h3>
+                <input name='email' type="email" class="form-control" required placeholder="joe@email.com">
+              </div>
+              <div class="form-group">
+                <h3>Subject *</h3>
+                <input name='subject' type="text" class="form-control" required placeholder="">
+              </div>
+              <div class="form-group">
+                <h3>Message *</h3>
+                <textarea name='message' class="form-control" required placeholder="Please leave your message here"></textarea>
+              </div>
+              <div class="actions">
+                <%= f.submit 'Submit', class: "btn btn-default" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>

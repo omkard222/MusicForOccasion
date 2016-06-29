@@ -1,0 +1,25 @@
+<%= form_for :review, url: reviews_path(:review) do |f| %>
+  <table>
+    <tr>
+      <td>
+        <%= f.label :message %>
+      </td>
+      <td>
+        <%= f.text_field :message %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :score %>
+      </td>
+      <td>
+        <%= f.number_field :score, value: 5 , 'min'=>"0" , 'max'=>"5" %>
+      </td>
+    </tr>
+  </table>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <%= f.hidden_field :profile_id, value: params[:id] %>
+  <br>
+    <%= f.submit 'Comment reviews' %>
+  </br>
+<% end %>

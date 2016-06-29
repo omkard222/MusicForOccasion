@@ -1,0 +1,32 @@
+<h4>Special Offer</h4>
+<%= form_for :booking_request, url: special_offer_path(params[:id]) do |f| %>
+  <div class="field">
+    <%= f.label :choose_your_service %>
+    <br>
+      <%= f.collection_select :service_id, current_user.current_profile.services.order(:headline), :id, :headline %>
+    </br>
+  </div>
+  <div class="field">
+    <%= f.label :price %>
+    <br>
+      <%= f.number_field :special_price, max: 999999999, min: 0 %>
+    </br>
+  </div>
+  <div class="field">
+    <%= f.label :currency %>
+    <br>
+      <%= f.select :currency,
+      { 'Options' => Service.currencies.map(&:upcase).sort },
+      selected: session[:preferred_currency] %>
+    </br>
+  </div>
+  <br/>
+  <div class="field">
+    <%= f.label :date %>
+    <%= f.text_field :date, class: 'datepicker' %>
+  </div>
+  <br/>
+  <div class="actions">
+    <%= f.submit 'Send Special Offer' %>
+  </div>
+<% end %>

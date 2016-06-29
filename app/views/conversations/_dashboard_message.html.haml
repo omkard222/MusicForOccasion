@@ -1,0 +1,28 @@
+- if @receipt
+  - partner = @receipt.conversation_partner(current_user.current_profile)
+  = @receipt.mailbox_type=='inbox' ? 'Incoming message:' : 'Outgoing message:'
+  %br= @receipt.message.created_at.strftime("%d %B %Y, %I:%M %P")
+
+  - if partner.class.name == 'Profile'
+    %div
+      - profile = partner.current_profile
+      = link_to image_tag(profile.profile_picture.services_display.url),
+                          profile_path(partner) if profile.profile_picture?
+      = link_to profile.username, profile_path(partner)
+      - if @receipt.is_read
+        .field
+          = link_to truncate(@receipt.message.body, :length => 25), conversation_path(partner)
+          #{ "(seen)" if @receipt.mailbox_type == 'inbox'}
+      - else
+        %mark= link_to truncate(@receipt.message.body, :length => 25), conversation_path(partner)
+  - elsif partner.class.name == 'Admin'
+    = image_tag(partner.profile_picture.services_display.url) if partner.profile_picture?
+    = partner.username
+    %br
+    - if @receipt.is_read
+      .field
+        = link_to truncate(@receipt.message.body, :length => 25), admin_conversation_path(partner)
+        #{ "(seen)" if @receipt.mailbox_type == 'inbox'}
+    - else
+      %mark= link_to truncate(@receipt.message.body, :length => 25), admin_conversation_path(partner)
+  %br= link_to 'View all messages', conversations_path

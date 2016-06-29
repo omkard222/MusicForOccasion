@@ -1,0 +1,28 @@
+<%= link_to 'Home', root_path %>
+<% if user_signed_in? %>
+  <%= link_to 'Sign Out', destroy_user_session_path, method: 'delete' %>
+  <% if current_user.current_profile %>
+    <%= link_to 'Profile', profile_path(current_user.current_profile.id) %>
+  <% end %>
+  <%= link_to 'Edit account', edit_user_registration_path %>
+  <%= link_to 'Propose my Services', new_service_path %>
+  <%= link_to "Inbox (#{ unread_msg_count })", conversations_path %>
+  <%= link_to 'Dashboard', dashboard_summary_path %>
+<% elsif admin_signed_in? %>
+  <%= link_to 'Sign Out', destroy_admin_session_path, method: 'delete' %>
+  <%= link_to "Inbox (#{ unread_msg_count })", conversations_path %>
+<% else %>
+  <%= link_to 'Log In', new_user_session_path %>
+  <%= link_to 'Sign Up', new_user_registration_path %>
+<% end %>
+<%= link_to 'How It Works?', how_it_works_path %>
+<%= link_to 'Privacy Policy', privacy_policy_path %>
+<%= link_to 'Terms and Conditions', terms_and_conditions_path %>
+<%= link_to 'FAQ', faq_path %>
+<%= link_to 'Cancellation Policies', cancellation_policies_path %>
+<%= link_to 'About Us', about_path %>
+<%= link_to 'Facebook', ENV['FACEBOOK_PAGE'] %>
+<%= link_to 'Twitter', ENV['TWITTER_PAGE'] %>
+<%= mail_to ENV['CONTACT_EMAIL'], 'Contact' %>
+<%= mail_to ENV['INVEST_EMAIL'], 'Invest' %>
+<div class="fb-like" data-action="like" data-href="<%= ENV['FACEBOOK_PAGE'] %>" data-layout="button_count" data-share="false" data-show-faces="false" data-width="450"></div>

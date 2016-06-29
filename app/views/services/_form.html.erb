@@ -1,0 +1,334 @@
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div id="flash_errors">
+        <% flash.each do |key, message| %>
+            <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+              <button type="button" class="close" data-dismiss="alert">x</button>
+              <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+            </div>
+        <% end %>
+      </div>
+      <% @new = @service.new_record? %>
+      <%= form_for :service, url: (@new ? services_path(:service) : update_service_path), html: { id: 'service_form', method: :post } do |f| %>
+          <%= f.hidden_field :id%>
+          <div class="space30"></div>
+          <div class="form-group">
+            <%= f.label :headline %>
+            <%= f.text_field :headline, required: true, class: 'form-control', :maxlength => 30 %>
+          </div>
+          <div class="form-group">
+            <%= f.label :description %>
+            <%= f.text_area :description, class: 'form-control', rows: 3 %>
+          </div>
+          <div class="form-group service_booking_fee_type">
+            <div class="form-group">
+              <%= f.label :booking_fee_type %>
+              <%= f.select :booking_fee_type, translated_fee_type_options, {:prompt => ''}, :required => true, class: 'form-control' %>
+            </div>
+            <div class="form-group">
+              <div class="additional for_send_inquiry"><%= t '.note_for_send_inquiry' %></div>
+              <div class="additional for_free">
+                <% Service.free_fee_types.keys.each do |type| %>
+                  <label>
+                    <%= f.radio_button :free_fee_type, type %>
+                    <%= t(".free_fee_types.#{type}") %>
+                  </label>
+                  <br>
+                <% end %>
+              </div>
+              <div class="additional for_minimum_fees">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= f.label :booking_fee %>
+                      <%= f.number_field :booking_fee, class: 'form-control', max: 999999999, min: 0 %>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <%= f.label :currency %>
+                      <%= f.select :currency, Service.currencies.map(&:upcase).sort, {:prompt => ''}, :required => true, class: 'form-control' %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <% Service.fee_time_types.keys.each do |type| %>
+                      <label>
+                        <%= f.radio_button :fee_time_type, type %>
+                        <% if type == 'per_minute' %>
+                          <%= f.label :minutes_count, style: 'display: none;' do %>
+                            <%= t('.minutes_count_error') %>
+                          <% end %>
+                          <% field = f.number_field(:minutes_count,  min: 1, max: 59, class: 'form-control inline-control', required: true)%>
+                          <%= t(".fee_time_types.#{type}", minutes_count: field).html_safe %>
+                        <% else %>
+                          <%= t(".fee_time_types.#{type}") %>
+                        <% end %>
+                      </label>
+                      <br>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :food_and_beverage %>
+            <%= f.text_area :food_and_beverage, class: 'form-control', rows: 3 %>
+          </div>
+          <div class="form-group">
+            <%= f.label :min_num_people %>
+            <%= f.number_field :min_num_people, class: 'form-control', min: 1 %>
+          </div>
+          <div class="form-group">
+            <%= f.label :accommodation %>
+            <br>
+            <% Service.accommodations.keys.each do |accommodation| %>
+              <label>
+                <%= f.radio_button :accommodation, accommodation %>
+                <%= t(".accommodations.#{accommodation}") %>
+              </label>
+              <br>
+            <% end %>
+          </div>
+          <div class="form-group">
+            <%= f.label :service_type_id %>
+            <%= f.select :service_type_id, ServiceType.all_service_types, {:prompt => ''}, :required => true, class: 'form-control' %>
+          </div>
+          <div id="days_of_week">
+            <label id='days_of_week_error_label'><%= t('.select_at_least_one')%></label>
+            <div class="field">
+              <%= f.check_box :is_sunday %>
+              <%= f.label :is_sunday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_monday %>
+              <%= f.label :is_monday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_tuesday %>
+              <%= f.label :is_tuesday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_wednesday %>
+              <%= f.label :is_wednesday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_thursday %>
+              <%= f.label :is_thursday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_friday %>
+              <%= f.label :is_friday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_saturday %>
+              <%= f.label :is_saturday %>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="field col-md-6 hidden" id="date_from">
+              <%= f.label :date_from, id:'lbl_date_from' %>
+              <%= f.text_field :date_from, class: 'datepicker_date_from form-control', :value => (@service.date_from.strftime('%d/%m/%Y') if @service.date_from) %>
+            </div>
+            <div class="field col-md-6 hidden" id="date_to">
+              <%= f.label :date_to %>
+              <%= f.text_field :date_to, class: 'datepicker_date_to form-control', :value => (@service.date_to.strftime('%d/%m/%Y') if @service.date_to) %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <h3><%= f.submit @new ? 'Save' : 'Update', class: 'btn btn-info btn-block btn-base' %></h3>
+              <div class="space10"></div>
+            </div>
+            <div class="col-sm-6">
+              <h3><%= link_to 'Cancel', services_path, class: 'btn btn-default btn-block btn-base' %></h3>
+              <div class="space10"></div>
+            </div>
+          </div>
+          <div class="space40"></div>
+      <% end %>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var scrollToTop = function(){
+          $("html, body").scrollTop(0);
+        };
+
+        if($('.alert').length > 0) {
+          scrollToTop();
+        }
+
+        set_datepicker();
+        if(<%= @service.new_record? %>){
+            $('#service_currency').val("<%= session[:preferred_currency].to_s.upcase %>");
+        };
+        service_type_select_changed($('#service_service_type_id').val());
+
+
+        $('#service_form').submit(function (e) {
+            var check_count = $("#days_of_week").find("input:checked").length;
+            if(check_count == 0 && $('#service_service_type_id').val() == "2") {
+              $('#days_of_week_error_label').effect( "highlight", 3000 );
+              $("#service_is_sunday").focus();
+              return false;
+            }
+        });
+        $('input[type=number]').on('mousewheel', function(){
+          var el = $(this);
+          el.blur();
+          setTimeout(function(){
+            el.focus();
+          }, 10);
+        });
+
+        function fixForm(form) {
+          $(form).on('click', 'input[type="submit"],button[type="submit"]', function(e) {
+            var hidden_required = [];
+            var empty_required_fields = [];
+            var name = '';
+            $(form).find('input[required], select[required]').each(function() {
+              if ($(this).is(':hidden')) {
+                hidden_required.push($(this));
+                $(this).removeAttr('required');
+              } else if ($(this).val().length == 0) {
+                name = $('label[for=' + $(this).attr('id') + ']').text()
+                empty_required_fields.push(name)
+              }
+            });
+
+            e.preventDefault();
+            if (empty_required_fields.length > 0) {
+              $('.service_form_error').remove();
+              var error_html = '<div class="alert alert-danger %> fade in service_form_error">' +
+                                '<button type="button" class="close" data-dismiss="alert">x</button>' +
+                                '<div id="flash_error"> ' + 'Please fill data in those fields:' + empty_required_fields.join(', ') + ' </div>' +
+                              '</div>';
+              $('#flash_errors').append(error_html);
+              scrollToTop();
+            } else {
+              $(form).submit();
+            }
+            $(hidden_required).each(function() {
+              $(this).attr('required', 'required');
+            });
+
+            return false;
+          });
+        }
+
+        fixForm('#service_form');
+
+        function showAdditionalForSelected(){
+          $('.service_booking_fee_type.form-group .additional').hide();
+
+          var selected_item = '.for_'+$('#service_booking_fee_type').val();
+
+          $(selected_item).show();
+        }
+
+        $("#service_booking_fee_type").on('change', showAdditionalForSelected);
+        showAdditionalForSelected();
+    });
+
+    function set_validate_date_from(validate){
+        $('#service_date_from').prop('required', validate);
+        if (!validate) $('#service_date_from').val("");
+    }
+
+    function set_validate_date_to(validate){
+        $('#service_date_to').prop('required', validate);
+        if(!validate) $('#service_date_to').val("");
+    }
+
+    function display_days_of_week_control(){
+        $('#days_of_week').removeClass("hidden");
+        $('#date_from').addClass("hidden");
+        $('#date_to').addClass("hidden");
+        set_validate_date_from(false);
+        set_validate_date_to(false);
+    }
+
+    function display_period_control(){
+        $('#days_of_week').addClass("hidden");
+        $('#date_from').removeClass("hidden");
+        $('#date_to').removeClass("hidden");
+        $('#lbl_date_from').text('From');
+        set_validate_date_from(true);
+        set_validate_date_to(true);
+    }
+
+    function display_single_day_control(){
+        $('#days_of_week').addClass("hidden");
+        $('#date_from').removeClass("hidden");
+        $('#date_to').addClass("hidden");
+        $('#lbl_date_from').text('Date');
+        set_validate_date_from(true);
+        set_validate_date_to(false);
+    }
+
+    function hide_all_controls(){
+        $('#days_of_week').addClass("hidden");
+        $('#date_from').addClass("hidden");
+        $('#date_to').addClass("hidden");
+    }
+
+    function clear_data(){
+        $("input:checkbox").prop('checked', false);
+        $('#service_date_from').val("");
+        $('#service_date_to').val("");
+    }
+
+    function check_days_of_week(checked){
+      $("#days_of_week").find(':checkbox').prop('checked', checked);
+    }
+
+
+    $('#service_service_type_id').change(function() {
+        clear_data();
+        service_type_select_changed($('#service_service_type_id').val());
+    });
+
+    function service_type_select_changed(service_type_id){
+      switch (service_type_id) {
+        case "1":
+          display_single_day_control();
+          break;
+        case "2":
+          if ($("#days_of_week").find("input:checked").length == 0) {
+            check_days_of_week(true); };
+          display_days_of_week_control();
+          break;
+        case "3":
+          display_period_control();
+          break;
+        default:
+          hide_all_controls();
+      }
+    }
+
+    $('.datepicker_date_from').change(function(){
+        var from = $('.datepicker_date_from').val().split("/");
+        var date = new Date(from[2], from[1] - 1, from[0]);
+        $('.datepicker_date_to').datepicker( "option", "minDate", date );
+    });
+
+    $('.datepicker_date_to').change(function(){
+        var from = $('.datepicker_date_to').val().split("/");
+        var date = new Date(from[2], from[1] - 1, from[0]);
+        $('.datepicker_date_from').datepicker( "option", "maxDate", date );
+    });
+
+    function set_datepicker(){
+        var dateToday = new Date();
+        $('.datepicker_date_from').datepicker({ dateFormat: 'dd/mm/yy',
+            minDate: dateToday
+        });
+        $('.datepicker_date_to').datepicker({ dateFormat: 'dd/mm/yy',
+            minDate: dateToday
+        });
+    }
+</script>

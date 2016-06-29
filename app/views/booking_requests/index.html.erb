@@ -1,0 +1,141 @@
+
+<h1>My Services</h1>
+<table style="width:80%;margin: 0 auto;">
+<col width="125px">
+<col width="">
+<col width="30%">
+<% @booking_list.each do |booking| %>
+<% service = booking.service %>
+<% requestor = booking.profile %>
+<% status = booking.status %>
+<tr>
+  <td align="center" rowspan="3">
+    <%= link_to image_tag(requestor.picture, class: 'picture-chatting img-responsive'), profile_path(requestor) %>
+  </td>
+  <td colspan="2">
+    <h4><b><%= service.headline %></b> by <b><%= link_to requestor.name, profile_path(requestor) %></b> , Status : <%= status %></h4>
+  </td>
+</tr>
+<tr>
+  <td colspan="2">
+    Booking on <b><%= booking.date.strftime("%A, %B %d , %Y at %I:%M %p") %></b><% if booking.currency.present? %> at <%= "#{ preferred_currency_session.upcase }  #{ convert_to_preferred_currency(booking.currency, booking.confirmed_price) }"%> <% end %> <br>
+    Message : <%= booking.message.to_s %>
+  </td>
+</tr>
+<tr>
+  <td>
+    <%= link_to '# Chat with', conversation_path(requestor) %>
+  </td>
+  <td>
+    <% if status == 'Special Offer' %>
+      <%= button_to 'Cancel', cancel_request_path(booking), data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-sm-offset-8 col-sm-4' %>
+    <% elsif status == 'Pending' %>
+      <a href="" class="btn btn-submit col-sm-4 booking_special_offer" data-toggle="modal" data-target="#modal_special_offer" data-dismiss="modal" data-requestor_id="<%= booking.profile_id.to_s %>" data-service_id="<%= booking.service_id.to_s %>" data-service_name="<%= booking.service.name.to_s %>">Special Offer</a>
+      <%= button_to 'Accept', accept_request_path(booking), data: { confirm: 'Are you sure?' }, class: 'btn btn-submit col-sm-4' %>
+      <%= button_to 'Reject', reject_request_path(booking), data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-sm-4' %>
+    <% elsif status == 'Accepted' %>
+      <%= button_to 'Cancel', cancel_booking_path(booking), data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-sm-offset-8 col-sm-4' %>
+    <% end %>
+  </td>
+</tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<% end %>
+</table>
+
+<table style="width:80%;margin: 0 auto;">
+<col width="125px">
+<col width="">
+<col width="30%">
+<h1>My Requested Bookings</h1>
+<% @request_list.each do |request| %>
+<% service = request.service %>
+<% service_owner = service.profile %>
+<% status = request.status %>
+<tr>
+  <td align="center" rowspan="3">
+    <%= link_to image_tag(service_owner.current_profile.picture, class: 'picture-chatting img-responsive'), profile_path(service.profile_id) %>
+  </td>
+  <td colspan="2">
+    <h4><b><%=  service.headline %></b> , Status : <%= status %></h4>
+  </td>
+</tr>
+<tr>
+  <td colspan="2">
+    Booking on <b><%= request.date.strftime("%A, %B %d , %Y at %I:%M %p") %></b> at <%= "#{ preferred_currency_session.upcase }  #{ convert_to_preferred_currency(request.currency, request.confirmed_price) }"%><br>
+    Message : <%= request.message.to_s %>
+  </td>
+</tr>
+<tr>
+  <td> <%= link_to '# Chat with', conversation_path(service_owner) %></td>
+  <td>
+    <% if status == 'Pending' %>
+      <%= button_to 'Cancel', cancel_request_path(request), data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-sm-offset-8 col-sm-4' %>
+    <% elsif status == 'Accepted' %>
+      <%= button_to 'Cancel', cancel_booking_path(request), data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-sm-offset-8 col-sm-4' %>
+    <% elsif status == 'Special Offer' %>
+      <%= button_to 'Accept', accept_request_path(request), data: { confirm: 'Are you sure?' }, class: 'btn btn-submit col-sm-offset-4 col-sm-4' %>
+      <%= button_to 'Reject', reject_request_path(request), data: { confirm: 'Are you sure?' }, class: 'btn btn-danger col-sm-4' %>
+    <% end %>
+  </td>
+</tr>
+<tr><td colspan="3">&nbsp;</td></tr>
+<% end %>
+</table>
+
+<div id="modal_special_offer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="form-horizontal">
+        <h4>Special Offer</h4>
+        <hr>
+        <%= form_for :booking_request, url: create_special_offer_path do |f| %>
+          <input type="hidden" name="id" id="profile_id">
+          <div class="field">
+            <%= f.label :choose_your_service %>
+            <br>
+              <input type="text" id="service_name" value="">
+              <%= f.hidden_field :service_id %>
+            </br>
+          </div>
+          <div class="field">
+            <%= f.label :price %>
+            <br>
+              <%= f.number_field :special_price, max: 999999999, min: 0 %>
+            </br>
+          </div>
+          <div class="field">
+            <%= f.label :currency %>
+            <br>
+              <%= f.select :currency,
+              { 'Options' => Service.currencies.map(&:upcase).sort },
+              selected: session[:preferred_currency] %>
+            </br>
+          </div>
+          <br/>
+          <div class="field">
+            <%= f.label :date %>
+            <%= f.text_field :date, class: 'datepicker' %>
+          </div>
+          <br/>
+          <div class="actions">
+            <%= f.submit 'Send Special Offer' %>
+            <%= button_to 'cancel' , '' , 'data-dismiss' => 'modal'%>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= content_for(:bottom_script) do %>
+<script type="text/javascript">
+$(document).on("click", ".booking_special_offer", function () {
+     var profileID = $(this).data('requestor_id');
+     $("#profile_id").val( profileID );
+     var serviceID = $(this).data('service_id');
+     $("#booking_request_service_id").val( serviceID );
+     var serviceName = $(this).data('service_name');
+     $("#service_name").val( serviceName );
+  });
+</script>
+<% end %>

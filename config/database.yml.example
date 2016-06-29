@@ -1,0 +1,26 @@
+development:
+  adapter:  postgresql
+  host:     localhost
+  encoding: unicode
+  database: booking_core_project_development
+  pool:     5
+  username:
+  password:
+
+test:
+  adapter:  postgresql
+  host:     localhost
+  encoding: unicode
+  database: booking_core_project_test
+  pool:     5
+  username:
+  password:
+
+production:
+  adapter:  postgresql
+  host:     localhost
+  encoding: unicode
+  database: booking_core_project_production
+  pool:     5
+  username: postgres
+  password: postgres

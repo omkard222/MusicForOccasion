@@ -1,0 +1,7 @@
+en:
+  formtastic:
+    labels:
+      profile:
+        edit:
+          youtube_url: 'Youtube: add a video on your profile. Paste below the URL of the youtube page.'
+          soundcloud_url: 'Soundcloud: add music on your profile. Paste below​ the code you find after clicking “share” icon, then “embed”​.​'

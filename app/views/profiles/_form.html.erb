@@ -1,0 +1,50 @@
+<%= form_for profile, url: profile_path(profile), method: :put do |f| %>
+  <div class="field">
+    <%= f.label :profile_picture %>
+    <br>
+      <%= image_tag(profile.profile_picture.thumb.url) if profile.profile_picture? %>
+    </br>
+    <br>
+      <%= f.file_field :profile_picture %>
+    </br>
+  </div>
+  <div class="field">
+    <%= f.label :username %>
+    <br>
+      <%= f.text_field :username %>
+    </br>
+  </div>
+  <div class="field">
+    <%= f.label :birthdate %>
+    <br>
+      <%= f.date_select :birthday, order: [:day, :month, :year], start_year: 1900, end_year: Time.now.year %>
+    </br>
+  </div>
+  <div class="field">
+    <%= f.label :location %>
+    <br>
+      <%= f.text_field :location, class: 'location' %>
+    </br>
+  </div>
+  <div class="field">
+    <%= f.label :headline %>
+    <br>
+      <%= f.text_field :headline %>
+    </br>
+  </div>
+  <div class="field">
+    <%= f.label :biography %>
+    <br>
+      <%= f.text_area :biography %>
+    </br>
+  </div>
+  <div class="field">
+    <%= label_tag :additional_pictures %>
+    <br>
+      <%= file_field_tag 'image[]', id: 'profile_additional_pictures', type: :file, multiple: true %>
+    </br>
+  </div>
+  <br>
+    <%= f.submit 'Update profile' %>
+  </br>
+<% end %>

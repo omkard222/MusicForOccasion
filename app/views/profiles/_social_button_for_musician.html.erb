@@ -1,0 +1,83 @@
+<div class="row text-center">
+  <% if @profile.facebook_token %>
+    <a href="https://www.facebook.com/<%= @profile.facebook_page_id %>" target="newwindow" class="social_link_icon">
+      <div class="col-md-6 social-media">
+        <label class="btn-visit-l">visit</label>
+        <div class="fb"><h2><i class="fa fa-facebook"></i></h2>
+          <% if @profile.facebook_page_likes %>
+            <p><%= @profile.facebook_page_likes %> likes</p>
+          <% else %>
+            <p>Facebook</p>
+          <% end %>
+        </div>
+      </div>
+    </a>
+  <% else %>
+    <div class="col-md-6">
+      <div class="fb">
+        <h2><i class="fa fa-facebook"></i></h2>
+        <p><%= t('.facebook') %></p>
+      </div>
+    </div>
+  <% end %>
+  <% if @profile.twitter_token && @profile.twitter_secret %>
+    <a href="https://www.twitter.com/<%= @profile.twitter_name %>" target="newwindow" class="social_link_icon">
+      <div class="col-md-6 social-media">
+        <label class="btn-visit-r">visit</label>
+        <div class="tw"><h2><i class="fa fa-twitter"></i></h2>
+          <% if @twitter_followers %>
+            <p><%= @twitter_followers %> followers</p>
+          <% else %>
+            <p>twitter</p>
+          <% end %>
+        </div>
+      </div>
+    </a>
+  <% else %>
+    <div class="col-md-6">
+      <div class="tw">
+        <h2><i class="fa fa-twitter"></i></h2>
+        <p><%= t('.twitter') %></p>
+      </div>
+    </div>
+  <% end %>
+</div>
+<div class="row text-center">
+  <% if @profile.youtube_channel_id %>
+    <a href="https://www.youtube.com/channel/<%= @profile.youtube_channel_id %>" target="newwindow" class="social_link_icon">
+      <div class="col-md-6 social-media">
+        <label class="btn-visit-l">visit</label>
+        <div class="yt"><h2><i class="fa fa-youtube"></i></h2>
+          <% if @profile.youtube_subscribers %>
+            <p><%= @profile.youtube_subscribers %> followers</p>
+          <% else %>
+            <p><%= t('.youtube') %></p>
+          <% end %>
+        </div>
+      </div>
+    </a>
+  <% else %>
+    <div class="col-md-6">
+      <div class="yt">
+        <h2><i class="fa fa-youtube"></i></h2>
+        <p><%= t('.youtube') %></p>
+      </div>
+    </div>
+  <% end %>
+  <% if @profile.soundcloud_datum %>
+    <a href="https://www.soundcloud.com/<%= @profile.soundcloud_datum.client_id %>" target="newwindow" class="social_link_icon">
+      <div class="col-md-6 social-media">
+        <label class="btn-visit-r">visit</label>
+        <div class='sc'><h2><i class='fa fa-soundcloud'></i></h2>
+          <p><%= @profile.get_tracks_plays %></p>
+        </div>
+      </div>
+    </a>
+  <% else %>
+    <div class="col-md-6">
+      <div class='sc'><h2><i class='fa fa-soundcloud'></i></h2>
+        <p><%= t('.soundcloud') %></p>
+      </div>
+    </div>
+  <% end %>
+</div>

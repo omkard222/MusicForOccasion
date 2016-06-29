@@ -1,0 +1,9 @@
+.space40
+h4
+  = profile.virtual_name
+- if profile.has_full_geo?
+  p
+    i class="fa fa-map-marker space-after-it"
+    = profile.location.split(',').first
+    - if @search_term.present?
+      = distance_from(@search_term)

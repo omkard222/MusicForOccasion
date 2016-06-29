@@ -1,0 +1,136 @@
+$fontRaleway: 'Raleway',
+sans-serif;
+
+.inbox-box{
+  width: 100%;
+  height: 120px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #ffffff;
+
+  td{
+    padding: 10px;
+  }
+
+  h3{
+    margin-top: 10px;
+  }
+
+  hr{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+
+.col-img{
+  width: 80px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.col-img-l{
+  width: 120px;
+  text-align: center;
+  word-wrap: break-word;
+  vertical-align: top;
+}
+
+.img-inbox
+{
+  width: 65px;
+  height: 65px;
+  margin: 10px 0px 10px 10px;
+}
+
+.name-label{
+  font-family: $fontRaleway;
+  font-size: 14px;
+  color: #747474;
+  padding-top: 5px;
+  width:120px;
+  word-wrap: break-word;
+}
+
+.msg-label{
+  font-family: $fontRaleway;
+  font-size: 14px;
+  color: #747474;
+}
+
+.footer-label{
+  font-family: $fontRaleway;
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+.chat-icon{
+  float: right;
+  font-size: 20px!important;
+  color: #00b0ff;
+  span{
+    font-family: $fontRaleway;
+  }
+}
+
+.chat-box{
+  clear: both;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  margin: 0px;
+  padding: 10px 10px 0px;
+  height: auto;
+  display: inline-grid;
+  width: auto;
+}
+
+.chat-button{
+  float: right;
+  margin-top: 0px;
+  width: 110px;
+}
+
+.box-right{
+  background-color: #00b0ff;
+
+  .msg-label{
+    color: #ffffff;
+  }
+
+  .footer-label{
+    color: #ebebeb;
+    text-align: right;
+  }
+}
+
+.box-left{
+  background-color: #ffffff;
+
+  .footer-label{
+    text-align: right;
+  }
+}
+
+.img-chat
+{
+  width: 80px;
+  height: 80px;
+  padding: 10px;
+}
+
+.button-lg{
+  font-size: 24px!important;
+  border-radius: 0px!important;
+  font-family: 'Raleway', sans-serif!important;
+}
+
+.row-button{
+  margin-top: -20px;
+}
+
+@media only screen and (max-width: 375px) {
+  .chat-button{
+    margin-top: 5px;
+  }
+}

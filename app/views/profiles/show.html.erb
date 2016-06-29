@@ -1,0 +1,533 @@
+<div class="top-profile">
+  <div class="container">
+    <% flash.each do |key, message| %>
+        <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+          <button type="button" class="close" data-dismiss="alert">x</button>
+          <div id="flash_<%= key %>"> <%= (message) %> </div>
+        </div>
+    <% end %>
+    <div class="row">
+      <div class="col-sm-3">
+        <%= image_tag(@profile.picture, class: 'img-rounded img-responsive') %>
+      </div>
+      <div class="col-sm-4">
+        <h3 class="break_word"><%= @profile.virtual_name %>
+          <div class="rateit" data-rateit-value="<%= @score_average %>" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true"></div><%= "("+"#{@rate_count.to_s}"+")" %>
+        </h3>
+        <br>
+        <%- if @profile.genres.present? %>
+          <h4>
+            <i class="fa fa-music"></i>
+            <%= @profile.genres.pluck(:name).join(', ') %>
+          </h4>
+        <% end %>
+        <%- if @profile.instruments.present? %>
+          <h4>
+            <i class="fa fa-microphone"></i>
+            <%= @instruments.pluck(:name).join(', ') %>
+          </h4>
+        <% end %>
+        <%- if @profile.genres.present? %>
+            <h4><i class="fa fa-map-marker"></i> <%= @profile.location %></h4>
+        <% end %>
+
+        <div class="space40"></div>
+
+        <% if user_signed_in? && (current_user.id != @profile.user_id) %>
+            <h4>
+              <%= form_for '', url: rate_a_profile_path, html: {class: 'form-horizontal', id: 'rate_profile', role: 'form', method: :post} do %>
+                  <input type="hidden" value="<%= current_profile.id if user_signed_in? %>" name="review[reviewer_id]">
+                  <input type="hidden" value="<%= @profile.id %>" name="review[profile_id]">
+                  <input type="range" value="<%= @user_rate %>" step="1" id="backing4" name="review[score]">
+                  Rate us: <a class="click_able">
+                    <div class="rateit" id="rate_input" data-rateit-backingfld="#backing4" data-rateit-resetable="false" data-rateit-ispreset="true" data-rateit-min="0" data-rateit-max="5"></div>
+                  </a>
+              <% end %>
+            </h4>
+            <h4><a href="" class="booknow modal-review" data-toggle="modal" data-target="#myReviewModal">Write a Review
+              ></a></h4>
+        <% else %>
+            <h4>
+              Rate us: <a onclick="modal_call('rate')">
+              <div class="rateit" data-rateit-value="0" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+            </a>
+            </h4>
+            <h4><a class="click_able" onclick="modal_call('write')">Write a Review ></a></h4>
+        <% end %>
+
+        <div class="space30"></div>
+
+        <div class="send">
+          <% if user_signed_in? && @profile.user_id != current_user.id %>
+              <%= form_tag create_message_path do %>
+                  <div class="input-group">
+                    <input type="hidden" name="id" value="<%= @profile.id %>">
+                    <input type="text" name="msg_body" class="form-control" placeholder="Send message to musician">
+                <span class="input-group-btn">
+                  <%= submit_tag 'Send', class: 'btn btn-default btn-send' %>
+                </span>
+                  </div>
+              <% end %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-sm-5">
+        <!--
+        <h3><a href="#1" class="btn btn-default btn-block btn-booknow">Book Now</a></h3>
+        -->
+        <% if @profile.musician? %>
+          <% default_service = @profile.default_service %>
+          <% if default_service %>
+              <h2>
+                <% if default_service.send_inquiry? || default_service.free? %>
+                  <%= t(default_service.booking_fee_type, scope: 'services.form.booking_fee_types') %>
+                <% else %>
+                    From
+                    <span class="number_font"><%= convert_to_preferred_currency(@profile.default_service.currency, @profile.default_service.booking_fee) %></span> <%= preferred_currency_session.upcase %>
+                <% end %>
+              </h2>
+          <% end %>
+
+          <div class="space20"></div>
+          <div class="services" id="1">
+            <% @services.reject(&:expired?).each do |service| %>
+                <% send_inquiry = service.send_inquiry? %>
+                <!-- <div class="space10"></div> -->
+                <hr class="service_list">
+                <div class="row">
+                  <div class="col-md-9">
+                    <h4>
+                      <a href="/services/<%= service.id %>" data-toggle="tooltip" title="<%= service.title %>" onclick=""><%= service.headline %></a>
+
+                      <% if !send_inquiry %>
+                          <% if service.free? %>
+                            <%= service_fee_or_free service, 'number_font' %>
+                          <% else %>
+                            (<%= service_fee_or_free service, 'number_font' %>)
+                          <% end %>
+                      <% end %>
+                    </h4>
+
+                    <p style="margin-left: 10px;"><b>Available on</b> <%= "#{ service.available_date }" %>
+                    </p>
+                  </div>
+                  <div class="col-md-3 book-offer">
+                    <div class="space10"></div>
+                    <% button_name = send_inquiry ? "Send Inquiry" : "Book now" %>
+                    <% if user_signed_in? && (current_user.id != @profile.user_id) %>
+                        <a href="" class="booknow modal-booking btn btn-send"
+                           data-toggle="modal"
+                           data-target="#myModal"
+                           data-serviceprice= "<%= service_fee_or_free(service) %>"
+                           data-servicename="<%= service.name %>"
+                           data-serviceid="<%= service.id %>"
+                           data-servicecalendar="<%= service.calendar_picker %>"
+                           data-serviceavailabledate="<%= service.available_date %>"
+                           data-serviceinquiry="<%= service.send_inquiry? %>">
+                          <%= button_name %>
+                        </a>
+                    <% else %>
+                        <a class="btn btn-send click_able" onclick="modal_call('book')"><%= button_name %></a>
+                    <% end %>
+                  </div>
+                </div>
+            <% end %>
+          </div>
+        <% end %>
+        <div class="space30"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="space50"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-8">
+
+      <% if @profile.biography %>
+          <div class="bio divBioMusic">
+            <h1>Biography</h1>
+            <% if @bio_hide %>
+                <p id="bioMusic" class="break_word"><%= @bio_show %>
+                  <a onclick="show_hide_bio()" id="seeMore"> ... See More</a></p>
+            <% else %>
+                <p style="white-space: pre-wrap;"><%= @profile.biography %></p>
+                <p style="white-space: pre-line;"><%#= @profile.biography %></p>
+            <% end %>
+          </div>
+      <% end %>
+    </div>
+    <div class="col-sm-4">
+      <div class="fans">
+        <% if @profile.musician? %>
+          <h1>
+            Fan Scanner
+            <%= number_to_human(@popularity) %>
+          </h1>
+          <%= render 'profiles/social_button_for_musician' %>
+        <% else %>
+          <%= render 'profiles/social_button_for_registered_user' %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  <% if @profile.tech_rider.present? %>
+    <div class="space50"></div>
+    <div class="row profile-offer">
+      <div class="col-sm-7">
+        <h3><%= t('.tech_rider') %> <%= link_to t('.download'), @profile.tech_rider.url %></h3>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="space50"></div>
+  <div class="row profile-offer">
+    <div class="col-sm-7">
+      <% if @reviews_comment.count >0 %>
+          <h3>Customer Reviews</h3>
+          <hr/>
+          <table border="0" width="100%">
+            <col width="80%">
+            <col width="20%">
+            <% @reviews_comment.each do |review| %>
+                <tr>
+                  <td colspan="2">
+                    <h4><%= review.message %>
+                      <% if review.score %>
+                          <div class="rateit" data-rateit-value="<%= review.score %>" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+                      <% end %>
+                    </h4>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="padding-left-10 text-color-dark-gray">
+                    <h5>
+                      <%= "by #{review.reviewer.display_name} - #{Date.parse(review.created_at.to_s).strftime("%d %B %Y")} " %>
+                    </h5>
+                  </td>
+                  <td align="right">
+                    <h5>
+                      <% if user_signed_in? && review.reviewer_id == current_profile.id %>
+                          <a href="" id="delete_comment" onclick="return false;" class='fa fa-trash-o'></a>
+                      <% end %>
+                    </h5>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">&nbsp;</td>
+                </tr>
+            <% end %>
+          </table>
+      <% end %>
+    </div>
+    <div class="col-sm-5">
+      <% if @profile.youtube_embedded_code %>
+          <h4 class="text-center">VIDEO</h4>
+
+          <div>
+            <iframe width="100%" height="315" src="https://www.youtube.com/embed/<%= @profile.youtube_embedded_code %>" frameborder="0" allowfullscreen></iframe>
+          </div>
+      <% end %>
+      <div class="space40"></div>
+      <% if @profile.soundcloud_url && @profile.soundcloud_url != '' %>
+          <h4 class="text-center">SOUNDCLOUD</h4>
+
+          <div>
+            <%= raw @profile.soundcloud_url %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="space40"></div>
+</div>
+
+<%= render 'shared/blankfooter' %>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-m" role="document">
+    <div class="modal-content booking">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 id="myModalLabel">Booking Request</h2>
+        <h5 id="booking_service_title" class="number_font"></h5>
+        <hr>
+      </div>
+      <%= form_for :booking_request, url: booking_requests_modal_path do |f| %>
+          <div class="modal-body">
+            <input type="hidden" value="" name="service_id" id="serviceid">
+
+            <div class="form-group">
+              <h4>Event Date & Time</h4>
+              <h5 id="booking_available_date" class="number_font"></h5>
+              <%= f.text_field :date, class: 'datepicker form-control', :autocomplete => :off, required: true, readonly: true %>
+            </div>
+            <div class="form-group">
+              <h4>Event Location</h4>
+              <%= f.text_field :event_location, class: 'form-control', :autocomplete => :off %>
+            </div>
+            <div class="form-group hidden" id="optional_price">
+              <h4>Budget (Optional)</h4>
+              <%= f.number_field :confirmed_price, class: 'form-control', max: 999999999, min: 0 %>
+            </div>
+            <div class="form-group">
+              <h4>Message</h4>
+              <%= f.text_area :message, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="modal-footer actions">
+            <%= f.submit 'Send', "class" => "btn btn-info btn-block btn-blue-i" %>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<!-- comment Modal -->
+<div class="modal fade" id="myReviewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-m" role="document">
+    <div class="modal-content booking">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h2 id="myModalLabel">Write Review</h2>
+        <hr/>
+      </div>
+      <%= form_for :review, url: comment_a_profile_path do |f| %>
+          <div class="modal-body">
+            <div class="form-group">
+              <h4>Message</h4>
+              <%= f.text_area :message, class: 'form-control', required: true %>
+            </div>
+            <%= f.hidden_field :reviewer_id, value: current_profile.id if user_signed_in? %>
+            <%= f.hidden_field :profile_id, value: @profile.id %>
+            <br>
+            <%= f.submit 'Send Review', "class" => "btn btn-info btn-block btn-blue-i" %>
+            </br>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<!-- Yourself Modal -->
+<div class="modal fade" id="yourselfModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-m" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h1 class="modal-title" id="myModalLabel">Oops !</h1>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <div class="notice_not_allow">This page is how your profile appears to others.</div>
+          <div class="notice_not_allow" id="div_action_musician"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- No login Modal -->
+<div class="modal fade" id="noLoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-m" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h1 class="modal-title" id="myModalLabel">Oops !</h1>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <table>
+            <col width="80%">
+            <col width="20%">
+            <tr>
+              <td>
+                <div class="notice_not_allow" id="div_action_no_user" style="margin-top:10px">
+                  Please sign-up or sign-in.
+                </div>
+              </td>
+              <td>
+                <%= link_to 'Log In', old_visitor_try_book_registrations_path(profile_id: @profile.id), method: :post, class: 'btn btn-send btn-send-modal' %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="notice_not_allow" style="margin-top:10px">
+                  Or sign up, it takes only 30 seconds!
+                </div>
+              </td>
+              <td>
+                <div>
+                    <span class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="sign_up_link"><span class="font-white btn btn-send btn-dropdown">Sign
+                        up <span class="caret"></span></span></a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="<%= new_visitor_try_book_registrations_path(profile_id: @profile.id) %>" data-method='post' id="visitor_sign_up_link"><i class="fa fa-headphones"></i>
+                            I want to book musicians</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                          <a href="<%= new_musician_registration_path %>"><i class="fa fa-music"></i> I’m a musician</a>
+                        </li>
+                      </ul>
+                    </span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+    $(document).on("click", ".modal-review", function () {
+        var serviceid = $(this).data('serviceid');
+        $('#review_message').val("<%= @old_commented.to_s %>");
+        $("#serviceid").val(serviceid);
+    });
+    $(document).on("click", "#rate_input", function () {
+        $("#rate_profile").submit();
+    });
+    $(document).on("click", ".modal-booking", function () {
+        $('.datepicker').val("");
+        var available_date = $(this).data('serviceavailabledate').toString();
+        $('#booking_available_date').html("(Available on " + available_date + ")");
+        var calendar = $(this).data('servicecalendar').toString();
+        if (calendar.split("|")[0] == "1") {
+            $('.datepicker').datetimepicker('destroy');
+            $('.datepicker').datetimepicker({
+                format: 'd/m/Y H:i',
+                minDate: new Date(calendar.split("|")[1]),
+                maxDate: new Date(calendar.split("|")[1]),
+                onGenerate: function (ct) {
+                    var validDate = calendar.split("|")[2];
+                    if (validDate != ct.dateFormat('d/m/Y')) {
+                        disable_time();
+                    }
+                }
+            });
+            var dateTime = new Date();
+            $('.datepicker').val(calendar.split("|")[2] + " 12:00");
+        }
+        else if (calendar.split("|")[0] == "2") {
+            var valid_days = [];
+            for (var i = 1; i <= 7; i++) {
+                if (calendar.split("|")[i] == "T") {
+                    valid_days.push(i - 1);
+                }
+            }
+            var dateMin = new Date();
+            $('.datepicker').datetimepicker('destroy');
+            $(".datepicker").datetimepicker({
+                format: 'd/m/Y H:i',
+                beforeShowDay: function (date) {
+                    var day = date.getDay();
+                    day1 = calendar.split("|")[1] == "T" ? day : day != 0
+                    day2 = calendar.split("|")[2] == "T" ? day : day != 1
+                    day3 = calendar.split("|")[3] == "T" ? day : day != 2
+                    day4 = calendar.split("|")[4] == "T" ? day : day != 3
+                    day5 = calendar.split("|")[5] == "T" ? day : day != 4
+                    day6 = calendar.split("|")[6] == "T" ? day : day != 5
+                    day7 = calendar.split("|")[7] == "T" ? day : day != 6
+                    return [(day1 && day2 && day3 && day4 && day5 && day6 && day7)];
+                },
+                minDate: dateMin,
+                onGenerate: function (ct) {
+                    if (valid_days.indexOf(ct.getDay()) == -1 || new Date(ct) < new Date(dateMin)) {
+                        disable_time();
+                    }
+                }
+            });
+        }
+        else if (calendar.split("|")[0] == "3") {
+            var dateMin = new Date();
+            dateMin = dateMin > new Date(calendar.split("|")[1]) ? dateMin : calendar.split("|")[1];
+            $('.datepicker').datetimepicker('destroy');
+            $('.datepicker').datetimepicker({
+                format: 'd/m/Y H:i',
+                minDate: new Date(dateMin),
+                maxDate: new Date(calendar.split("|")[2]),
+                defaultDate: dateMin,
+                onGenerate: function (ct) {
+                    if (new Date(ct) < new Date(dateMin) || new Date(ct) > new Date(calendar.split("|")[2])) {
+                        disable_time();
+                    }
+                }
+            });
+        }
+
+        function disable_time() {
+            $('.xdsoft_time_variant .xdsoft_time').each(function () {
+                $(this).addClass('xdsoft_disabled');
+            });
+        }
+
+        var serviceid = $(this).data('serviceid');
+        $("#serviceid").val(serviceid);
+        var serviceid = $(this).data('serviceid');
+        var service_name = $(this).data('servicename');
+        var service_price = $(this).data('serviceprice');
+        var service_inquiry = $(this).data('serviceinquiry');
+        if (service_inquiry) {
+            $('#booking_service_title').html("Send Inquiry");
+            $('#optional_price').removeClass('hidden')
+        }
+        else {
+            $('#booking_service_title').html("( Offer: " + service_name + ", at <span class='modal_book_price'>" + service_price + "</span> )");
+            $('#optional_price').addClass('hidden')
+        }
+        $("#serviceid").val(serviceid);
+    });
+    function modal_call(action) {
+        <% if user_signed_in? %>
+          switch (action) {
+              case 'book'  :
+                  $('#div_action_musician').html("You cannot book yourself :)");
+                  break;
+              case 'rate'  :
+                  $('#div_action_musician').html("You cannot post a rating yourself :)");
+                  break;
+              case 'write' :
+                  $('#div_action_musician').html("You cannot post a review yourself :)");
+                  break
+          }
+          $('#yourselfModal').modal('show');
+        <% else %>
+          switch (action) {
+              case 'book'  :
+                  $('#div_action_no_user').html("Please log in to book an offer.");
+                  break;
+              case 'rate'  :
+                  $('#div_action_no_user').html("Please log in to rate a profile.");
+                  break;
+              case 'write' :
+                  $('#div_action_no_user').html("Please log in to write a review.");
+                  break
+          }
+          $('#noLoginModal').modal('show');
+        <% end %>
+    }
+    ;
+    function show_hide_bio() {
+        $('#seeMore').addClass("hide");
+        $('.bio').removeClass('divBioMusic')
+        $('#bioMusic').append("<%= @bio_hide %>");
+    }
+    <% if current_user %>
+      $('#delete_comment').click(function () {
+          bootbox.dialog({
+              title: "Are you sure you want to delete your comment?",
+              message: "<a class='btn btn_modal_confirm' href='<%= delete_review_path(id: current_user.id,profile_id: @profile.id) %>' data-method='post'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+          });
+      });
+    <% end %>
+</script>

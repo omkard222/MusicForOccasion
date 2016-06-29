@@ -1,0 +1,67 @@
+<%= render :partial => 'my_custom_flash', :flash => flash %>
+
+<div class="fade out">
+  <!-- Top wrap - Slider -->
+  <div class="slider-wrap" id="1">
+    <div class="desktop">
+      <div id="owl-main" class="owl-carousel">
+        <div class="item"><%= image_tag '01.jpg', class: 'img-responsive' %></div>
+        <div class="item"><%= image_tag '02.jpg', class: 'img-responsive' %></div>
+        <div class="item"><%= image_tag '03.jpg', class: 'img-responsive' %></div>
+        <div class="item"><%= image_tag '04.jpg', class: 'img-responsive' %></div>
+        <div class="item"><%= image_tag '05.jpg', class: 'img-responsive' %></div>
+        <div class="item"><%= image_tag '06.jpg', class: 'img-responsive' %></div>
+        <div class="item"><%= image_tag '07.jpg', class: 'img-responsive' %></div>
+      </div>
+      <div class="slide-content">
+        <div id="owl-main-text" class="owl-carousel">
+          <div class="item">
+            <h2>
+              <%= t('.slide_content.booking_platform') %>
+              <br>
+              <span><%= t('.slide_content.book_musiciants_easily') %></span>
+            </h2>
+          </div>
+        </div>
+
+        <a class="intro-btn" id="how_it_work">How it works</a>
+      </div>
+      <a href="#2" class="scroll-btn"></a>
+    </div>
+    <div class="search">
+      <div class="container-fluid">
+        <div class="row">
+          <div id="2" class="col-lg-6 col-lg-offset-3">
+            <%= render 'home/search_for_location' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Top wrap - Slider -->
+
+  <section class="musicians">
+    <div class="container">
+      <div class="row">
+        <h1 class="text-center">Available Musicians near you</h1>
+
+        <div class="space30"></div>
+        <hr>
+      </div>
+      <div class="space30"></div>
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="row" align="center">
+            <%= render 'home/list_musicians' %>
+          </div>
+        </div>
+      </div>
+      <div class="space50"></div>
+      <a href="<%= browse_musicians_path %>" class="btn btn-default btn-browse">Browse all Musicians in your area</a>
+
+      <div class="space50"></div>
+    </div>
+  </section>
+</div>
+<%= render 'newsletter/subsciption' %>
+<%= render '/shared/landingfooter' %>

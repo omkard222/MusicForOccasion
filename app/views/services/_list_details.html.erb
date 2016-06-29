@@ -1,0 +1,42 @@
+<tr>
+  <td>
+    <p class="p_headline"><%= link_to service.headline, service_path(service)%></p>
+  </td>
+  <td>
+    <p class="p_description"><%= "#{ service.description }" %></p>
+  </td>
+  <td>
+    <%= "#{ service.available_date }" %>
+  </td>
+  <td>
+    <%= service_fee_or_free(service) %>
+  </td>
+  <td>
+    <%= link_to 'update', edit_service_path(service.id) %>
+  </td>
+  <td>
+    <% if service.is_default %>
+      <a href="" id="delete_default_project" onclick="return false;">delete</a>
+    <% else %>
+      <a href="" id="delete_<%= service.id.to_s %>" onclick="return false;">delete</a>
+    <% end %>
+  </td>
+</tr>
+
+<script type="text/javascript">
+  <% if service.is_default %>
+    $('#delete_default_project').click(function(e){
+        bootbox.dialog({
+          title: "Sorry, you cannot delete the initial offer.",
+          message: "<button type='button' class='btn btn-default btn_modal_confirm' data-dismiss='modal' aria-hidden='true'>Close</button>"
+        });
+    });
+  <% else %>
+    $('#delete_<%= service.id.to_s %>').click(function(e){
+        bootbox.dialog({
+          title: "Are you sure you want to remove <%= service.headline %> ?",
+          message: "<a class='btn btn_modal_confirm' href='/services/<%= service.id.to_s %>/delete' data-method='post'>Yes</a> <button type='button' class='btn btn-default btn_modal_confirm' data-dismiss='modal' aria-hidden='true'>No</button>"
+        });
+    });
+  <% end %>
+</script>

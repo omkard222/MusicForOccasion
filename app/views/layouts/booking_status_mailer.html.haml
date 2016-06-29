@@ -1,0 +1,8 @@
+- content_for :content do
+  - if @recipient_name
+    %p Hello #{ @recipient_name },
+  
+  = yield
+  = link_to t('.manage_booking'), conversation_url(@from_profile) if @from_profile
+
+= render template: 'layouts/mailer'

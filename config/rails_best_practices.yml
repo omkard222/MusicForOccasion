@@ -1,0 +1,8 @@
+RemoveUnusedMethodsInModelsCheck: { except_methods: ['User#after_confirmation',
+                                                     'User#mailboxer_email',
+                                                     'User#active_for_authentication?',
+                                                     'User#inactive_message',
+                                                     'Admin#mailboxer_email',
+                                                     'Admin#role_enum',
+                                                     'BookingRequest#status_enum',
+                                                     'BookingRequest#sum_confirmed_price'] }

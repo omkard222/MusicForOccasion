@@ -1,0 +1,8 @@
+<div class="list-group" style="max-width: 500px;">
+  <%= link_to 'Login Data', edit_user_login_path, class: "list-group-item #{'active' if current_page?(edit_user_login_path)}" %>
+  <% if !current_user.is_musician? %>
+      <%= link_to 'Personal Information', user_profile_path, class: "list-group-item #{'active' if current_page?(user_profile_path)}" %>
+  <% end %>
+  <%= link_to 'Email Notifications', notifications_path, class: "list-group-item #{'active' if current_page?(notifications_path)}" %>
+  <%= link_to 'Delete Account', delete_account_path, class: "list-group-item #{'active' if current_page?(delete_account_path)}" %>
+</div>

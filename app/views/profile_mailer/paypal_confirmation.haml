@@ -1,0 +1,10 @@
+.profile-email
+  %p{ class: 'first-string' }
+    = t('profile_mailer.paypal_confirmation.greeting', name: @name)
+  = t('profile_mailer.paypal_confirmation.text')
+  %br
+  = link_to(t('profile_mailer.paypal_confirmation.link_text'), paypal_confirmation_url(@id, token: @token))
+  %br
+  = t('profile_mailer.paypal_confirmation.gratitude')
+  %p{ class: 'last-string' }
+    = t('profile_mailer.paypal_confirmation.signature')

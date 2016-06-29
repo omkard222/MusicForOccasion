@@ -1,0 +1,265 @@
+<div class="content-theme-grey">
+  <div class="container">
+    <div class="space20"></div>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h1>CONVERSATION - <%= @talk_with.virtual_name %></h1>
+        <hr/>
+        <div class="space30"></div>
+        <% if @talk_with.user.active_user %>
+            <div class="row">
+              <div class="col-md-10 col-md-offset-1">
+                <% flash.each do |key, message| %>
+                    <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+                      <button type="button" class="close" data-dismiss="alert">x</button>
+                      <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+                    </div>
+                <% end %>
+                <div class="send">
+                  <%= form_tag messages_path, class: 'message-send-form' do %>
+                      <div class="input-group">
+                        <input type="text" name="msg_body" class="form-control" autocomplete="off">
+                  <span class="input-group-btn">
+                    <%= submit_tag 'Send', class: 'btn btn-info btn-send'%>
+                  </span>
+                      </div>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+            <div class="space30"></div>
+        <% end %>
+        <% @receipts_history.each do |receipt| %>
+            <% msg = receipt.message.nil? ? receipt.notification : receipt.message %>
+            <% owner = msg.sender.id == current_user.current_profile.id %>
+            <table align="<%= owner ? 'right' : 'left' %>">
+              <tr>
+                <td style="display:<%= owner ? 'none' : 'inline' %>">
+                  <%= profile_picture(msg.sender) %>
+                </td>
+                <td class="<%= owner ? 'chat-box box-right' : 'chat-box box-left' %>">
+                  <p class="msg-label"><%= raw msg.body %></p>
+                  <p class="footer-label"><%= local_time(msg.created_at.strftime("%d %B %Y, %I:%M %P")) %></p>
+                </td>
+                <td style="display: <%= owner ? 'inline' : 'none' %>">
+                  <%= image_tag(msg.sender.picture, class: 'img-circle img-chat', title: msg.sender.virtual_name) %>
+                </td>
+              </tr>
+            </table>
+            <div class="space10" style="clear: both"></div>
+        <% end %>
+      </div>
+    </div>
+    <div class="space50"></div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>
+
+<div id="confirm_accept" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-m">
+    <div class="modal-content booking">
+      <div class="form-horizontal">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h2>Booking Request</h2>
+          <hr>
+        </div>
+        <div class="modal-body">
+          <h4 id="booking_headline"></h4>
+          <div class="space20"></div>
+          <h4 id="booking_price"></h4>
+          <div class="space20"></div>
+          <h4 id="booking_status"></h4>
+          <div class="space20"></div>
+          <h4 id="booking_date"></h4>
+          <div class="space20"></div>
+          <h4 id="booking_location"></h4>
+        </div>
+        <div id="button_footer" class="modal-footer actions">
+            <a href="" class="btn btn-block btn-info btn-blue-i special hidden" data-toggle="modal" data-target="#modal_special_offer" data-dismiss="modal">Special Offer</a>
+            <a href="" class="btn btn-block btn-info btn-blue-i edit-special hidden" data-toggle="modal" data-target="#modal_special_offer" data-dismiss="modal">Edit</a>
+            <a href="" class="btn btn-block btn-info btn-blue-i accept hidden" data-toggle="modal" data-target="#modal_confirm_action" data-dismiss="modal" id="book_accept">Accept</a>
+            <a href="" class="btn btn-block btn-danger btn-red-i reject hidden" data-toggle="modal" data-target="#modal_confirm_action" data-dismiss="modal" id="book_reject">Reject</a>
+            <a href="" class="btn btn-block btn-danger btn-red-i cancel hidden" data-toggle="modal" data-target="#modal_confirm_action" data-dismiss="modal" id="book_cancel">Cancel</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="modal_special_offer" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-m">
+    <div class="modal-content booking">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h2>Special Offer</h2>
+        <h5 id="booking_service_title"></h5>
+        <hr>
+      </div>
+      <%= form_for :booking_request, url: create_special_offer_path do |f| %>
+        <%= f.hidden_field :id %>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <h4>Price</h4>
+                <%= f.number_field :special_price, class: 'form-control', required: true %>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <h4>Currency</h4>
+                <%= f.select :currency, Service.currencies.map(&:upcase).sort, {:selected => session[:preferred_currency]}, { :class => 'form-control'} %>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <h4>Event Date & Time</h4>
+            <%= f.text_field :date, class: 'datepicker form-control', :autocomplete => :off, required: true %>
+          </div>
+          <div class="form-group">
+            <h4>Message</h4>
+            <%= f.text_area :message, class: 'form-control' %>
+          </div>
+        </div>
+        <div class="modal-footer actions">
+          <%= f.submit 'Send Special Offer', "class" => "btn btn-info btn-block btn-blue-i" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div id="modal_confirm_action" class="bootbox modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content modal_confirm">
+      <div class="close_confirm">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+        <div class="modal_header">
+          <h4 class="modal-title" id="modal_message">Are you sure you want to cancel this booking request?</h4>
+        </div>
+        <div class="modal-body">
+        <div class="bootbox-body" align="right">
+          <%= form_tag("/modal/submit_request", method: "post") do %>
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <input type="hidden" name="booking_request_id" id="booking_id">
+            <input type="hidden" name="booking_request_action" id="booking_action">
+            <input type="submit" name="submit" value="Yes" class="btn btn_modal_confirm">
+            <a href="" class="btn btn_modal_confirm btn-default" data-toggle="modal" data-target="#confirm_accept" data-dismiss="modal">No</a>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= content_for(:bottom_script) do %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('input[type=number]').on('mousewheel', function(){
+      var el = $(this);
+      el.blur();
+      setTimeout(function(){
+        el.focus();
+      }, 10);
+    });
+    $('.booking_request').click(function(e){
+      e.preventDefault();
+      var booking_id = $(this).attr('booking_id');
+      $.getJSON( "/booking_request/" + booking_id, function(data) {
+        $('#booking_id').val(data.id.toString());
+        if (data.requestor.toString() == "<%= current_user.current_profile.id.to_s %>"){
+          $('.cancel').removeClass('hidden');
+          $('.accept').addClass('hidden');
+          $('.reject').addClass('hidden');
+          $('.special').addClass('hidden');
+          $('.edit-special').addClass('hidden');
+          if (data.status == "Rejected"){
+              $('.cancel').addClass('hidden');
+          }else if (data.status == "Special Offer"){
+              $('.edit-special').removeClass('hidden');
+          }
+        }
+        else{
+          $('.cancel').addClass('hidden');
+          $('.accept').removeClass('hidden');
+          $('.reject').removeClass('hidden');
+          $('.edit-special').addClass('hidden');
+          if (data.status == "Pending"){
+              $('.special').removeClass('hidden');
+          }else if (data.status == "Rejected"){
+              $('.special').removeClass('hidden');
+              $('.cancel').addClass('hidden');
+              $('.accept').addClass('hidden');
+              $('.reject').addClass('hidden');
+          }
+        }
+
+        if (data.status == "Cancelled"){
+            $('.cancel').addClass('hidden');
+            $('.accept').addClass('hidden');
+            $('.reject').addClass('hidden');
+            $('.special').addClass('hidden');
+        } else if (data.status == "Accepted"){
+            $('.cancel').removeClass('hidden');
+            $('.accept').addClass('hidden');
+            $('.reject').addClass('hidden');
+            $('.special').addClass('hidden');
+        }
+
+        if ($('.cancel').hasClass('hidden') && $('.accept').hasClass('hidden') && $('.reject').hasClass('hidden') && $('.special').hasClass('hidden') && $('.edit-special').hasClass('hidden')){
+            $('#button_footer').addClass('hide-footer');
+        }else{
+            $('#button_footer').removeClass('hide-footer');
+        }
+
+        $('#booking_headline').html("Offer: " + data.headline);
+        if (data.price)
+        {
+          $('#booking_price').html("Offer Price: <%= preferred_currency_session.upcase %> <span class='number_font'>" + data.price) + "<span>";
+        }
+        else
+        {
+          $('#booking_price').html("<%= t('.offer_price_free')%>");
+        }
+        $('#booking_status').html("Booking Status: <span class=\"badge\">" + data.status + "</span>");
+        $('#booking_date').html("Event Date & Time: " + data.full_date);
+        $('#booking_location').html("Event Location: "+ (data.location != null ? data.location : ""));
+        $('#booking_service_title').html("( Offer: " + data.headline + " )");
+
+        $('#booking_request_id').val(data.id);
+        $('#booking_request_profile_id').val(data.profile_id);
+        $('#booking_request_service_id').val(data.service_id);
+        $('#booking_request_event_location').val(data.location);
+        $('#booking_request_date').val(data.short_date);
+
+        if (data.status == "Special Offer") {
+            $('#booking_request_special_price').val(data.price);
+            $('#booking_request_currency').val(data.currency);
+            $('#booking_request_message').val(data.message);
+        }else{
+            $('#booking_request_special_price').val('');
+            $('#booking_request_currency').val(<%= preferred_currency_session.upcase %>);
+            $('#booking_request_message').val('');
+        }
+      });
+      $('#confirm_accept').modal('show');
+    })
+  })
+  $('#book_accept').click(function(e){
+    $('#booking_action').val("Accept");
+    $('#modal_message').html("Are you sure you want to accept this booking request?")
+  });
+  $('#book_reject').click(function(e){
+    $('#booking_action').val("Reject");
+    $('#modal_message').html("Are you sure you want to reject this booking request?")
+  });
+  $('#book_cancel').click(function(e){
+    $('#booking_action').val("Cancel");
+    $('#modal_message').html("Are you sure you want to cancel this booking request?")
+  });
+</script>
+<% end %>

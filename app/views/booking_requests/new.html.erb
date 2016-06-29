@@ -1,0 +1,11 @@
+<h1>New Booking Request</h1>
+<%= form_for :booking_request, url: booking_requests_path(params[:service_id]) do |f| %>
+  <div class="field">
+    <%= f.label :date %>
+    <%= f.text_field :date, class: 'datepicker' %>
+  </div>
+  <br/>
+  <div class="actions">
+    <%= f.submit 'Send Booking Request' %>
+  </div>
+<% end %>

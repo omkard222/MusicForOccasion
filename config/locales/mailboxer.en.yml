@@ -1,0 +1,5 @@
+en:
+  mailboxer:
+    message_mailer:
+      subject_new: "%{subject}"
+      subject_reply: "New Reply: %{subject}"

@@ -1,0 +1,88 @@
+<% service = request.service %>
+<% service_owner = service.profile %>
+<% status = request.status %>
+<table class="inbox-box">
+  <tr>
+    <td class="col-img-l">
+      <%= profile_picture(service_owner) %>
+      <p class="name-label"><%= service_owner.virtual_name %></p>
+    </td>
+    <td>
+      <h3>
+        <a href="" data-toggle="tooltip" data-placement="top" title="<%= service.title %>" onclick="return false"><%= service.headline %></a>
+        <% if request.confirmed_price %>
+        (<%= "#{ preferred_currency_session.upcase } "%><span class="number_font"><%=" #{ convert_to_preferred_currency(request.currency, request.confirmed_price) }"%></span>)
+        <% end %>
+      </h3>
+      <hr/>
+      <p class="msg-label"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;<span class="badge"><%= status %></span></p>
+      <p class="msg-label"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;&nbsp;<%= request.event_location %></p>
+      <p class="msg-label"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;<%= request.date.strftime("%A, %B %d , %Y at %I:%M %p") %></p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <div class="row row-button">
+        <table id="table_booking_detail"  class="pull-right">
+          <tr>
+            <td>
+              <a class="btn btn-blue-i-m col-xs-12" href="<%= conversation_path(service_owner) %>">Chat <i class="fa fa-comment"></i></a>
+            </td>
+            <% if status == 'Special Offer' %>
+              <td>
+                <a href="" id="accept_<%= request.id.to_s %>" onclick="return false;" class='btn btn-blue-i-m col-xs-12'>Accept</a>
+              </td>
+            <% end %>
+              <% if status == 'Pending' %>
+                <td>
+                  <a href="" id="cancel_request_<%= request.id.to_s %>" onclick="return false;" class='btn btn-red-i-m col-xs-12'>Cancel</a>
+                </td>
+              <% elsif status == 'Accepted' %>
+                <td>
+                  <a href="" id="cancel_booking_<%= request.id.to_s %>" onclick="return false;" class='btn btn-red-i-m col-xs-12'>Cancel</a>
+                </td>
+              <% elsif status == 'Special Offer' %>
+                <td>
+                  <a href="" id="reject_<%= request.id.to_s %>" onclick="return false;" class='btn btn-red-i-m col-xs-12'>Reject</a>
+                </td>
+              <% end %>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+</table>
+<div class="space10"></div>
+
+<script type="text/javascript">
+  <% if status == 'Special Offer' %>
+    $('#accept_<%= request.id.to_s %>').click(function(){
+        bootbox.dialog({
+          title: "Are you sure you want to accept this booking request?",
+          message: "<a class='btn btn_modal_confirm' href='<%= accept_request_path(request) %>' data-method='post' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+        });
+    });
+    $('#reject_<%= request.id.to_s %>').click(function(){
+        bootbox.dialog({
+          title: "Are you sure you want to reject this booking request?",
+          message: "<a class='btn btn_modal_confirm' href='<%= reject_request_path(request) %>' data-method='post' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+        });
+    });
+  <% end %>
+  <% if status == 'Pending' %>
+    $('#cancel_request_<%= request.id.to_s %>').click(function(){
+        bootbox.dialog({
+          title: "Are you sure you want to cancel this booking request?",
+          message: "<a class='btn btn_modal_confirm' href='<%= cancel_request_path(request) %>' data-method='post' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+        });
+    });
+  <% end %>
+  <% if status == 'Accepted' %>
+    $('#cancel_booking_<%= request.id.to_s %>').click(function(){
+        bootbox.dialog({
+          title: "Are you sure you want to cancel this booking request ?",
+          message: "<a class='btn btn_modal_confirm' href='<%= cancel_booking_path(request) %>' data-method='post' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+        });
+    });
+  <% end %>
+</script>

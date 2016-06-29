@@ -1,0 +1,9 @@
+.form-group
+  - input_html = { value: @profile.paypal_account_email || @profile.user.email }
+  - input_html['disabled'] = 'disabled' unless @profile.paypal_unconfirmed?
+  = f.input :paypal_account_email, label: t('profiles.paypal.email'), input_html: input_html   
+  - if !@profile.paypal_unconfirmed?
+    .space10
+    a#remove_paypal_email_confirmation.btn.btn_connect href='' onclick=('return false;') data-url=paypal_remove_confirmation_path()  #{t('profiles.paypal.remove_confirmation')}
+  - else
+    a#confirm_paypal_email.btn.btn_connect href='' onclick=('return false;') data-url=paypal_confirm_path()  #{t('profiles.paypal.confirm_email')}

@@ -1,0 +1,171 @@
+en:
+  hello: "Hello world"
+  #### email subject
+  # service_owner
+  new_booking_request_service_owner_mailers_subject: "You Have Received A New Booking Request"
+  accept_booking_request_service_owner_mailers_subject: "You Have Accepted A Booking Request"
+  reject_booking_request_service_owner_mailers_subject: "You Have Rejected A Booking Request"
+  cancel_booking_request_service_owner_mailers_subject: "Your Booking Request Has Been Cancelled"
+  cancel_confirmed_booking_request_service_owner_mailers_subject: "Your Confirmed Booking Has Been Cancelled"
+  special_offer_booking_request_service_owner_mailers_subject: "You Have Sent A Special Offer"
+  accept_special_offer_booking_request_service_owner_mailers_subject: "Your Special Offer Has Been Accepted"
+  reject_special_offer_booking_request_service_owner_mailers_subject: "Your Special Offer Has Been Rejected"
+  #  requestor
+  new_booking_request_requestor_mailers_subject: "You Have Created A New Booking Request"
+  accept_booking_request_requestor_mailers_subject: "Your Booking Request Has Been Accepted"
+  reject_booking_request_requestor_mailers_subject: "Your Booking Request Has Been Rejected"
+  cancel_booking_request_requestor_mailers_subject: "You Have Cancelled A Booking Request"
+  cancel_confirmed_booking_request_requestor_mailers_subject: "You Have Cancelled An Confirmed Booking"
+  special_offer_booking_request_requestor_mailers_subject: "You Have Received A Special Offer"
+  accept_special_offer_booking_request_requestor_mailers_subject: "You Have Accepted A Special Offer"
+  reject_special_offer_booking_request_requestor_mailers_subject: "You Have Rejected A Special Offer"
+
+  ### system message body
+  # service_owner
+  new_booking_request_service_owner_notification_body: >
+    You have received a new booking request for your service %{headline} at %{currency} %{price}.
+  accept_booking_request_service_owner_notification_body: >
+    You have accepted a new booking request for your service %{headline} at %{currency} %{price}.
+  reject_booking_request_service_owner_notification_body: >
+    You have rejected a new booking request for your service %{headline} at %{currency} %{price}.
+  cancel_booking_request_service_owner_notification_body: >
+    Your new booking request for the service %{headline} at %{currency} %{price} has been cancelled.
+  cancel_confirmed_booking_request_service_owner_notification_body: >
+    Your confirmed booking for the service %{headline} at %{currency} %{price} has been cancelled.
+  special_offer_booking_request_service_owner_notification_body: >
+    You have sent a special offer for your service %{headline} at %{currency} %{price}.
+  accept_special_offer_booking_request_service_owner_notification_body: >
+    Your special offer for the service %{headline} at %{currency} %{price} has been accepted.
+  reject_special_offer_booking_request_service_owner_notification_body: >
+    Your special offer for the service %{headline} at %{currency} %{price} has been rejected.
+
+  # requestor
+  new_booking_request_requestor_notification_body: >
+    You have created a new booking request for the service %{headline} at %{currency} %{price}.
+  accept_booking_request_requestor_notification_body: >
+    Your booking request for the service %{headline} has been accepted at %{currency} %{price}.
+  reject_booking_request_requestor_notification_body: >
+    Your booking request for the service %{headline} at %{currency} %{price}has been rejected.
+  cancel_booking_request_requestor_notification_body: >
+    You have cancelled a new booking request for your service %{headline} at %{currency} %{price}.
+  cancel_confirmed_booking_request_requestor_notification_body: >
+    You have cancelled a confirmed booking for your service %{headline} at %{currency} %{price}.
+  special_offer_booking_request_requestor_notification_body: >
+    You have received a special offer for the service %{headline} at %{currency} %{price}.
+  accept_special_offer_booking_request_requestor_notification_body: >
+    You have accepted a special offer for the service %{headline} at %{currency} %{price}.
+  reject_special_offer_booking_request_requestor_notification_body: >
+    You have rejected a special offer for the service %{headline} at %{currency} %{price}.
+
+  activerecord:
+    attributes:
+      service:
+        is_sunday: "Sunday"
+        is_monday: "Monday"
+        is_tuesday: "Tuesday"
+        is_wednesday: "Wednesday"
+        is_thursday: "Thursday"
+        is_friday: "Friday"
+        is_saturday: "Saturday"
+        service_type_id: "Availability"
+        date_from: "From"
+        date_to: "To"
+        booking_fee_type: "Booking fees"
+        food_and_beverage: "Food and Beverage"
+
+  services:
+    form:
+      note_for_send_inquiry: "People will contact you and you will negociate your fees (note: x3 more enquiries when displaying a min fees)"
+      booking_fee_types:
+        send_inquiry: "Send Inquiry"
+        free: "For Free"
+        minimum_fees: "Minimum fees"
+      accommodations:
+        no_need: "Not needed"
+        any_types: "Any types"
+        min_3: "Min 3 star hotel"
+        min_4: "Min 4 star hotel"
+        min_5: "5 star hotel"
+      free_fee_types:
+        for_fun: "I play for fun"
+        for_charity_event: "I play for a charity event"
+      fee_time_types:
+        per_minute: "Price per set of minimum %{minutes_count} minutes"
+        per_hour: "Price per Hour"
+      fee_time_types_2:
+        per_minute: "Price per set of minimum amount of minutes"
+        per_hour: "Price per hour"
+      fee_time_types_2:
+        per_minute: "Price per set of minimum amount of minutes"
+        per_hour: "Price per hour"
+      minutes_count_error: 'minimum number of minutes per set'
+
+  Created_booking_request: >
+    I'm sending you a booking request for the offer: %{headline} at %{currency} <span class='number_font'>%{price}</span>.
+  Rejected_booking_request: >
+    I've rejected a booking request for the offer: %{headline} at %{currency} <span class='number_font'>%{price}</span>.
+  Accepted_booking_request: >
+    I've accepted a booking request for the offer: %{headline} at %{currency} <span class='number_font'>%{price}</span>.
+  Cancelled_booking_request: >
+    I've cancelled a booking request for the offer: %{headline} at %{currency} <span class='number_font'>%{price}</span>.
+  Created_booking_request_special_offer: >
+    I'm sending you a new special offer for the offer: %{headline} at %{currency} <span class='number_font'>%{price}</span>.
+  Rejected_booking_request_special_offer: >
+    I've rejected a special offer for the: %{headline} at %{currency} <span class='number_font'>%{price}</span>.
+  Accepted_booking_request_special_offer: >
+    I've accepted a special offer for the: %{headline} at %{currency} <span class='number_font'>%{price}</span>.
+  Cancelled_booking_request_special_offer: >
+    I have cancelled the special offer at %{currency} <span class='number_font'>%{price}</span> for the offer: %{headline}.
+  Created_booking_request_no_price: >
+    I'm sending you a booking request for the offer: %{headline}.
+  Rejected_booking_request_no_price: >
+    I've rejected a booking request for the offer: %{headline}.
+  Accepted_booking_request_no_price: >
+    I've accepted a booking request for the offer: %{headline}.
+  Cancelled_booking_request_no_price: >
+    I've cancelled a booking request for the offer: %{headline}.
+
+  Unable_delete_account: "*** Unable to delete this account: this account still has ongoing booking activities. ***"
+  internal_server_error: 'Internal server error.'
+  number:
+    human:
+      decimal_units:
+        format: "%n%u"
+        units:
+          unit: ""
+          thousand: K
+          million: M
+          billion: B
+          trillion: T
+          quadrillion: Q
+
+  enter_location: 'Please enter event location.'
+
+  fans: 'Fans: '
+
+  profile_mailer:
+    paypal_confirmation:
+      paypal_email_confirmation: 'Paypal email change notice'
+      greeting: 'Hi %{name},'
+      text: 'Please follow link below to verify your PayPal account.'
+      gratitude: 'Thank you'
+      link_text: 'Verify PayPal Email'
+      signature: 'The gigBazaar Team'
+  yes: 'Yes'
+  no: 'No'
+  ok: 'OK'
+  profiles:
+    edit:
+      confirm_paypal_account:
+        title_with_email: 'Are you sure you want this email for your Paypal account?'
+        title_without_email: 'Please specify your PayPal email'
+      remove_paypal_confirmation:
+        title: 'Are you sure you want to disconnect your existing Paypal email?'
+      disconnect_soundcloud:
+        title: 'Are you sure you want to disconnect soundcloud?'
+      disconnect_twitter:
+        title: 'Are you sure you want to disconnect twitter?'
+      disconnect_youtube:
+        title: 'Are you sure you want to disconnect youtube?'
+      disconnect_facebook:
+        title: 'Are you sure you want to disconnect facebook?'

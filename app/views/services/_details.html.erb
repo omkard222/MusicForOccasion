@@ -1,0 +1,4 @@
+<h4> Headline: <%= service.headline %> </h4>
+Description: <%= "#{ service.description }" %>
+<br>
+Minimum Fee: <%= "#{ preferred_currency_session.upcase }  #{ convert_to_preferred_currency(service.currency, service.booking_fee) }" %>

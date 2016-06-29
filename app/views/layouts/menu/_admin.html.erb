@@ -1,0 +1,24 @@
+<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+  <ul class="nav navbar-nav navbar-left currency">
+    <li>
+     <%= render 'home/select_preferred_currency' %>
+   </li>
+  </ul>
+  <ul class="nav navbar-nav navbar-right">
+    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+    <li><%= link_to "Inbox (#{ unread_msg_count })", conversations_path %></li>
+    <li><%= link_to 'Sign Out', destroy_admin_session_path, method: 'delete' %></li>
+    <li>
+      <% if current_admin.name? %>
+        <%= link_to current_admin.name, "/admin/admin/#{current_admin.id}/edit" %>
+      <% end %>
+    </li>
+    <li>
+      <a href="#" class="avatar dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="sign_up_link">
+        <% if current_admin.profile_picture? %>
+          <%= image_tag(current_admin.profile_picture, class: 'picture_round') %>
+        <% end %>
+      </a>
+    </li>
+  </ul>
+</div>

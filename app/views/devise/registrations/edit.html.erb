@@ -1,0 +1,42 @@
+<div class="pages">
+  <div class="container">
+    <div class="space40"></div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <%= render 'layouts/menu/settings_menu' %>
+      </div>
+      <div class="col-md-8 col-xs-12">
+        <div class="setting">
+          <h1>Login Data</h1>
+          <span class="msg-label">Change your email and password</span>
+          <hr/>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+              <% flash.each do |key, message| %>
+                  <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+                  </div>
+              <% end %>
+              <div class="form-group">
+                <h5>Email</h5>
+                <%= f.email_field :email, autofocus: true, class: 'form-control', style: 'max-width:500px;', required: true %>
+              </div>
+              <div class="form-group">
+                <h5>Password <span class="msg-label">(leave blank if you don't want to change it)</span></h5>
+                <%= f.password_field :password, autocomplete: 'off', class: 'form-control', style: 'max-width:500px;' %>
+              </div>
+              <div class="form-group">
+                <h5>Password confirmation</h5>
+                <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', style: 'max-width:500px;' %>
+              </div>
+              <div class="space30"></div>
+              <div class="row col-sm-6 col-xs-10">
+                <%= f.submit "Save", class: 'btn btn-blue-i btn-block' %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>

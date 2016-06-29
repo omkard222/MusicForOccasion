@@ -1,0 +1,39 @@
+<section class="news" id="newsletters">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="content">
+          <h1 class="text-center">Newsletter sign up here</h1>
+
+          <div class="row">
+            <div class="col-lg-6 col-lg-offset-3">
+              <%= form_tag newsletter_subscription_path, id: 'subscribe_form' do %>
+                  <div class="input-group">
+                    <%= email_field :email, :address, placeholder: 'Update me using this email', class: 'form-control', required: true %>
+                    <span class="input-group-btn">
+                      <%= submit_tag 'Subscribe', id: 'btn_subscribe', class: 'btn btn-default btn-news' %>
+                    </span>
+                  </div>
+                  <div class="subscribe-message"></div>
+            <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%= content_for(:bottom_script) do %> 
+    <script> 
+    $(document).ready(function () {
+        $('#subscribe_form').submit(function(e) {
+            var email_address =  $('#email_address');
+            $.post("<%= newsletter_subscription_path %>?email[address]=" + email_address.val(), function(data) {
+                email_address.val('');
+                $(".subscribe-message").html(data);
+            });
+            e.preventDefault();
+        }); 
+    }); 
+    </script> 
+<% end %>

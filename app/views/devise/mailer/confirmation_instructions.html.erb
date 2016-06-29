@@ -1,0 +1,11 @@
+<p>Welcome <%= @resource.email %> !</p>
+<% if controller.resource.provider.nil? %>
+  <div class="content">
+    <p>You can confirm your account email through the link below:</p>
+    <p>
+      <%= link_to 'Confirm my account', user_confirmation_url(confirmation_token: @token) %>
+    </p>
+  </div>
+<% else %>
+  <p>You have successfully signed up using facebook!</p>
+<% end %>

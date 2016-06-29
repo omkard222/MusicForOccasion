@@ -1,0 +1,13 @@
+== Getting Started
+ - Duplicate a copy of database.yml.example and .env.example and rename the files without the .example extension.
+ - Configure the database.yml and .env files according to your settings. E.g. modify the username and password in database.yml.
+ - Add necessary environment variables in the .env file.
+ - Run rake db:setup
+ - Then, run rake db:migrate
+ - Start a rails server with command: rails server
+ - See if the application is running on http://localhost:3000/
+
+== Running Test Suites
+
+ $ rake spec # to run rspec
+ $ rake code_analysis # to review code

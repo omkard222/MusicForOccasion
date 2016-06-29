@@ -1,0 +1,188 @@
+<section class="login-body">
+  <div class="container">
+    <div class="row">
+      <div class="space40"></div>
+      <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h1 class="panel-title">Offer Details</h1>
+          </div>
+          <div class="panel-body edit-profile">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <% flash.each do |key, message| %>
+                    <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+                      <button type="button" class="close" data-dismiss="alert">x</button>
+                      <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+                    </div>
+                <% end %>
+
+                <%= form_for :service do |f| %>
+                    <div class="space30"></div>
+                    <div class="form-group">
+                      <%= f.label :headline %>
+                      <pre class="form-control"><%= @service.headline %></pre>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :description %>
+                      <pre class="form-control pre_text_area"><%= @service.description %></pre>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :booking_fee_type %>
+                      <pre class="form-control"><%= @service.booking_fee_type %></pre>
+                      <div class="form-group">
+                        <% case @service.booking_fee_type %>
+                        <% when 'send_inquiry' %>
+                          <div class="additional for_send_inquiry"><%= t 'services.form.note_for_send_inquiry' %></div>
+                        <% when 'free' %>
+                          <div class="additional for_free">
+                            <% Service.free_fee_types.keys.each do |type| %>
+                              <label>
+                                <%= f.radio_button :free_fee_type, type, disabled: true %>
+                                <%= t("services.form.free_fee_types.#{type}") %>
+                              </label>
+                              <br>
+                            <% end %>
+                          </div>
+                        <% when 'minimum_fees' %>
+                          <div class="additional for_minimum_fees">
+                            <div class="row">
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <%= f.label :booking_fee %>
+                                  <pre class="form-control"><%= convert_to_preferred_currency(@service.currency, @service.booking_fee) %></pre>
+                                </div>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="form-group">
+                                  <%= f.label :currency %>
+                                  <pre class="form-control"><%= preferred_currency_session.upcase %></pre>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12">
+                                <% Service.fee_time_types.keys.each do |type| %>
+                                  <label>
+                                    <%= f.radio_button :fee_time_type, type, disabled: true%>
+                                    <%= t("services.form.fee_time_types.#{type}", minutes_count: @service.minutes_count) %>
+                                  </label>
+                                  <br>
+                                <% end %>
+                              </div>
+                            </div>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :food_and_beverage %>
+                      <pre class="form-control pre_text_area"><%= @service.food_and_beverage %></pre>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :min_num_people %>
+                      <pre class="form-control"><%= @service.min_num_people %></pre>
+                    </div>
+                    <div class="form-group">
+                      <% Service.accommodations.keys.each do |accommodation| %>
+                        <label>
+                          <%= f.radio_button :accommodation, accommodation, disabled: true %>
+                          <%= t("services.form.accommodations.#{accommodation}") %>
+                        </label>
+                        <br>
+                      <% end %>
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :service_type_id %>
+                      <pre class="form-control"><%= @service.service_type.name %></pre>
+                    </div>
+                    <div id="days_of_week" >
+                      <div class="field">
+                        <%= f.check_box :is_sunday, :disabled => true %>
+                        <%= f.label :sunday %>
+                      </div>
+                      <div class="field">
+                        <%= f.check_box :is_monday, :disabled => true %>
+                        <%= f.label :monday %>
+                      </div>
+                      <div class="field">
+                        <%= f.check_box :is_tuesday, :disabled => true %>
+                        <%= f.label :tuesday %>
+                      </div>
+                      <div class="">
+                        <%= f.check_box :is_wednesday, :disabled => true %>
+                        <%= f.label :wednesday %>
+                      </div>
+                      <div class="field">
+                        <%= f.check_box :is_thursday, :disabled => true %>
+                        <%= f.label :thursday %>
+                      </div>
+                      <div class="field">
+                        <%= f.check_box :is_friday, :disabled => true %>
+                        <%= f.label :friday %>
+                      </div>
+                      <div class="field">
+                        <%= f.check_box :is_saturday, :disabled => true %>
+                        <%= f.label :saturday %>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="field col-md-6 hidden" id="date_from">
+                        <%= f.label :date_from, id:'lbl_date_from' %>
+                        <pre class="form-control"><%= (@service.date_from.strftime('%d/%m/%Y') if @service.date_from) %></pre>
+                      </div>
+                      <div class="field col-md-6 hidden" id="date_to">
+                        <%= f.label :date_to %>
+                        <pre class="form-control"><%= (@service.date_to.strftime('%d/%m/%Y') if @service.date_to) %></pre>
+                      </div>
+                    </div>
+                    <div class="space30"></div>
+                <% end %>
+                <h3><%= link_to 'Back', :back , class: 'btn btn-default btn-block btn-base' %></h3>
+                <div class="space40"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+      service_type_select_changed("<%= @service.service_type_id %>");
+  });
+
+  function service_type_select_changed(service_type_id){
+      if(service_type_id == "1"){
+          display_single_day_control();
+      } else if(service_type_id == "2"){
+          display_days_of_week_control();
+      } else if(service_type_id == "3"){
+          display_period_control();
+      }
+  }
+
+  function display_days_of_week_control(){
+      $('#days_of_week').removeClass("hidden");
+      $('#date_from').addClass("hidden");
+      $('#date_to').addClass("hidden");
+  }
+
+  function display_period_control(){
+      $('#days_of_week').addClass("hidden");
+      $('#date_from').removeClass("hidden");
+      $('#date_to').removeClass("hidden");
+  }
+
+  function display_single_day_control(){
+      $('#days_of_week').addClass("hidden");
+      $('#date_from').removeClass("hidden");
+      $('#date_to').addClass("hidden");
+      set_validate_date_from(true);
+      set_validate_date_to(false);
+  }
+
+</script>

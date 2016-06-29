@@ -1,0 +1,125 @@
+<div class="pages fade out">
+  <div class="container">
+    <div class="space50"></div>
+    <h1 class="text-center">BROWSE MUSICIANS</h1>
+
+    <div class="space50"></div>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <%= form_tag search_musicians_path, id: 'search_musician_form', class: 'form-horizontal' do %>
+            <div class="form-group">
+              <label class="col-md-2 control-label">Musician Name</label>
+
+              <div class="col-md-10">
+                <%= text_field_tag 'stage_name', nil, placeholder: 'Musician Name', class: 'form-control' %>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 control-label">Location</label>
+
+              <div class="col-md-8">
+                <%= text_field_tag 'location', nil, id: 'search_location', placeholder: 'City, Country', class: 'form-control', value: params[:location] %>
+              </div>
+              <span type="button" class="clear_location btn btn-default col-md-2">Clear Location</span>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 control-label">Genres</label>
+
+              <div class="col-md-10">
+                <%= select_tag :genre_id,
+                               grouped_options_for_select(
+                                   @select2_form[:genre_id]
+                               ), name: 'profile[instrument_id][]',
+                               multiple: true, required: true,
+                               'style' => 'display: block; visibility: visible; position: absolute; margin-top: 4px; margin-left: 4px; width: 100%;', class: 'form-control myvi' %>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 control-label">Instrument</label>
+
+              <div class="col-md-10">
+                <%= select_tag :instrument_id,
+                               grouped_options_for_select(
+                                   @select2_form[:instrument_id]
+                               ), name: 'profile[instrument_id][]',
+                               multiple: true, required: true,
+                               'style' => 'display: block; visibility: visible; position: absolute; margin-top: 4px; margin-left: 4px; width: 100%;', class: 'form-control' %>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="space40"></div>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <div id="search-results" align="center">
+          <%= render 'home/list_musicians' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".clear_location").on("click", function(){
+          $('#search_location').val('');
+          browse_musicians();
+        });
+
+        $('#search_location').val('')
+        $('#instrument_id').select2();
+        $('#genre_id').select2();
+        var xhr;
+        $('input#search_location').addresspicker({
+            updateCallback: showCallback
+        });
+
+        $(document).ajaxStart(function () {
+            $('#search-results').html('<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+        });
+        $('#genre_id').change(function(){
+          browse_musicians();
+        });
+
+        $('#instrument_id').change(function(){
+          browse_musicians();
+        });
+
+        $('#stage_name').on("input", function () {
+            browse_musicians();
+        });
+
+        $('#search_location').on("change", function () {
+            browse_musicians();
+        });
+
+        $('#search_location').focusout(function() {
+          $('#search_location').val($('.ui-menu-item').html());
+        });
+
+        function showCallback(geocodeResult, parsedGeocodeResult) {
+            browse_musicians();
+        }
+
+        function browse_musicians() {
+            var Genres =  $( "#genre_id option:selected" ).map(function () {
+              return $(this).val();
+            }).get().join(",");
+            var Instruments = $( "#instrument_id option:selected" ).map(function () {
+              return $(this).val();
+            }).get().join(",");
+            var stage_name = $('#stage_name').val();
+            var location = $('#search_location').val();
+            if (xhr && xhr.readystate != 4) {
+                xhr.abort();
+            }
+            xhr = $.post("<%= search_musicians_path %>?stage_name=" + stage_name + "&location=" + location + "&genres=" + Genres +
+                "&instruments=" + Instruments,  function (data) {
+                $("#search-results").html(data);
+            });
+        }
+    });
+</script>

@@ -1,0 +1,81 @@
+<div class="content-theme-grey">
+  <div class="container">
+    <div class="space20"></div>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <% flash.each do |key, message| %>
+          <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+          </div>
+        <% end %>
+        <div id="my_booking_list">
+          <h1>BOOKINGS SENT</h1>
+          <hr/>
+          <div class="space30"></div>
+          <% if @my_booking_list.count == 0 %>
+            <h3>You have no booking.</h3>
+          <% end %>
+          <% @my_booking_list.each do |request| %>
+            <%= render 'list_my_booking' , request: request %>
+          <% end %>
+        </div>
+        <div class="space50"></div>
+        <div id="booking_history">
+          <% if @my_booking_list_history.count != 0 %>
+            <h1>BOOKINGS SENT HISTORY</h1>
+            <hr/>
+            <div class="space30"></div>
+            <% @my_booking_list_history.each do |request| %>
+              <% if request.service %>
+              <% service = request.service %>
+              <% service_owner = service.profile %>
+              <% status = request.status %>
+              <table class="inbox-box">
+                <tr>
+                  <td class="col-img-l">
+                    <%= profile_picture(service_owner) %>
+                    <p class="name-label"><%= service_owner.virtual_name %></p>
+                  </td>
+                  <td>
+                    <h3>
+                      <a href="" data-toggle="tooltip" data-placement="top" title="<%= service.title %>" onclick="return false"><%= service.headline %></a>
+                      (<%= "#{ preferred_currency_session.upcase }"%><span class="number_font"><%="  #{ convert_to_preferred_currency(request.currency, request.confirmed_price) }"%></span>)
+                    </h3>
+                    <hr/>
+                    <p class="msg-label"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;<span class="badge"><%= status %></span></p>
+                    <p class="msg-label"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;&nbsp;<%= request.event_location %></p>
+                    <p class="msg-label"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;<%= request.date.strftime("%A, %B %d , %Y at %I:%M %p") %></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <div class="row row-button">
+                      <div class="col-sm-2 col-sm-offset-10 col-xs-4 col-xs-offset-8">
+                        <% if service_owner.user.active_user %>
+                          <a class="btn btn-blue-i-m col-xs-12" href="<%= conversation_path(service_owner) %>">Chat <i class="fa fa-comment"></i></a>
+                        <% end %>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+              <div class="space10"></div>
+              <% end %>
+              <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="space50"></div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>
+
+<%= content_for(:bottom_script) do %>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+<% end %>

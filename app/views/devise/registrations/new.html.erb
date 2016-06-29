@@ -1,0 +1,122 @@
+<div class="space40"></div>
+<section class="login-body">
+  <div class="pages">
+    <div class="container">
+      <% if @params_is_musician %>
+          <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+              <ul class="progress-indicator">
+                <li class="warning">
+                  <span class="bubble"></span><i class="fa fa-cog fa-spin"></i> Create your account
+                </li>
+                <li class="">
+                  <span class="bubble"></span> Create your profile
+                </li>
+              </ul>
+            </div>
+          </div>
+      <% end %>
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h1 class="panel-title">Create your account</h1>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                  <a href="/users/auth/facebook?param=registration" data-no-turbolink='true'><%= image_tag 'fb-logo-signup.png',
+                                                                                        class: 'img-responsive img-center' %></a>
+                  <h1 class="line">OR</h1>
+                  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+                      <% resource.errors.full_messages.each do |message| %>
+                          <div class="alert alert-danger %> fade in">
+                            <button type="button" class="close" data-dismiss="alert">x</button>
+                            <div id="flash_error"> <%= sanitize(message) %> </div>
+                          </div>
+                      <% end %>
+                      <div class="space30"></div>
+                      <div class="form-group">
+                        <%= f.label :email %>
+                        <%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: 'Email address', required: true %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.label :password %>
+                        <% if @validatable %>
+                            <em>(#{@minimum_password_length} characters minimum)</em>
+                        <% end %>
+                        <%= f.password_field :password, autocomplete: 'off', class: "login-field login-field-password form-control", placeholder: 'Password', required: true, 'pattern' => ".{8,}", 'required title' => "8 characters minimum" %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.label :first_name %>
+                        <%= f.text_field :first_name, class: 'form-control', placeholder: 'First name', required: true %>
+                      </div>
+                      <div class="form-group">
+                        <%= f.label :last_name %>
+                        <%= f.text_field :last_name, class: 'form-control', placeholder: 'Last name', required: true %>
+                      </div>
+                      <% unless @params_is_musician %>
+                        <%= f.fields_for :profile do |profile_fields| %>
+                          <div class="form-group">
+                            <%= profile_fields.label :location %>
+                            <%= profile_fields.text_field :location, class: 'form-control location', placeholder: 'Location', required: true %>
+                          </div>
+                        <% end %>
+                      <% end %>
+                      <div class="space30"></div>
+                      <div class="form-group">
+                        <label for="" class="terms">Terms & Conditions and Privacy Policy</label>
+
+                        <div class="checkbox">
+                          <label>
+                            <%= f.check_box :terms_and_policies, required: true %> I agree with the
+                            <span>terms & conditions</span> and
+                            the <span>privacy policy</span>.
+                          </label>
+                        </div>
+                      </div>
+                      <%= f.hidden_field :is_musician, value: '' %>
+                      <div class="space30"></div>
+                      <%= f.submit 'Sign up', class: 'btn btn-default btn-block btn-blue' %>
+                  <% end %>
+                  <hr>
+                  <p><b>Already a member ?</b>  Please log in here <%= link_to 'Log In', new_user_session_path, class: 'btn btn-warning btn-s' %></p>
+                  <div class="space40"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+<%= render 'devise/shared/links' %>
+-->
+
+<% content_for :bottom_script do %>
+
+    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#user_is_musician').val("<%= @params_is_musician %>");
+        });
+        $('#user_password').hideShowPassword({
+            // Make the password visible right away.
+            show: false,
+            // Create the toggle goodness.
+            innerToggle: true,
+            // Give the toggle a custom class so we can style it
+            // separately from the previous example.
+            toggleClass: 'my-toggle-class',
+            // Don't show the toggle until the input triggers
+            // the 'focus' event.
+            hideToggleUntil: 'focus',
+            // Enable touch support for toggle.
+            touchSupport: Modernizr.touch
+        });
+    </script>
+
+<% end %>

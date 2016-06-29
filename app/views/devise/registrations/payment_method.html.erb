@@ -1,0 +1,61 @@
+<h4>Payment Method</h4>
+<%= form_for(current_user, url: payment_method_update_path, html: { method: :put }) do |f| %>
+  <div class="field">
+    <%= f.label :first_name %>
+    <br>
+      <%= f.text_field :first_name %>
+    </br>
+  </div>
+  <div class="field">
+    <%= f.label :last_name %>
+    <br>
+      <%= f.text_field :last_name %>
+    </br>
+  </div>
+  <%= f.fields_for :billing_address do |b| %>
+    <div class="field">
+      <%= b.label :address_1 %>
+      <br>
+        <%= b.text_field :address1 %>
+      </br>
+    </div>
+    <div class="field">
+      <%= b.label :address_2 %>
+      <br>
+        <%= b.text_field :address2 %>
+      </br>
+    </div>
+    <div class="field">
+      <%= b.label :postcode %>
+      <br>
+        <%= b.text_field :post_code %>
+      </br>
+    </div>
+    <div class="field">
+      <%= b.label :city %>
+      <br>
+        <%= b.text_field :city %>
+      </br>
+    </div>
+    <div class="field">
+      <%= b.label :country %>
+      <br>
+        <%= b.country_select :country %>
+      </br>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.hidden_field :email, value: current_user.email, id: 'user_email' %>
+  </div>
+  <br/>
+  <button id="customButton">Pay with card</button>
+  <br/>
+  <br/>
+  <div class="actions">
+    <%= f.submit 'Save' %>
+  </div>
+<% end %>
+<% content_for :javascript_includes do %>
+  <%= javascript_include_tag "stripe_checkout.js" %>
+<% end %>
+<%= yield(:javascript_includes) %>

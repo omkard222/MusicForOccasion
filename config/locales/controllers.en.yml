@@ -1,0 +1,27 @@
+en:
+  users:
+    sessions:
+      create:
+        profilize: 'You have to create at least one profile.'
+    omniauth_callbacks:
+      google_oauth2:
+        without_channel: 'GigBazaar could not connect to any Youtube channel on this account.
+        Please choose a Youtube account which has a Youtube channel. Thank you'
+        successfully_connection: 'Connected successfully with Youtube.'
+        failed_connection: 'Failed to connect Youtube.'
+  profiles:
+    create:
+      able_to_login: 'Now you can login.'
+      success: 'You will receive a confirmation email in a few minutes.'
+    youtube_disconnect:
+      failed_disconnected: "Failed to disconnect Youtube."
+      successfully_disconnected: "Disconnected successfully with Youtube."
+  controllers:
+    profiles:
+      show:
+        not_found: 'Profile not found.'
+      update:
+        success: "Successfully updated profile's details."
+    services:
+      find_service:
+        access_denied: 'Your access has been denied !'

@@ -1,0 +1,81 @@
+<div class="pages">
+  <div class="container">
+    <div class="space40"></div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <%= render 'layouts/menu/settings_menu' %>
+      </div>
+      <div class="col-md-8 col-xs-12">
+        <div class="setting">
+          <h1>Delete Account</h1>
+          <span class="msg-label">Permanently delete your account</span>
+          <hr/>
+          <%= form_tag registration_path(:user), :method => :delete , id: 'delete_account_form' do %>
+              <% flash.each do |key, message| %>
+                  <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+                  </div>
+              <% end %>
+              <h4><b><%= I18n.t('devise.registrations.delete') %></b></h4>
+              <div class="space20"></div>
+              <h5>Is it because you have a technical problem or you would like to have more information about something on GigBazaar,
+                we are here to help you !</h5>
+              <h5>Please then contact our support team: <a href="mailto:<%= ApplicationHelper::SUPPORT_EMAIL %>"><%= ApplicationHelper::SUPPORT_EMAIL %></a></h5>
+              <div class="space20"></div>
+              <h5>You really want to go ?? Oh man.. Can you tell us why ?</h5>
+              <div class="spece30"></div>
+              <div class="form-group">
+                <h5 class="checkbox-inline">
+                  <%= radio_button_tag 'reason', 'I/We do not play anymore' %>
+                  I/We do not play anymore
+                </h5>
+              </div>
+              <div class="form-group">
+                <h5 class="checkbox-inline">
+                  <%= radio_button_tag 'reason', 'I did not like the experience on GigBazaar' %>
+                  I did not like the experience on GigBazaar
+                </h5>
+              </div>
+              <div class="form-group">
+                <h5 class="checkbox-inline">
+                  <%= radio_button_tag 'reason', 'I did not get enough enquiries on GigBazaar' %>
+                  I did not get enough enquiries on GigBazaar
+                </h5>
+              </div>
+              <div class="form-group">
+                <h5 class="checkbox-inline">
+                  <%= radio_button_tag 'reason', 'I got too many emails from you' %>
+                  I got too many emails from you
+                </h5>
+              </div>
+              <div class="space30"></div>
+              <h5>By deleting your account, you will loose all the related informations of your profile.</h5>
+              <h5>You will not be able to recover these informations later.</h5>
+              <div class="space30"></div>
+              <% if @able_delete_account %>
+                  <div class="row col-sm-6 col-xs-10">
+                    <a href="" id="delete_account_btn" onclick="return false;" class='btn btn-red-i btn-block'>Delete Account</a>
+                  </div>
+              <% else %>
+                  <h4 class="warning-msg"><%= t :Unable_delete_account %></h4>
+              <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>
+<script type="text/javascript">
+  $('#delete_account_btn').click(function(){
+        bootbox.dialog({
+          title: "<%= I18n.t('devise.registrations.delete_with_profiles') %>",
+          message: "<a class='btn btn_modal_confirm' onclick='delete_account_onclick();' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+        });
+    });
+  function delete_account_onclick()
+  {
+    $('#delete_account_form').submit();
+  }
+</script>

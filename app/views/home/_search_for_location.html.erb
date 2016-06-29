@@ -1,0 +1,10 @@
+<%= form_tag(nearby_musicians_path(params[:location])) do %>
+ <div class="input-group">
+   <%= text_field_tag 'location', nil, placeholder: 'City, Country', class: 'form-control' %>
+     <span class="input-group-btn">
+       <%= button_tag :submit, class: 'btn btn-default' do %>
+         <i class='fa fa-search'></i>
+       <% end %>
+     </span>
+ </div>
+<% end %>

@@ -1,0 +1,40 @@
+<div class="content-theme-grey">
+  <div class="container">
+    <div class="space20"></div>
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+        <h1>INBOX <%= "(#{unread_msg_count})" if unread_msg_count > 0 %></h1>
+        <hr/>
+        <div class="space30"></div>
+        <% @user_receipts.each do |profile, receipt| %>
+          <table class="inbox-box">
+            <tr>
+              <td class="col-img">
+                <%= profile_picture(profile) %>
+              </td>
+              <td>
+                <h3>
+                  <%= profile.virtual_name %>
+                  <% count_msg_unread  = unread_msg_count_from_sender(profile.id) %>
+                  <% if count_msg_unread > 0 %>
+                    <i class="fa fa-comments chat-icon"> <span><%= count_msg_unread %></span> </i>
+                  <% end %>
+                </h3>
+                <hr/>
+                <p class="msg-label number_font"><%= truncate(receipt.message.body.gsub(/(<[^>]+>)/, ''), :length => 100) %></p>
+                <p class="footer-label">
+                  <%= receipt.message.created_at.strftime('%d %B %Y, %I:%M %P') %>
+                  <a class="btn btn-blue-i-m chat-button" href="<%= conversation_path(profile) %>">
+                    Chat <i class="fa fa-comment"></i></a>
+                </p>
+              </td>
+            </tr>
+          </table>
+          <div class="space10"></div>
+        <% end %>
+      </div>
+     </div>
+    <div class="space50"></div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>

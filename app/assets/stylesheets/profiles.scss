@@ -1,0 +1,259 @@
+$fontOSC: 'Open+Sans+Condensed',
+sans-serif;
+
+.review_profile_table {
+  margin-top: -15px;
+}
+
+.space-after-it {
+  padding-right: 3px;
+}
+
+.switch-profile-image {
+  width: 280px;
+  height: 235px !important;
+}
+
+.padding-left-10 {
+  padding-left: 10px;
+}
+
+.text-color-dark-gray {
+  color: #555555;
+}
+
+#file {
+  display: none
+}
+
+.click_able:hover {
+  cursor: pointer;
+}
+
+#booking_request_date {
+  background-color: #FFFFFF;
+}
+
+#seeMore:hover {
+  cursor: pointer;
+}
+
+.divBioMusic {
+  height: 348px;
+}
+.break_word {
+  word-wrap: break-word;
+}
+
+div.notice_not_allow {
+  font-size: 16px;
+  padding-bottom: 10px;
+}
+
+.number_font {
+  font-family: $fontOSC, "Roboto";
+  font-weight: 100;
+}
+
+.btn-send-modal {
+  width: 100%;
+}
+
+.btn-dropdown {
+  width: 100%;
+}
+
+.font-white {
+  color: #FFF;
+}
+
+.profile-box {
+  width: 100%;
+  height: 80px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #ffffff;
+
+  td {
+    padding: 10px;
+  }
+
+  h3 {
+    margin-top: 10px;
+  }
+
+  hr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
+hr.service_list{
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#image_profile {
+  width: 300px;
+  height: auto;
+}
+
+.div_upload_profile {
+  cursor: pointer;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 25%, rgba(0, 0, 0, 0.5) 90%, rgba(0, 0, 0, 0) 100%);
+  width: 300px;
+  position: absolute;
+  z-index: 1;
+  margin-top: -47px;
+  i {
+    color: white;
+    margin-left: 5px;
+    padding-top: 5px;
+  }
+  .padding_left_15 {
+    padding-left: 15px;
+  }
+  div {
+    color: white;
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 9px;
+    padding-right: 15px;
+  }
+}
+
+.div_upload_profile {
+
+}
+
+.picture_profile_max_size {
+  max-height: 500px;
+  max-width: 500px;
+}
+
+.form-group .label-control {
+  color: #00b0ff;
+}
+
+.form-group .form-control {
+  border-color: #ebebeb;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+}
+.modal_book_price{
+  font-weight:900;
+}
+a.btn_connect{
+  background-color: #DDD;
+  width:170px;
+  -webkit-transition: background 0.3s linear;
+  -moz-transition: background 0.3s linear;
+  -ms-transition: background 0.3s linear;
+  -o-transition: background 0.3s linear;
+  transition: background 0.3s linear;
+}
+a.btn_connect:hover {
+  background-color: #CCC;
+  color: #FFF;
+}
+.social_link_icon{
+  color:#FFF;
+}
+.social_link_icon:hover .btn-visit-r {
+  opacity: 0.7;
+}
+.social_link_icon:hover .btn-visit-l {
+  opacity: 0.7;
+}
+.btn-visit-r {
+  opacity: 0;
+  position: absolute;
+  width: 50%;
+  text-align: center;
+  top: 28%;
+  left: 22%;
+  color: #FFF;
+  font-weight: 300;
+  padding: 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  background-color: #000;
+  transition: all 0.3s ease-in-out 0s;
+}
+.btn-visit-l {
+  opacity: 0;
+  position: absolute;
+  width: 50%;
+  text-align: center;
+  top: 28%;
+  left: 30%;
+  color: #FFF;
+  font-weight: 300;
+  padding: 10px;
+  font-size: 16px;
+  text-transform: uppercase;
+  background-color: #000;
+  transition: all 0.3s ease-in-out 0s;
+}
+.hidden_field {
+  display: none !important;
+}
+.p_left{
+  padding-left: 10px;
+}
+.p_left_2{
+  padding-left: 8px;
+}
+.l_height{
+  line-height: 26px;
+}
+.st{
+  margin-top: 5px;
+}
+#profile_facebook_page_likes_input {
+  margin-bottom: 0px;
+  .form-label label {
+    margin-bottom: 2.5px;
+  }
+}
+#profile_twitter_followers_input {
+  margin-top: 24px;
+  margin-bottom: 0px;
+  .form-label label {
+    margin-bottom: 2.5px;
+  }
+}
+input#soundcloud_track_plays {
+  margin-bottom: -10px;
+}
+input#profile_youtube_subscribers {
+  margin-bottom: -10px;
+}
+.soundcloud_track_plays {
+  margin-bottom: 2.5px;
+}
+#profile_youtube_subscribers_input {
+  margin-top: 24.5px;
+  .form-label label {
+    margin-bottom: 2.5px;
+  }
+}
+.label-control.youtube_num {
+  margin-bottom: 2.5px;
+  margin-top: 25px;
+}
+.label-control.soundcloud_number_of_plays {
+  margin-top: 24.5px;
+  margin-bottom: 2.2px;
+}
+.label_margin {
+  margin-top: 24px;
+}
+.margin_bottom_2_5 {
+  margin-bottom: 2.5px;
+}
+.margin_bottom_nil {
+  margin-bottom: 0px !important;
+}
+#disconnect_youtube {
+  margin-bottom: 24px;
+}

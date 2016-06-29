@@ -1,0 +1,23 @@
+<footer class="footer-login">
+  <div class="container">
+    <div class="space10"></div>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="space10"></div>
+        <p>gigBazaar.com is a property of Guimus Group Limited, all rights reserved
+        </p>
+      </div>
+      <div class="col-md-2">
+        <p class="text-center">
+          <%= link_to content_tag(:i, nil, class: 'fa fa-facebook-square fa-3x'), ENV['FACEBOOK_PAGE'], class: 'bottom-link' %>
+          <%= link_to content_tag(:i, nil, class: 'fa fa-twitter-square fa-3x'), ENV['TWITTER_PAGE'], class: 'bottom-link' %>
+        </p>
+      </div>
+      <div class="col-md-5">
+        <div class="space10"></div>
+        <p class="text-right"><a href="<%= about_path %>" class="bottom-link">About us</a><a href="<%= terms_and_conditions_path %>" class="bottom-link">T&C</a><a href="<%= contact_path %>" class="bottom-link">Contact us</a><a href="<%= become_a_partner_path %>" class="bottom-link">Become a Partner</a><a href="<%= privacy_policy_path %>" class="bottom-link">Privacy policy</a><a href="<%= help_path %>" class="bottom-link">Help</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

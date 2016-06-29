@@ -1,0 +1,149 @@
+en:
+  layouts:
+    menu:
+      login:
+        browse_musicians: 'Browse Musicians'
+        menu:
+          profile: 'View Profile'
+          edit_profile: 'Edit Profile'
+          create_profile: 'Create Profile'
+          services: 'My Offers'
+          booking_requests: 'Booking Received'
+          bookings_sent: 'Booking Sent'
+          bookings_my: 'My Bookings'
+          settings: 'Settings'
+          add_switch_profile: 'Add/Switch profile'
+          sign_out: 'Sign Out'
+    booking_status_mailer:
+      manage_booking: 'Manage your booking'
+    mailer:
+      email_notifications_preferences: 'Your preferences are set to receive %{link}.'
+      email_notifications: 'Email Notifications'
+      footer_note: 'We are Passion - We are Vibration - We are Everywhere'
+      you_can_manage: 'You can manage your notification preferences.'
+      privacy_policy: 'Privacy Policy'
+  home:
+    index:
+      slide_content:
+        booking_platform: '#1 Booking Platform in Asia'
+        book_musiciants_easily: 'Book musicians easily'
+    help:
+      title: 'Help'
+      in_construction: 'In construction'
+    about:
+      description: |
+        TAKING THE LEAP TO REPRESENT PROFESSIONALS AND CONNECT WITH
+        PROFESSIONALS IN THE MUSIC INDUSTRY IS WHAT GIG BAZAAR IS ALL ABOUT.
+        GIG BAZAAR'S COMMUNITY CONSIST OF MUSIC LOVERS, MUSICIANS,
+        BOOKING AGENTS, BAND MANAGERS, FESTIVAL ORGANIZERS AND PROMOTERS,
+        MOSTLY BASED IN SOUTH EAST ASIA.
+      mission:
+        li1: |
+          Develop an active worldwide community in the music industry using new
+          technologies to improve, facilitate and modernize the bookings in Live
+          Music.
+        li2: |
+          Facilitate tours for musicians ANYWHERE in the world, in a more
+          efficient and profitable way.
+  profiles:
+    youtube:
+      youtube_subscribers: 'Youtube subscribers'
+      youtube_disconnect: 'Disconnect Youtube'
+      youtube_num: 'Youtube: show the number of followers.'
+      youtube_connect: 'Connect Youtube'
+    paypal:
+      email: 'PayPal email'
+      confirm_email: 'Confirm email'
+      remove_confirmation: 'Change Paypal email'        
+    client_already_exists: 'You current profile already assigned with a soundcloud account'
+    destroy:
+      unable_to_delete_profile: 'Unable to delete profile.'
+      successful_profile_deletion: "You have successfully delete your profile %{name}."
+    soundcloud:
+      success: 'Soundcloud account assigned with success'
+      client_id_error: 'This soundcloud account alredy assigned with other profile'
+      forbidden: 'Wrong Soundcloud login parameters'
+    soundcloud_disconnect:
+      success: 'Successful soundcloud disconnect'
+      fail: 'Failed to disconnect soundcloud'
+    paypal_remove_confirmation:
+      success: 'Successfully removed your Paypal email'
+      fail: 'Failed to remove PayPal email confirmation'
+    paypal_confirm:
+      success: 'Confirmation email for Paypal account successfully sent. Please check your inbox and follow the instructions received.'
+      fail: 'Failed to send confirmation message'
+    paypal_confirmation:
+      success: 'Successfully connected your Paypal account with your profile'
+      fail: 'Failed to confirm PayPal email'
+      confirmation_reset: 'PayPal email confirmation is reset'
+      confirmation_already_sent: 'PayPal email is already confirmed'
+      wrong_confirmation: 'Wrong confirmation token'
+    new:
+      name_placeholder: 'These fields are needed.'
+    edit:
+      title: 'EDIT PROFILE'
+      update_picture: 'Update Profile Picture'
+      delete_profile: 'Delete Profile'
+    delete_profile:
+      title: 'Delete Profile'
+      description: 'Permanently delete your profile'
+      able_to_destroy_title: "Are you sure you want to delete the profile %{name}?"
+      able_to_destroy_message: "%{link} %{button}"
+      unable_to_destroy_title: 'Sorry this is the only profile of your account. You need to have at least one profile.'
+      unable_to_destroy_message: "%{message}"
+      question: 'Are you sure you want to delete your profile ?'
+      huge_description: |
+        Is it because you have a technical problem or you would like to have more information about something on GigBazaar,
+          we are here to help you !
+      second_question: 'You really want to go ?? Oh man.. Can you tell us why ?'
+      email_support_link: "Please then contact our support team: %{link}"
+    show:
+      tech_rider: 'Tech rider:'
+      soundcloud: 'Soundcloud'
+      twitter: 'Twitter'
+      youtube: 'Youtube'
+      facebook: 'Facebook'
+      download: 'Download'
+      soundcloud: 'Soundcloud'
+      facebook: 'Facebook'
+      twitter: 'Twitter'
+      youtube: 'Youtube'
+    social_button_for_musician:
+      soundcloud: 'Soundcloud'
+      facebook: 'Facebook'
+      twitter: 'Twitter'
+      youtube: 'Youtube'
+    social_button_for_registered_user:
+      facebook: 'Facebook'
+      twitter: 'Twitter'
+    form_for_registered_user:
+      title: 'Edit profile'
+      update_picture: 'Update picture'
+      delete_profile: 'Delete profile'
+      connect_soundcloud: 'Connect Soundcloud'
+      disconnect_soundcloud: 'Disconnect Soundcloud'
+      tracks: 'Soundcloud track plays'
+    form_for_musician:
+      connect_twitter: 'Connect Twitter'
+      connect_page: 'Connect page'
+      connect_facebook: 'Connect Facebook'
+      title: 'Edit profile'
+      update_picture: 'Update picture'
+      delete_profile: 'Delete profile'
+      connect_soundcloud: 'Connect Soundcloud'
+      disconnect_soundcloud: 'Disconnect Soundcloud'
+      tracks: 'Soundcloud track plays'
+    tech_rider_form_item:
+      choose_file_from_my_computer: 'Choose file from my computer '
+  booking_status_mailer:
+    new_booking_request_service_owner_notification:
+      reply: 'reply it on'
+      for_free: 'for free.'
+      at: 'at'
+      new_booking_request: 'You have received a new booking request for your service'
+  conversations:
+    show:
+      offer_price_free: 'Offer Price: Free'
+  services:
+    form:
+      select_at_least_one: 'Select at least one'

@@ -1,0 +1,53 @@
+<section class="login-body">
+  <div class="container">
+    <div class="row">
+      <div class="space40"></div>
+      <div class="col-lg-8 col-lg-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h1 class="panel-title">Connect facebook page</h1>
+          </div>
+          <div class="panel-body edit-profile">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <% flash.each do |key, message| %>
+                  <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+                  </div>
+                <% end %>
+                <% if @pages_info.count == 0 %>
+                  <h2>Not found page on your account.</h2>
+                  <h4>Please check you facebook account has exist page.</h4>
+                  <div class="space30"></div>
+
+                  <a href="https://www.facebook.com/pages/create" class="btn btn-info btn-block btn-base" target="_blank">Create Page</a>
+                  <div class="row">
+                      <div class="col-sm-6">
+                        <h3><%= link_to 'Refresh', facebook_page_path, class: 'btn btn-info btn-block btn-base' %></h3>
+                        <div class="space10"></div>
+                      </div>
+                      <div class="col-sm-6">
+                        <h3><%= link_to 'Cancel', edit_profile_path(current_user.current_profile.id) , class: 'btn btn-default btn-block btn-base'%></h3>
+                        <div class="space10"></div>
+                      </div>
+                    </div>
+                <% else %>
+                  <%= form_for(current_user.current_profile , url: facebook_page_connect_path, html: { method: :post }) do |f| %>
+                    <% @pages_info.each do |page| %>
+                      <label class="radio-inline">
+                        <%= f.radio_button :facebook_page_id, page['id'] %>
+                        <%= f.label :facebook_page_id, page['name'], :value => page['id'] %>
+                      </label><br>
+                    <% end %>
+                    <%= f.submit 'Connect facebook page', class: 'btn btn-info btn-block btn-base' %>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

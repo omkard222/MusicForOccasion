@@ -1,0 +1,7 @@
+en:
+  last_profile: 'Account must have at least one profile'
+  labels:
+    account: 'Account'
+    accounts: 'Accounts'
+    birthday: 'Birthdate'
+    virtual_name: 'Username/Stage name'

@@ -1,0 +1,21 @@
+/ user's conversations page with admin
+%br= render 'layouts/dashboard_navbar'
+%h1 Conversation
+
+%br= render 'messages/message_body', recipient: messages_to_admin_path
+- @receipts_history_with_admin.each do |receipt|
+  - msg = receipt.message
+  - sender = msg.sender
+  - if sender.class.name == 'Admin'
+    = image_tag(sender.profile_picture.services_display.url) if sender.profile_picture?
+    = sender.username
+
+  - elsif sender.class.name == 'Profile'
+    - profile = msg.sender.current_profile
+    %br
+    #{ image_tag(profile.profile_picture.services_display.url) if profile.profile_picture? }
+    = link_to profile.username, profile_path(profile)
+
+  =msg.created_at.strftime("%d %B %Y, %I:%M %P")
+  %br=msg.body
+  %br

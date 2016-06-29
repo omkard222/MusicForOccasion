@@ -1,0 +1,38 @@
+<div class="pages">
+  <div class="container">
+    <div class="space40"></div>
+    <div class="row">
+      <div class="col-md-4 col-xs-12">
+        <%= render 'layouts/menu/settings_menu' %>
+      </div>
+      <div class="col-md-8 col-xs-12">
+        <div class="setting">
+          <h1>Personal Information</h1>
+          <span class="msg-label">Change your personal information settings</span>
+          <hr/>
+          <%= form_for current_user, url: update_user_profile_path, method: :put do |f| %>
+              <% flash.each do |key, message| %>
+                  <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+                    <button type="button" class="close" data-dismiss="alert">x</button>
+                    <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+                  </div>
+              <% end %>
+              <div class="form-group">
+                <h5>First Name</h5>
+                <%= f.text_field :first_name, autofocus: true, class: 'form-control', style: 'max-width:500px;', required: true %>
+              </div>
+              <div class="form-group">
+                <h5>Last Name</h5>
+                <%= f.text_field :last_name, class: 'form-control', style: 'max-width:500px;', required: true %>
+              </div>
+              <div class="space30"></div>
+              <div class="row col-sm-6 col-xs-10">
+                <%= f.submit "Save", class: 'btn btn-blue-i btn-block' %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>

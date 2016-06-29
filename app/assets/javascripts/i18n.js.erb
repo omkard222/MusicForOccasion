@@ -1,0 +1,5 @@
+// 2016-04-11
+window.i18n = <%= TranslationService.new.json %>
+window.i18n.t = function(key) {
+  return eval('window.i18n[window.current_locale].' + key)
+}

@@ -1,0 +1,25 @@
+.space28
+h4
+  = profile.virtual_name
+.table_i
+  .row_i
+    span class="ellipsis"
+      i class="fa fa-music space-after-it"
+      = profile.first_genre
+    - if profile.has_full_geo?
+      - if check_popularity_is_zero(profile)
+        br
+      span class=get_classes(profile)
+        i class="fa fa-map-marker space-after-it"
+        = profile.location.split(',').first
+        - if @search_term.present?
+          = distance_from(search_term)
+  .row_i
+    span class="l_height"
+      - if !profile.calculate_popularity.zero?
+        i class="fa fa-star space-after-it"
+        = t(:fans) + number_to_human(profile.calculate_popularity)
+    span
+      - if !profile.average_reviews.zero?
+        .rating.p_left_2.space-after-it.rateit data-rateit-value="#{profile.average_reviews}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true"
+        = "(" + profile.rate_count.count.to_s + ")"

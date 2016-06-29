@@ -1,0 +1,24 @@
+<h4>Receiving Money</h4>
+<%= form_for current_user.bank_account, url: receiving_money_update_path, html: { method: :put } do |b| %>
+  <div class="field">
+    <%= b.label :name_of_account_holder %>
+    <br>
+      <%= b.text_field :name %>
+    </br>
+  </div>
+  <div class="field">
+    <%= b.label :name_of_bank %>
+    <br>
+      <%= b.text_field :bank_name %>
+    </br>
+  </div>
+  <div class="field">
+    <%= b.label :bank_account_number %>
+    <br>
+      <%= b.text_field :acc_number %>
+    </br>
+  </div>
+  <div class="actions">
+    <%= b.submit 'Save' %>
+  </div>
+<% end %>

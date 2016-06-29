@@ -1,0 +1,6 @@
+!!! 5
+%html
+  %head
+    %meta{ 'content' => 'text/html; charset=UTF-8', 'http-equiv' => 'Content-Type' }
+  %body
+    %p Your confirmed booking for the service #{ link_to @service.headline, service_url(@service) } has been cancelled.

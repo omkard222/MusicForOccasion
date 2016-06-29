@@ -1,0 +1,5 @@
+- if @service.booking_fee_type == 'free'
+  - sentence_ending = t('.for_free')
+- else
+  - sentence_ending = "#{ t('.at') } #{ @service.currency.upcase }  #{ @service.booking_fee }."
+%p #{ t('.new_booking_request') } #{ link_to @service.headline, service_url(@service) } #{ sentence_ending }

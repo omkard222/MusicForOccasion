@@ -1,0 +1,42 @@
+# This references the default Ruby container from
+# the Docker Hub.
+# https://registry.hub.docker.com/_/ruby/
+# If you want to use a specific version you would use a tag:
+# ruby:2.2.2
+box: phusion/passenger-ruby22
+# You can also use services such as databases. Read more on our dev center:
+# http://devcenter.wercker.com/docs/services/index.html
+services:
+  - id: postgres
+    env:
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_USER: myuser  # optional
+
+# This is the build pipeline. Pipelines are the core of wercker
+# Read more about pipelines on our dev center
+# http://devcenter.wercker.com/docs/pipelines/index.html
+build:
+    # Steps make up the actions in your pipeline
+    # Read more about steps on our dev center:
+    # http://devcenter.wercker.com/docs/steps/index.html
+    steps:
+        #- script:
+            #name: prepare phantomjs
+            #code: npm install -g phantomjs
+        - script:
+            name: clean bundler
+            code: rm -rf /pipeline/cache/bundle-install/ruby/2.2.0/cache/bundler/git/country_select*
+        - bundle-install
+        - script:
+            name: prepare database.yml
+            code: cp config/database.yml.wercker config/database.yml
+        - script:
+            name: prepare environment file
+            code: cp .env.example .env
+        - script:
+            name: prepare test database
+            code: RAILS_ENV=test bundle exec rake db:create db:migrate
+        - script:
+            name: rspec
+            code: bundle exec rspec
+

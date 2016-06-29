@@ -1,0 +1,1 @@
+$(function(){$("#reset_password").on("click",function(r){$.ajax({url:this.href,type:"post",data:$.param({id:"#{params[:id]}"}),success:function(){alert("Reset password instruction sent.")},error:function(){alert("Error")}}),r.preventDefault()})});

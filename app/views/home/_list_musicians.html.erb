@@ -1,0 +1,80 @@
+<% if @profiles.blank? %>
+    <div align="center">
+      <h4>No available musicians.</h4>
+    </div>
+<% end %>
+<% @profiles.each do |profile| %>
+    <% service = profile.default_service %>
+    <div class="col-md-4 col-sm-6">
+      <div class="musician">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="musician-image">
+              <a href="<%= profile_slug_url(profile.slug) %>">
+                <label class="btn-booking">view profile</label>
+                <%= image_tag profile.picture, id: 'img-profile', class: 'img-responsive' %>
+              </a>
+            </div>
+            <div>
+              <% if service %>
+                <% if service.minimum_fees? %>
+                  <div class="btn-price">From <%= service_fee_or_free(service) %></div>
+                <% else %>
+                  <div class="btn-price"><%= t(service.booking_fee_type, scope: 'services.form.booking_fee_types') %></div>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="musician-profile">
+              <div class="space28"></div>
+              <h4><%= profile.stage_name %></h4>
+              <div class="table_i">
+                <div class="row_i ">
+                    <span class="ellipsis"><i class="fa fa-music"></i> <%= " " + profile.first_genre %></span>
+                    <% Rails.logger.info "profile = #{profile.inspect}" %>
+                    <% Rails.logger.info "profile.calculate_popularity = #{profile.calculate_popularity}" %>
+                    <% Rails.logger.info "profile.collect_reviews.average(:score).to_f = #{profile.collect_reviews.average(:score).to_f}" %>
+                    <% if profile.calculate_popularity == 0 && profile.collect_reviews.average(:score).to_f == 0 %>
+                      <br>
+                      <span class="ellipsis l_height"><i class="fa fa-map-marker"></i> <%= " " + profile.location.split(',').first %>
+                        <% if @search_term.present? %>
+                          <%= profile.distance_from(@search_term).round(2).to_s + ' km' if @search_term %>
+                        <% end %>
+                      </span>
+                    <% else %>
+                       <span class="ellipsis p_left"><i class="fa fa-map-marker"></i> <%= profile.location.split(',').first %>
+                         <% if @search_term.present? %>
+                           <%= profile.distance_from(@search_term).round(2).to_s + ' km' if @search_term %>
+                         <% end %>
+                        </span>
+                    <% end %>
+                </div>
+                <% if profile.calculate_popularity.to_f != 0 || profile.collect_reviews.average(:score).to_f != 0 %>
+                  <div class="row_i">
+                    <% if profile.calculate_popularity.to_f != 0 %>
+                      <span class="l_height">
+                        <i class="fa fa-star"></i><%= " " + t(:fans) + number_to_human(profile.calculate_popularity) %>
+                      </span>
+                    <% end %>
+                    <span>
+                      <% Rails.logger.info "=========== profile.collect_reviews.average(:score).to_f != 0 = #{profile.collect_reviews.average(:score).to_f != 0}" %>
+                      <% if profile.collect_reviews.average(:score).to_f != 0 %>
+                        <div class="rating  p_left_2" data-rateit-value="<%= profile.collect_reviews.average(:score).to_f %>" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true"></div><%=" "+ "(" + profile.rate_count.count.to_s + ")" %>
+                      <% end %>
+                    </span>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="space20"></div>
+    </div>
+<% end %>
+<script type="text/javascript">
+  $('div.rating').rateit();
+</script>

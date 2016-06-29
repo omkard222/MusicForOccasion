@@ -1,0 +1,85 @@
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= session[:preferred_currency] %><span class="caret"></span></a>
+  <ul class="dropdown-menu scrollable-menu" role="menu">
+    <li><%= link_to "AED", preferred_currency_path(:currency => 'AED'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "ARS", preferred_currency_path(:currency => 'ARS'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "AUD", preferred_currency_path(:currency => 'AUD'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "BGN", preferred_currency_path(:currency => 'BGN'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "BRL", preferred_currency_path(:currency => 'BRL'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "CAD", preferred_currency_path(:currency => 'CAD'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "CHF", preferred_currency_path(:currency => 'CHF'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "CNY", preferred_currency_path(:currency => 'CNY'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "CRC", preferred_currency_path(:currency => 'CRC'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "CZK", preferred_currency_path(:currency => 'CZK'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "DKK", preferred_currency_path(:currency => 'DKK'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "EUR", preferred_currency_path(:currency => 'EUR'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "GBP", preferred_currency_path(:currency => 'GBP'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "HKD", preferred_currency_path(:currency => 'HKD'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "HRK", preferred_currency_path(:currency => 'HRK'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "HUF", preferred_currency_path(:currency => 'HUF'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "IDR", preferred_currency_path(:currency => 'IDR'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "ILS", preferred_currency_path(:currency => 'ILS'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "INR", preferred_currency_path(:currency => 'INR'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "JPY", preferred_currency_path(:currency => 'JPY'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "KRW", preferred_currency_path(:currency => 'KRW'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "MAD", preferred_currency_path(:currency => 'MAD'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "MXN", preferred_currency_path(:currency => 'MXN'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "MYR", preferred_currency_path(:currency => 'MYR'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "NOK", preferred_currency_path(:currency => 'NOK'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "NZD", preferred_currency_path(:currency => 'NZD'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "PEN", preferred_currency_path(:currency => 'PEN'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "PHP", preferred_currency_path(:currency => 'PHP'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "PLN", preferred_currency_path(:currency => 'PLN'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "RON", preferred_currency_path(:currency => 'RON'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "RUB", preferred_currency_path(:currency => 'RUB'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "SEK", preferred_currency_path(:currency => 'SEK'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "SGD", preferred_currency_path(:currency => 'SGD'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "THB", preferred_currency_path(:currency => 'THB'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "TRY", preferred_currency_path(:currency => 'TRY'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "TWD", preferred_currency_path(:currency => 'TWD'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "UAH", preferred_currency_path(:currency => 'UAH'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "USD", preferred_currency_path(:currency => 'USD'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "VND", preferred_currency_path(:currency => 'VND'), :method => :preferred_currency %></li>
+    <li role="separator" class="divider"></li>
+    <li><%= link_to "ZAR", preferred_currency_path(:currency => 'ZAR'), :method => :preferred_currency %></li>
+  </ul>
+</li>
+

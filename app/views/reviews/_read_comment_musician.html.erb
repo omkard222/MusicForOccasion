@@ -1,0 +1,10 @@
+<%= review.reviewer.display_name %>
+<br>
+wrote on : <%= Date.parse(review.created_at.to_s).strftime("%d/%m/%Y") %>
+<br>
+score : <%= review.score %>
+<br>
+message : <%= review.message %>
+<br>
+<%= link_to "remove this", delete_review_path(id: review.id,profile_id: review.profile_id), method: :post if review.reviewer_id == current_profile.id%>
+

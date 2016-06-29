@@ -1,0 +1,11 @@
+</br>
+<%= render 'layouts/dashboard_navbar' %>
+</br>
+
+<%= image_tag(@profile.profile_picture.thumb.url) if @profile.profile_picture? %>
+</br>
+<%= @profile.username %>
+
+</br>
+<%= render 'conversations/dashboard_message' %>
+
