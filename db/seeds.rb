@@ -7,8 +7,11 @@ User.delete_all
 MusicianGenre.delete_all
 ServiceType.delete_all
 
-admin = Admin.create!(email: ENV['MASTER_ADMIN_EMAIL'],
-                     password: ENV['MASTER_ADMIN_PASSWORD'],
+# admin = Admin.create!(email: ENV['MASTER_ADMIN_EMAIL'],
+#                      password: ENV['MASTER_ADMIN_PASSWORD'],
+#                      role: 'Master Admin')
+admin = Admin.create!(email: 'admin@gmail.com',
+                     password: 'enbake123',
                      role: 'Master Admin')
 puts ">>>>> - Admin #{admin.email} has been created"
 
