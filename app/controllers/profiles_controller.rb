@@ -135,8 +135,10 @@ class ProfilesController < ApplicationController
   end
 
   def facebook_page
+    user_profile = current_user.current_profile
     url = "https://graph.facebook.com/me/accounts?access_token="+current_user.current_profile.facebook_token.to_s
-    ProfileMailer.facebook_connect_success().deliver_now
+    ProfileMailer.facebook_connect_success_user(user_profile, user_profile.username,user_profile.headline).deliver_now
+    ProfileMailer.facebook_connect_success_profile(user_profile, user_profile.username,user_profile.headline).deliver_now
     begin
       fb_info_json = JSON.parse(open(url).read)
       @pages_info = fb_info_json["data"]
@@ -227,8 +229,10 @@ class ProfilesController < ApplicationController
       @instruments = @profile.instruments
       get_review = @profile.collect_reviews
       if @profile.biography && @profile.biography.length > 750
-        @bio_show = @profile.biography[0..1250].squish
-        @bio_hide = @profile.biography[1251..-1].try(:squish)
+        # @bio_show = @profile.biography[0..1250].squish
+        # @bio_hide = @profile.biography[1251..-1].try(:squish)
+        @bio_show = @profile.biography[0..710]
+        @bio_hide = @profile.biography[711..-1]
       else
         @bio_show = @profile.biography
         @bio_hide = false
@@ -344,6 +348,9 @@ class ProfilesController < ApplicationController
     user_profile = current_user.current_profile
     name = params[:name]
     email = params[:email]
+    user_profile.username = params[:name]
+    user_profile.headline = params[:email]
+    user_profile.save
     ProfileMailer.invite_mail(user_profile, name, email).deliver_now
     # raise user_profile.inspect
     # respond_to do |format|
