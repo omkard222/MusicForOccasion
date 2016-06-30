@@ -1,6 +1,8 @@
 .form-group
   - input_html = { value: @profile.paypal_account_email || @profile.user.email }
   - input_html['disabled'] = 'disabled' unless @profile.paypal_unconfirmed?
+  - if controller.action_name=="edit"
+    - input_html['disabled'] = 'disabled'
   = f.input :paypal_account_email, label: t('profiles.paypal.email'), input_html: input_html   
   - if !@profile.paypal_unconfirmed?
     .space10

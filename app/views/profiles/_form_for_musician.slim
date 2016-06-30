@@ -42,7 +42,7 @@
                 = f.input :soundcloud_url
 
                 - if @profile.facebook_page_id && @profile.facebook_page_likes
-                  = f.input :facebook_page_likes
+                  = f.input :facebook_page_likes, input_html: {disabled: "disabled"}
                   .space5
                   a#disconnect_facebook.btn.btn_connect href='' onclick=('return false;') data-url=facebook_disconnect_path() Disconnect Facebook
                 - elsif @profile.facebook_token
