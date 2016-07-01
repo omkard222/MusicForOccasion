@@ -231,8 +231,10 @@ class ProfilesController < ApplicationController
       if @profile.biography && @profile.biography.length > 750
         # @bio_show = @profile.biography[0..1250].squish
         # @bio_hide = @profile.biography[1251..-1].try(:squish)
-        @bio_show = @profile.biography[0..600]
-        @bio_hide = @profile.biography[601..-1]
+        # @bio_show = @profile.biography[0..1250].squish
+        # @bio_hide = @profile.biography[1251..-1]
+        @bio_show = @profile.biography[0..750]
+        @bio_hide = @profile.biography[750..-1]
       else
         @bio_show = @profile.biography
         @bio_hide = false
