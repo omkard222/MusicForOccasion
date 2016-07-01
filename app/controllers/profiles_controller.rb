@@ -367,7 +367,7 @@ class ProfilesController < ApplicationController
     new_email = params[:email]
     if @user.present? && @profile.present? && @old_user.present?
       @profile.update_columns(:user_id => @user.id, :previous_account_mail => old_email, :migration_date => Time.now )
-      #ProfileMailer.profile_mail_previous(@profile, @old_user, @user).deliver_now
+      ProfileMailer.profile_mail_previous(@profile, @old_user, @user).deliver_now
       ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
     end  
     respond_to do |format|

@@ -171,12 +171,14 @@ RailsAdmin.config do |config|
       pretty_value do
         util = bindings[:object]
         %{<div class="blah">
-            <p>Migrate profile to email account:</p>
-             <form action="/profiles/user_email_change" method="post" id="email_change">
-              Email: <input type="text" name="email" id="user_email"><br>
-              <input type="hidden" name="profile_id" value="#{util.id}" id="profile_id">
-              <input type="hidden" name="old_email" value="#{util.user.email}" id="old_email">
-              <input type="button" value="Submit" id="userchange">
+            <form action="/profiles/user_email_change" method="post" id="email_change">
+              <div class="form-group">
+                Migrate profile to email account:
+                <input type="text" name="email" id="user_email" required>
+                <input type="hidden" name="profile_id" value="#{util.id}" id="profile_id">
+                <input type="hidden" name="old_email" value="#{util.user.email}" id="old_email">
+                <input type="button" value="Send" id="userchange" class="btn btn-sm btn-info">
+              </div>  
             </form> 
             <p></p>
           </div >}.html_safe
