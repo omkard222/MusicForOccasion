@@ -1,6 +1,7 @@
 RailsAdmin.config do |config|
-  ### Popular gems integration
 
+  ### Popular gems integration
+  
   # == Devise ==
   config.authenticate_with do
     warden.authenticate! scope: :admin
@@ -147,6 +148,42 @@ RailsAdmin.config do |config|
   end
 
   config.model 'Profile' do
+    configure :History do
+      pretty_value do
+        util = bindings[:object]
+        uu = bindings[:object].headline
+        #ddd = util.user.created_at.strftime(%Y-%m-%d)
+        if true
+        %{<div class="blah">
+            <p>#{util.stage_name} created by account <a href="/admin/user/#{util.id}">Account</a> with email #{util.user.email} on #{util.user.created_at.strftime('%m/%d/%y')}</p>
+          </div >}.html_safe
+        else
+          %{<div class="blah">
+            <p>#{util.stage_name} created by account <a href="/admin/user/#{util.id}">Account</a> with email #{util.user.email} on #{util.user.created_at.strftime('%m/%d/%y')}</p>
+            <p>#{util.stage_name} created by account <a href="/admin/user/#{util.id}">Account</a> with email #{util.user.email} on #{util.user.created_at.strftime('%m/%d/%y')}</p>
+          </div >}.html_safe
+        end  
+      end
+      children_fields [:stage_name] # will be used for searching/filtering, first field will be used for sorting
+      read_only true # won't be editable in forms (alternatively, hide it in edit section)
+    end
+    configure :Migration do
+      pretty_value do
+        util = bindings[:object]
+        %{<div class="blah">
+            <p>Migrate profile to email account:</p>
+             <form action="/profiles/user_email_change" method="post" id="email_change">
+              Email: <input type="text" name="email" id="user_email"><br>
+              <input type="hidden" name="profile_id" value="#{util.id}" id="profile_id">
+              <input type="hidden" name="old_email" value="#{util.user.email}" id="old_email">
+              <input type="button" value="Submit" id="userchange">
+            </form> 
+            <p></p>
+          </div >}.html_safe
+      end
+      children_fields [:stage_name] # will be used for searching/filtering, first field will be used for sorting
+      read_only true # won't be editable in forms (alternatively, hide it in edit section)
+    end
     object_label_method :virtual_name
     parent User
     [list, show, edit].each do
@@ -172,6 +209,13 @@ RailsAdmin.config do |config|
       field :instruments
       field :profile_picture
       field :additional_pictures
+    end
+
+    show do
+      field :History do
+      end
+      field :Migration do
+      end  
     end
 
     list do

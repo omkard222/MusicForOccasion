@@ -2,9 +2,9 @@
 class ProfilesController < ApplicationController
   include ApplicationHelper
   include ServicesHelper
-  skip_before_filter :verify_authenticity_token, :only => [:invite_friend]
+  skip_before_filter :verify_authenticity_token, :only => [:invite_friend, :user_email_change]
 
-  before_action :authenticate_user!, except: [:show, :show_slug, :new, :create, :paypal_confirmation, :invite_friend]
+  before_action :authenticate_user!, except: [:show, :show_slug, :new, :create, :paypal_confirmation, :invite_friend, :user_email_change]
   before_action :verify_user, only: [:edit, :update, :delete]
   before_action :check_destroy_profile_possibility, only: [:delete]
   before_action :check_soundcloud_datum, only: [:soundcloud, :soundcloud_request]
@@ -358,6 +358,22 @@ class ProfilesController < ApplicationController
     # end
     redirect_to edit_profile_path(user_profile.id)
   end 
+
+  def user_email_change
+    @profile = Profile.find(params[:profile_id])
+    @user = User.where(:email => params[:email]).first
+    @old_user = User.where(:email => params[:old_email]).first
+    old_email = params[:old_email]
+    new_email = params[:email]
+    if @user.present? && @profile.present? && @old_user.present?
+      @profile.update_columns(:user_id => @user.id, :previous_account_mail => old_email, :migration_date => Time.now )
+      #ProfileMailer.profile_mail_previous(@profile, @old_user, @user).deliver_now
+      ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
+    end  
+    respond_to do |format|
+      format.json{ render :json=>  {:status => 200, :response=>"ok"} }
+    end  
+  end
 
 
   private

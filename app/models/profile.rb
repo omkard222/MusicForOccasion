@@ -141,6 +141,14 @@ class Profile < ActiveRecord::Base
     active_services.default_service
   end
 
+  def History
+    stage_name  
+  end
+
+  def Migration
+    stage_name
+  end
+
   def virtual_name
     if stage_name.present? || username.present?
       profile_type == 'musician' ? stage_name : username

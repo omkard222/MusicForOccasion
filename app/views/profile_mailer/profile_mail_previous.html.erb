@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <%= stylesheet_link_tag 'mailer', media: 'all' %>
+  </head>
+  <body class="mailer-body">
+    <div class="header wrapper">
+      <div class="logo">
+        <%= image_tag 'mailer/logo.png', alt: 'gigBazaar', class: 'logo' %>
+      </div>
+    </div>
+    <div class="content wrapper">
+      <div class="profile-email">
+    <p>Hello <%= @old_user.first_name%>, </p>
+
+    <p>Your profile <%= @profile.stage_name%> has been migrated from the account <%= @old_user.first_name%> with email address <%= @old_user.email%></p>
+
+    <p>to a new account <%= @new_user%> with email address: <%= @new_user.email%></p>
+    
+    <p>Contact us if you need any clarifications.</p>
+
+    <p>Best Regards,</p>
+
+      <hr class="line"/>
+    </div>  
+      <p class="preferences-note">
+        Your preferences are set to receive <%= link_to "Email Notifications", notifications_url%>
+        <br/>
+        <%= "You can manage your notification preferences." %>
+        <br/>
+        <%= link_to "Privacy Policy", privacy_policy_url, class: 'privacy-policy' %>
+      </p>
+
+    <div class="footer-note">
+      <%= "We are Passion - We are Vibration - We are Everywhere" %>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

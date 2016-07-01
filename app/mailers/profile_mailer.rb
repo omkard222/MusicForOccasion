@@ -1,6 +1,7 @@
 class ProfileMailer < ApplicationMailer
   #default from: "brautaray@enbake.com"
   default from: "support@gigbazaar.com"
+  layout false
   def paypal_confirmation(profile)
   	@name = profile.musician? ? profile.stage_name : profile.username
   	@id = profile.id
@@ -10,14 +11,43 @@ class ProfileMailer < ApplicationMailer
 
   def invite_mail(profile, name, email)
   	#raise email.inspect
+  	@profile = profile
   	@email = email
-  	@name = name 
-    mail(to: email, subject: "send mail")
+  	@name = name
+  	@profile_name = profile.user.first_name 
+    mail(to: email, subject: "Invition mail")
   end
 
-  def facebook_connect_success
-  	 mail(to: "gkumar@enbake.com", subject: "send mail") 
+  def facebook_connect_success_user(profile, name, email)
+  	@profile = profile
+  	@email = email
+  	@name = name
+  	@profile_name = profile.user.first_name 
+    mail(to: email, subject: "Invition mail") 
   end 
-
+  def facebook_connect_success_profile(profile, name, email)
+  	@profile = profile
+  	@email = email
+  	@name = name
+  	@profile_name = profile.user.first_name 
+    mail(to: email, subject: "Invition mail") 
+  end 
+   
+   def profile_mail_previous(profile, old_user, new_user)
+    @profile = profile
+    @old_user = old_user
+    @new_user = new_user
+    @profile_name = profile.user.first_name
+    old_email = @old_user.email  
+    mail(to: old_email, subject: "Migration of Profile successful")
+  end
+  def profile_mail_current(profile, old_user, new_user)
+    @profile = profile
+    @old_user = old_user
+    @new_user = new_user
+    @profile_name = profile.user.first_name
+    new_email = @new_user.email  
+    mail(to: new_email, subject: "Migration of Profile successful")
+  end
 
 end
