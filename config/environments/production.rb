@@ -72,6 +72,6 @@ Rails.application.configure do
   #   enable_starttls_auto: true
   # }
 
-  config.action_mailer.asset_host = "http://#{ENV['DOMAIN_NAME']}"
-  #config.action_mailer.asset_host = 'http://heroku.com'
+  #config.action_mailer.asset_host = "http://#{ENV['DOMAIN_NAME']}"
+  config.action_mailer.asset_host = 'http://heroku.com'
 end
