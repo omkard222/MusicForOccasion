@@ -154,9 +154,10 @@ RailsAdmin.config do |config|
         #uu = bindings[:object].headline
         #ddd = util.user.created_at.strftime(%Y-%m-%d)
         if util.previous_account_mail.present?
+           uu = User.where(:email => util.previous_account_mail).first
           %{<div class="history">
-            <p>#{util.stage_name} created by account <a href="/admin/user/#{util.id}">Account</a> with email #{util.previous_account_mail} on #{util.user.created_at.strftime('%d/%m/%y')}</p>
-            <p>#{util.stage_name} migrated to account <a href="/admin/user/#{util.id}">Account</a> with email #{util.user.email} on #{util.migration_date.strftime('%d/%m/%y')}</p>
+            <p>#{util.stage_name} created by account <a href="/admin/user/#{uu.id}">Account</a> with email #{util.previous_account_mail} on #{util.user.created_at.strftime('%d/%m/%y')}</p>
+            <p>#{util.stage_name} migrated to account <a href="/admin/user/#{util.user.id}">Account</a> with email #{util.user.email} on #{util.migration_date.strftime('%d/%m/%y')}</p>
           </div >}.html_safe 
         else
           %{<div class="history_back">
