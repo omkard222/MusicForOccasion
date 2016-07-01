@@ -41,7 +41,8 @@
         data: valuesToSubmit,
         dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
       }).success(function(json){
-          console.log("success", json);
+          $("#user_email").val("");
+          $('#show_notice').html("profile migrated successfully.").slideDown(100).delay(500).slideUp(1000)
       });
       return false ;
     });

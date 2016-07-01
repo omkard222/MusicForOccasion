@@ -172,6 +172,7 @@ RailsAdmin.config do |config|
       pretty_value do
         util = bindings[:object]
         %{<div class="blah">
+            <div id="show_notice" style="margin-left:10px;color:green;font-size:14px;"></div>
             <form action="/profiles/user_email_change" method="post" id="email_change">
               <div class="form-group">
                 Migrate profile to email account:
