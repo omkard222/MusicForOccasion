@@ -27,6 +27,11 @@
   $(document).ready(function(){
     $("#userchange").click(function(){
       var uemail = $("#user_email").val();
+      if (uemail == ""){
+        alert("Email field cannot be blank")
+        return false ;
+      }
+
       var profile_id = $("#profile_id").val();    
       var valuesToSubmit = $('form#email_change').serialize();
       var uu = $('form#email_change').attr('action');
