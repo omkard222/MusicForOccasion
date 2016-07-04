@@ -373,7 +373,7 @@ class ProfilesController < ApplicationController
       ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
     end  
     respond_to do |format|
-      format.json{ render :json=>  {:status => 200, :response=>"ok"} }
+      format.json{ render :json=>  {:status => 200, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_created_at => @profile.created_at.strftime('%d/%m/%y'), :profile_migrated_at => @profile.migration_date.strftime('%d/%m/%y') } }
     end  
   end
 
