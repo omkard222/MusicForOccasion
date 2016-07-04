@@ -39,8 +39,8 @@ class ProfileMailer < ApplicationMailer
     @new_user = new_user
     @profile_name = profile.user.first_name
     old_email = @old_user.email  
-    mail(to: old_email, subject: "Migration of Profile successful")
-    #mail(to: "rupinder.enbake@gmail.com", subject: "Migration of Profile successful")
+    #mail(to: old_email, subject: "Migration of Profile successful")
+    mail(to: "rupinder.enbake@gmail.com", subject: "Migration of Profile successful")
   end
   def profile_mail_current(profile, old_user, new_user)
     @profile = profile
@@ -48,8 +48,8 @@ class ProfileMailer < ApplicationMailer
     @new_user = new_user
     @profile_name = profile.user.first_name
     new_email = @new_user.email  
-    mail(to: new_email, subject: "Migration of Profile successful")
-    #mail(to: "brautaray@enbake.com", subject: "Migration of Profile successful")
+    #mail(to: new_email, subject: "Migration of Profile successful")
+    mail(to: "brautaray@enbake.com", subject: "Migration of Profile successful")
   end
 
 end
