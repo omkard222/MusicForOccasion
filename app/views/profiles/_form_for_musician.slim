@@ -128,3 +128,33 @@ javascript:
       });
     });
   });
+
+  if ($('#existing_profile_site_logo').text().length === 0) {
+  $('#delete_profile_site_logo').hide();
+  } else {
+    $('#upload_site_logo').hide();
+  }
+  $('#upload_site_logo').on('click', function() {
+    return $('#profile_site_logo').trigger('click');
+  });
+  $('#profile_site_logo').on('change', function() {
+    return site_logo_func();
+  });
+  $('#delete_profile_site_logo').on('click', function() {
+    $('#existing_profile_site_logo').hide();
+    $('#delete_profile_site_logo').hide();
+    $('#upload_site_logo').show();
+    $('#profile_remove_site_logo').prop('checked', true);
+    $('#profile_site_logo').replaceWith($('#profile_site_logo').clone());
+    return $('#profile_site_logo').on('change', function() {
+      return site_logo_func();
+    });
+  });
+  window.site_logo_func = function() {
+    $('#existing_profile_site_logo').show();
+    $('#delete_profile_site_logo').show();
+    $('#upload_site_logo').hide();
+    $('#profile_remove_site_logo').prop('checked', false);
+    $('#existing_profile_site_logo').removeClass('hidden_field');
+    return $('#existing_profile_site_logo').text($('#profile_site_logo').val().replace(/.+[\\\/]/, ""));
+  };
