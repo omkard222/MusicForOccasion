@@ -4,7 +4,7 @@
   = f.check_box :remove_site_logo, class: 'hidden_field'
   .row
     .col-md-11
-      = link_to "site logo", 'javascript:;', id: 'upload_site_logo'
+      = link_to "Add logo to promote your organization (PREMIUM ACCOUNT ONLY)", 'javascript:;', id: 'upload_site_logo'
       - if profile.site_logo.present?
           = link_to profile.site_logo_identifier, profile.site_logo.url, id: 'existing_profile_site_logo'
       - else
