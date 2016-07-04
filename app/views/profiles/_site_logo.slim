@@ -1,0 +1,14 @@
+.input.form-group
+  = f.label :site_logo, class: 'label-control control-label'
+  = f.input :site_logo, label: false, wrapper_html: { class: 'hidden_field' }
+  = f.check_box :remove_site_logo, class: 'hidden_field'
+  .row
+    .col-md-11
+      = link_to "site logo", 'javascript:;', id: 'upload_site_logo'
+      - if profile.site_logo.present?
+          = link_to profile.site_logo_identifier, profile.site_logo.url, id: 'existing_profile_site_logo'
+      - else
+          = link_to '', 'javascript:;', id: 'existing_profile_site_logo', class: 'hidden_field'
+    .col-md-1
+      = link_to '', 'javascript:;', id: 'delete_profile_site_logo', class: 'fa fa-trash-o'      
+    

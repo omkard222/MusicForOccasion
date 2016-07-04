@@ -110,6 +110,10 @@ RailsAdmin.config do |config|
              :banned do
         help ''
       end
+
+      field :premium_account do
+        help false
+      end
       
       #field :bank_account
       field :billing_address

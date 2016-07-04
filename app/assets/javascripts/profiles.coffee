@@ -114,3 +114,35 @@ $ ->
     $('#profile_remove_tech_rider').prop('checked', false)
     $('#existing_profile_tech_rider').removeClass('hidden_field')
     $('#existing_profile_tech_rider').text($('#profile_tech_rider').val().replace(/.+[\\\/]/, ""))
+
+
+
+
+  if $('#existing_profile_site_logo').text().length == 0
+    $('#delete_profile_site_logo').hide()
+  else
+    $('#upload_site_logo').hide()
+
+  $('#upload_site_logo').on 'click', ->
+    $('#profile_site_logo').trigger('click')
+
+  $('#profile_site_logo').on 'change', ->
+    site_logo_func()
+
+  $('#delete_profile_site_logo').on 'click', ->
+    $('#existing_profile_site_logo').hide()
+    $('#delete_profile_site_logo').hide()
+    $('#upload_site_logo').show()
+    $('#profile_remove_site_logo').prop('checked', true)
+    $('#profile_site_logo').replaceWith($('#profile_site_logo').clone())
+    $('#profile_site_logo').on 'change', ->
+      site_logo_func()
+
+  window.site_logo_func = () ->
+    $('#existing_profile_site_logo').show()
+    $('#delete_profile_site_logo').show()
+    $('#upload_site_logo').hide()
+    $('#profile_remove_site_logo').prop('checked', false)
+    $('#existing_profile_site_logo').removeClass('hidden_field')
+    $('#existing_profile_site_logo').text($('#profile_site_logo').val().replace(/.+[\\\/]/, ""))
+  

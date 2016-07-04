@@ -272,6 +272,7 @@ class ProfilesController < ApplicationController
   end
 
   def update
+    #raise params.inspect
     @profile = Profile.find(params[:id])
     if @profile.update(update_profile)
       respond_to do |format|
@@ -409,7 +410,7 @@ class ProfilesController < ApplicationController
   def update_profile
     params[:profile][:instrument_ids] = nil unless params[:profile][:category] == 'Solo'
     params.require(:profile).permit(:stage_name, :category, :user_id, :biography, :profile_picture,
-                                    :youtube_url, :soundcloud_url, :location, :username, :tech_rider, :remove_tech_rider,
+                                    :youtube_url, :soundcloud_url, :location, :username, :tech_rider,:site_logo, :site_url, :remove_tech_rider,:remove_site_logo,
                                     instrument_ids: [],
                                     genre_ids: [],
                                     bank_account_attributes: [:bank_name, :acc_number, :name])

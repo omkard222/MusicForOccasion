@@ -29,6 +29,7 @@ class Profile < ActiveRecord::Base
 
   mount_uploader :profile_picture, ProfilePictureUploader
   mount_uploader :tech_rider, PDFUploader
+  mount_uploader :site_logo, SiteLogoUploader
   alias_attribute :name, :username
 
   before_save :save_slug
