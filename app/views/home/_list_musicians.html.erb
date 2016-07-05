@@ -14,6 +14,15 @@
                 <label class="btn-booking">view profile</label>
                 <%= image_tag profile.picture, id: 'img-profile', class: 'img-responsive' %>
               </a>
+              <% if profile.site_logo.present? %>
+                <% if profile.site_url.present? %>
+                  <a href="<%= profile.site_url%>" target="_blank">
+                    <%= image_tag profile.site_logo, id: 'site_logo_show'%>
+                  </a>
+                <% else %>
+                  <%= image_tag profile.site_logo, id: 'site_logo_show'%>
+                <% end %>  
+              <% end %>  
             </div>
             <div>
               <% if service %>
@@ -78,3 +87,12 @@
 <script type="text/javascript">
   $('div.rating').rateit();
 </script>
+<style>
+  #site_logo_show{
+    z-index: 99999;
+    left: 44%;
+    right: 50%;
+    position: absolute;
+    top: 0;
+  }
+</style>

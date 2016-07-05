@@ -397,7 +397,12 @@ class ProfilesController < ApplicationController
     if update_profile['location'].blank?
       flash[:error] = 'Please provide valid location'
     else
-      flash[:error] = 'Stage name has already been taken.'
+      image = MiniMagick::Image.open(update_profile['site_logo'].path)
+      if image[:width] > 50 && image[:height] > 50
+        flash[:error] = 'Image should be of Size 50x50.'
+      else
+        flash[:error] = 'Stage name has already been taken.'
+      end  
     end
     select2_form
     render 'edit'

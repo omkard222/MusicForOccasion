@@ -31,6 +31,8 @@ class Profile < ActiveRecord::Base
   mount_uploader :tech_rider, PDFUploader
   mount_uploader :site_logo, SiteLogoUploader
   alias_attribute :name, :username
+  
+  validate :site_logo_size_validation, unless: -> { site_logo.blank? }
 
   before_save :save_slug
   before_save :set_position_priority
@@ -264,5 +266,14 @@ class Profile < ActiveRecord::Base
   def set_position_priority
     picture_score = profile_picture.file.present? ? PICTURE_PRIORITY : 0
     self.position_priority = picture_score + facebook_page_likes.to_i
+  end
+
+  def site_logo_size_validation
+    if site_logo.present?
+      image = MiniMagick::Image.open(site_logo.path)
+      if  image[:width] > 50 && image[:height] > 50
+        errors.add(:base, "Image should of size 50x50")
+      end
+    end   
   end
 end

@@ -38,9 +38,7 @@
                 = f.inputs :location, class: 'location'
                 - if (controller.action_name == "edit") && (@profile.user.premium_account == true)
                   = render 'site_logo', f: f, profile: @profile
-                  = f.input :site_url,:label => "URL for your website(link on the logo):" 
-                  - if @profile.site_url.present?
-                    = link_to "Open", @profile.site_url, target: '_blank'   
+                  = f.input :site_url,:label => "URL for your website(link on the logo):"   
                 = render 'tech_rider_form_item', f: f, profile: @profile
                 = render 'bank_account_form_item', f: f
                 = f.input :youtube_url
