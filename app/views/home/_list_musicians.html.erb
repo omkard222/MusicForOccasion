@@ -16,7 +16,8 @@
               </a>
               <% if profile.site_logo.present? %>
                 <% if profile.site_url.present? %>
-                  <a href="<%= profile.site_url%>" target="_blank">
+                  <% url = profile.site_url.split("//").last %> 
+                  <a href="http://<%= url%>" target="_blank">
                     <%= image_tag profile.site_logo, id: 'site_logo_show'%>
                   </a>
                 <% else %>
