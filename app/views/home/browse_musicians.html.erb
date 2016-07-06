@@ -11,14 +11,22 @@
               <label class="col-md-2 control-label">Musician Name</label>
 
               <div class="col-md-10">
-                <%= text_field_tag 'stage_name', nil, placeholder: 'Musician Name', class: 'form-control' %>
+                <% if @stage_name.present?%>
+                  <%= text_field_tag 'stage_name', @stage_name, placeholder: 'Musician Name', class: 'form-control' %>
+                <% else %>
+                  <%= text_field_tag 'stage_name', nil, placeholder: 'Musician Name', class: 'form-control' %>
+                <% end %>  
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-2 control-label">Location</label>
 
               <div class="col-md-8">
-                <%= text_field_tag 'location', nil, id: 'search_location', placeholder: 'City, Country', class: 'form-control', value: params[:location] %>
+                <% if @location.present?%>
+                  <%= text_field_tag 'location', @location, id: 'search_location', placeholder: @location, class: 'form-control'%>
+                <% else %>
+                  <%= text_field_tag 'location', nil, id: 'search_location', placeholder: 'City, Country', class: 'form-control', value: params[:location] %>
+                <% end %>  
               </div>
               <span type="button" class="clear_location btn btn-default col-md-2">Clear Location</span>
             </div>
@@ -26,24 +34,43 @@
               <label class="col-md-2 control-label">Genres</label>
 
               <div class="col-md-10">
-                <%= select_tag :genre_id,
+                <% if @genres.present? %>
+                  <%= select_tag :genre_id,
+                               grouped_options_for_select(
+                                   @select2_form[:genre_id], selected_key = @genres
+                               ), name: 'profile[instrument_id][]',
+                               multiple: true, required: true,
+                               'style' => 'display: block; visibility: visible; position: absolute; margin-top: 4px; margin-left: 4px; width: 100%;', class: 'form-control myvi' %>
+
+                <% else %>
+                  <%= select_tag :genre_id,
                                grouped_options_for_select(
                                    @select2_form[:genre_id]
                                ), name: 'profile[instrument_id][]',
                                multiple: true, required: true,
                                'style' => 'display: block; visibility: visible; position: absolute; margin-top: 4px; margin-left: 4px; width: 100%;', class: 'form-control myvi' %>
+                <% end %>               
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-2 control-label">Instrument</label>
 
               <div class="col-md-10">
-                <%= select_tag :instrument_id,
+                <% if @instruments.present?%>
+                  <%= select_tag :instrument_id,
+                               grouped_options_for_select(
+                                   @select2_form[:instrument_id], selected_key = @instruments
+                               ), name: 'profile[instrument_id][]',
+                               multiple: true, required: true,
+                               'style' => 'display: block; visibility: visible; position: absolute; margin-top: 4px; margin-left: 4px; width: 100%;', class: 'form-control' %>
+                <% else %>
+                  <%= select_tag :instrument_id,
                                grouped_options_for_select(
                                    @select2_form[:instrument_id]
                                ), name: 'profile[instrument_id][]',
                                multiple: true, required: true,
                                'style' => 'display: block; visibility: visible; position: absolute; margin-top: 4px; margin-left: 4px; width: 100%;', class: 'form-control' %>
+              <% end %>                 
               </div>
             </div>
         <% end %>
