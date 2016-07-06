@@ -64,6 +64,7 @@ class HomeController < ApplicationController
 
   def browse_musicians
     if session[:stage_name].present? || session[:location].present? || session[:genres].present? || session[:instruments].present?
+      #raise params.inspect
       params[:stage_name] = session[:stage_name] 
       params[:location] = session[:location] 
       params[:genres]= session[:genres]
@@ -83,11 +84,15 @@ class HomeController < ApplicationController
       @location = params[:location]
       @genres = params[:genres].split(",") if params[:genres].present?
       @instruments = params[:instruments].split(",") if params[:instruments].present?
-      session[:stage_name] = ""
-      session[:location] = ""
-      session[:genres] = ""
-      session[:instruments] = ""
-    else  
+      # session[:stage_name] = ""
+      # session[:location] = ""
+      # session[:genres] = ""
+      # session[:instruments] = ""
+      session[:stage_name] = nil 
+      session[:location] = nil 
+      session[:genres] = nil 
+      session[:instruments] = nil 
+    else
       @profiles = Profile.musician_has_services
       @select2_form = {
         instrument_id: [['', Instrument.order(:name).all.map { |i| ["#{i.name}", i.id] }]],
