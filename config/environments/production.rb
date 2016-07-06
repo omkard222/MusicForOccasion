@@ -1,6 +1,9 @@
 Rails.application.configure do
-  config.action_mailer.default_url_options =
-    { host: ENV['DOMAIN_NAME'] }
+  # config.action_mailer.default_url_options =
+  #   { host: ENV['DOMAIN_NAME'] }
+
+  config.action_mailer.default_url_options = {:host=>"gigzbazzar.herokuapp.com"}
+  
   # Code is not reloaded between requests.
   config.cache_classes = true
 
