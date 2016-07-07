@@ -12,21 +12,23 @@
     <div class="row">
       <div class="col-sm-3">
         <%= image_tag(@profile.picture, class: 'img-rounded img-responsive') %>
+        <% @pic="http://gigzbazzar.herokuapp.com/assets/logo.png"%>
+        <% @urll = "http://gigzbazzar.herokuapp.com/profile/#{@profile.slug}"%>
+        <% @ll = "http://gigzbazzar.herokuapp.com/profile/#{@profile.slug}"%>
+        <% @name = "Check my profile on www.gigbazaar.com!Here you can book me easily now!"%>
+        <% @desc = "Find Musicians and DJs and get jjob offers aroundthe world."%>
+          <!-- <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=263498987348507&amp;display=popup&amp;description=faceeeeeeeeebokkk&amp;name=delhiii&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');">share on facebook</a> -->
+          <div style="margin-left: 20px;">
+            <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=263498987348507&amp;display=popup&amp;description=<%= @desc%>&amp;name=<%= @name%>&amp;link=<%= @ll%>&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');"><%= image_tag("/assets/fbb-share.png")%></a>
+          </div>  
+
       </div>
+
       <div class="col-sm-4">
         <h3 class="break_word"><%= @profile.virtual_name %>
           <div class="rateit" data-rateit-value="<%= @score_average %>" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true"></div><%= "("+"#{@rate_count.to_s}"+")" %>
         </h3>
         <br>
-          <% @pic="http://gigzbazzar.herokuapp.com/assets/logo.png"%>
-          <% @urll = "http://gigzbazzar.herokuapp.com/profile/#{@profile.slug}"%>
-          <% @ll = "http://gigzbazzar.herokuapp.com/profile/#{@profile.slug}"%>
-          <% @name = "Check my profile on www.gigbazaar.com!Here you can book me easily now!"%>
-          <% @desc = "Find Musicians and DJs and get jjob offers aroundthe world."%>
-            <!-- <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=263498987348507&amp;display=popup&amp;description=faceeeeeeeeebokkk&amp;name=delhiii&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');">share on facebook</a> -->
-
-            <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=263498987348507&amp;display=popup&amp;description=<%= @desc%>&amp;name=<%= @name%>&amp;link=<%= @ll%>&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');">share on facebook</a>
-
         <%- if @profile.genres.present? %>
           <h4>
             <i class="fa fa-music"></i>
