@@ -88,10 +88,10 @@ class HomeController < ApplicationController
         # session[:location] = ""
         # session[:genres] = ""
         # session[:instruments] = ""
-        session[:stage_name] = nil 
-        session[:location] = nil 
-        session[:genres] = nil 
-        session[:instruments] = nil
+        # session[:stage_name] = nil 
+        # session[:location] = nil 
+        # session[:genres] = nil 
+        # session[:instruments] = nil
       end    
     else
       @profiles = Profile.musician_has_services
