@@ -93,6 +93,7 @@
 
         $(".clear_location").on("click", function(){
           $('#search_location').val('');
+          $('#search_location').attr("placeholder", "City, Country");
           browse_musicians();
         });
 
