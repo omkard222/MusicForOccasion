@@ -18,7 +18,7 @@
               <%= image_tag @profile.site_logo, id: 'site_logo_showw', :size => "50x50"%>
             </a>
           <% else %>
-            <%= image_tag @profile.site_logo, id: 'site_logo_showw'%>
+            <%= image_tag @profile.site_logo, id: 'site_logo_showw', :size => "50x50"%>
           <% end %>  
         <% end %>   
         <%= image_tag(@profile.picture, class: 'img-rounded img-responsive') %>
