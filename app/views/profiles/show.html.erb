@@ -11,7 +11,7 @@
     <% end %>
     <div class="row">
       <div class="col-sm-3">
-        <% if @profile.site_logo.present? && profile.user.premium_account?%>
+        <% if @profile.site_logo.present? && @profile.user.premium_account?%>
           <% if @profile.site_url.present? %>
             <% url = @profile.site_url.split("//").last %> 
             <a href="http://<%= url%>" target="_blank">
