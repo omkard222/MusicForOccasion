@@ -11,6 +11,16 @@
     <% end %>
     <div class="row">
       <div class="col-sm-3">
+        <% if @profile.site_logo.present? %>
+          <% if @profile.site_url.present? %>
+            <% url = @profile.site_url.split("//").last %> 
+            <a href="http://<%= url%>" target="_blank">
+              <%= image_tag @profile.site_logo, id: 'site_logo_showw', :size => "50x50"%>
+            </a>
+          <% else %>
+            <%= image_tag @profile.site_logo, id: 'site_logo_showw'%>
+          <% end %>  
+        <% end %>   
         <%= image_tag(@profile.picture, class: 'img-rounded img-responsive') %>
         <% @pic="http://gigzbazzar.herokuapp.com/assets/logo.png"%>
         <% @urll = "http://gigzbazzar.herokuapp.com/profile/#{@profile.slug}"%>
@@ -18,9 +28,9 @@
         <% @name = "Check my profile on www.gigbazaar.com!Here you can book me easily now!"%>
         <% @desc = "Find Musicians and DJs and get jjob offers aroundthe world."%>
           <!-- <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=263498987348507&amp;display=popup&amp;description=faceeeeeeeeebokkk&amp;name=delhiii&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');">share on facebook</a> -->
-          <div style="margin-left: 20px;">
-            <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=263498987348507&amp;display=popup&amp;description=<%= @desc%>&amp;name=<%= @name%>&amp;link=<%= @ll%>&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');"><%= image_tag("/assets/fbb-share.png")%></a>
-          </div>  
+        <div style="margin-left: 20px;">
+          <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=263498987348507&amp;display=popup&amp;description=<%= @desc%>&amp;name=<%= @name%>&amp;link=<%= @ll%>&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');"><%= image_tag("/assets/fbb-share.png")%></a>
+        </div>   
 
       </div>
 
@@ -561,5 +571,13 @@
     margin-top: 10px;
     margin-left: 10px;
     position: unset;
+  }
+
+  #site_logo_showw{
+    z-index: 99999;
+    left: 44%;
+    right: 50%;
+    position: absolute;
+    top: 0;
   }
 </style>

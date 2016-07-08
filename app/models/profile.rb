@@ -32,7 +32,7 @@ class Profile < ActiveRecord::Base
   mount_uploader :site_logo, SiteLogoUploader
   alias_attribute :name, :username
   
-  validate :site_logo_size_validation, unless: -> { site_logo.blank? }
+  #validate :site_logo_size_validation, unless: -> { site_logo.blank? }
 
   before_save :save_slug
   before_save :set_position_priority

@@ -231,8 +231,6 @@ class ProfilesController < ApplicationController
       if @profile.biography && @profile.biography.length > 750
         # @bio_show = @profile.biography[0..1250].squish
         # @bio_hide = @profile.biography[1251..-1].try(:squish)
-        # @bio_show = @profile.biography[0..1250].squish
-        # @bio_hide = @profile.biography[1251..-1]
         @bio_show = @profile.biography[0..750]
         @bio_hide = @profile.biography[750..-1]
       else
@@ -258,10 +256,10 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    session[:stage_name] = ""
-    session[:location] = ""
-    session[:genres] = ""
-    session[:instruments] = ""
+    # session[:stage_name] = ""
+    # session[:location] = ""
+    # session[:genres] = ""
+    # session[:instruments] = ""
     profile = Profile.find_by_id(params[:id])
     if profile.nil?
       redirect_to root_url, flash: {error: translate('.not_found')}
@@ -276,7 +274,6 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    #raise params.inspect
     @profile = Profile.find(params[:id])
     if @profile.update(update_profile)
       respond_to do |format|
@@ -401,12 +398,12 @@ class ProfilesController < ApplicationController
     if update_profile['location'].blank?
       flash[:error] = 'Please provide valid location'
     else
-      image = MiniMagick::Image.open(update_profile['site_logo'].path)
-      if image[:width] > 50 && image[:height] > 50
-        flash[:error] = 'Image should be of Size 50x50.'
-      else
-        flash[:error] = 'Stage name has already been taken.'
-      end  
+      # image = MiniMagick::Image.open(update_profile['site_logo'].path)
+      # if image[:width] > 50 && image[:height] > 50
+      #   flash[:error] = 'Image should be of Size 50x50.'
+      # else
+      flash[:error] = 'Stage name has already been taken.'
+      #end  
     end
     select2_form
     render 'edit'

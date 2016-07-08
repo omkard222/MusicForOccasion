@@ -9,6 +9,7 @@
       <div class="musician">
         <div class="row">
           <div class="col-md-12">
+            
             <div class="musician-image">
               <a href="<%= profile_slug_url(profile.slug) %>">
                 <label class="btn-booking">view profile</label>
@@ -18,7 +19,7 @@
                 <% if profile.site_url.present? %>
                   <% url = profile.site_url.split("//").last %> 
                   <a href="http://<%= url%>" target="_blank">
-                    <%= image_tag profile.site_logo, id: 'site_logo_show'%>
+                    <%= image_tag profile.site_logo, id: 'site_logo_show', :size => "50x50"%>
                   </a>
                 <% else %>
                   <%= image_tag profile.site_logo, id: 'site_logo_show'%>
