@@ -60,7 +60,7 @@
                     br
                     a.btn.btn_connect.profile_save href='/users/auth/facebook'
                       = t('.connect_facebook')
-                    //= link_to 'Connect', facebook_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}
+                    = link_to 'Connect', facebook_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}
                 - if @profile.twitter_token && @profile.twitter_secret
                   = f.input :twitter_followers, label: 'Twitter followers'
                   .space5

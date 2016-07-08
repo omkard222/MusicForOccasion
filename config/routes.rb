@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get "profiles/facebook_two" => 'profiles#facebook_two', :as => :facebook_two
   post '/profiles/invite_friend' => 'profiles#invite_friend'
   post "/profiles/user_email_change" => 'profiles#user_email_change', :as => :user_email_change
+  get "/facebook_disconnect_friend" => "profiles#facebook_disconnect_friend", :as => :facebook_disconnect_friend 
   constraints(id: /[0-9]+/) do
     resources :profiles, only: [:show, :edit, :update, :destroy] do
       get :choose_profile

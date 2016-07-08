@@ -10,28 +10,55 @@ class ProfileMailer < ApplicationMailer
   end
 
   def invite_mail(profile, name, email)
-  	#raise email.inspect
   	@profile = profile
+    @slug = @profile.slug
   	@email = email
   	@name = name
   	@profile_name = profile.user.first_name 
-    mail(to: email, subject: "Invition mail")
+    #mail(to: email, subject: "invitation from #{@profile.stage_name} to connect with gigbazaar")
+    mail(to: "rupinder.enbake@gmail.com", subject: "invitation from #{@profile.stage_name} to connect with gigbazaar")
   end
 
   def facebook_connect_success_user(profile, name, email)
   	@profile = profile
   	@email = email
   	@name = name
-  	@profile_name = profile.user.first_name 
-    mail(to: email, subject: "Invition mail") 
+  	@profile_name = profile.user.first_name
+    @slug = @profile.id 
+    #mail(to: email, subject: "connected #{@name} with facebook successfully")
+    mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with facebook successfully") 
   end 
   def facebook_connect_success_profile(profile, name, email)
   	@profile = profile
   	@email = email
   	@name = name
-  	@profile_name = profile.user.first_name 
-    mail(to: email, subject: "Invition mail") 
+    @slug = @profile.id
+  	@profile_name = profile.user.first_name
+    @profile_email = profile.user.email 
+    #mail(to: @profile_email, subject: "connected #{@name} with facebook successfully")
+    mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with facebook successfully") 
+  end
+
+  def facebook_disconnect_success_user(profile, name, email)
+    @profile = profile
+    @email = email
+    @name = name
+    @slug = @profile.id
+    @profile_name = profile.user.first_name 
+    #mail(to: @email, subject: "disconnected #{@name} with facebook successfully")
+    mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with facebook successfully")
   end 
+
+  def facebook_disconnect_success_profile(profile, name, email)
+    @profile = profile
+    @email = email
+    @name = name
+    @slug = @profile.id
+    @profile_name = profile.user.first_name
+    @profile_email = profile.user.email
+    #mail(to: @profile_email, subject: "disconnected #{@name} with facebook successfully")
+    mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with facebook successfully")
+  end  
    
    def profile_mail_previous(profile, old_user, new_user)
     @profile = profile

@@ -137,8 +137,10 @@ class ProfilesController < ApplicationController
   def facebook_page
     user_profile = current_user.current_profile
     url = "https://graph.facebook.com/me/accounts?access_token="+current_user.current_profile.facebook_token.to_s
-    #ProfileMailer.facebook_connect_success_user(user_profile, user_profile.username,user_profile.headline).deliver_now
-    #ProfileMailer.facebook_connect_success_profile(user_profile, user_profile.username,user_profile.headline).deliver_now
+    ProfileMailer.facebook_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+    ProfileMailer.facebook_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+    user_profile.fb_connect_time = Time.now
+    user_profile.save 
     begin
       fb_info_json = JSON.parse(open(url).read)
       @pages_info = fb_info_json["data"]
@@ -178,6 +180,25 @@ class ProfilesController < ApplicationController
       flash[:error] = "Failed to disconnect facebook"
     end
     redirect_to edit_profile_path(current_user.current_profile.id)
+  end
+
+  def facebook_disconnect_friend
+    user_profile = Profile.find(params[:source])
+    if user_profile
+      begin
+        user_profile.disconnect_facebook!
+        ProfileMailer.facebook_disconnect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+        ProfileMailer.facebook_disconnect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+        user_profile.fb_disconnect_time = Time.now 
+        user_profile.save
+      rescue
+        flash[:error] = "Failed to disconnect facebook"
+      end
+      flash[:notice] = "Disconnected successfully with your facebook page."
+    else
+      flash[:error] = "Failed to disconnect facebook"
+    end
+    redirect_to profile_path(user_profile.id)
   end
 
   def twitter_disconnect
@@ -339,8 +360,6 @@ class ProfilesController < ApplicationController
 
   def facebook_two
     @profile = Profile.find(current_user.current_profile.id)
-    
-    #raise "bdbdfjbdfj".inspect
     respond_to do |format|
       format.html
       format.js
@@ -355,11 +374,8 @@ class ProfilesController < ApplicationController
     user_profile.invite_friend_name = params[:name]
     user_profile.invite_friend_email = params[:email]
     user_profile.save
-    #ProfileMailer.invite_mail(user_profile, name, email).deliver_now
-    # raise user_profile.inspect
-    # respond_to do |format|
-    #   format.html
-    # end
+    ProfileMailer.invite_mail(user_profile, name, email).deliver_now
+    flash[:success] = "email sent successfully"
     redirect_to edit_profile_path(user_profile.id)
   end 
 

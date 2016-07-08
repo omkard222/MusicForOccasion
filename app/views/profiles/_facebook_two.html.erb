@@ -7,14 +7,17 @@
             
         </div>
         <div class="modal-body">
-           <div class="te">
+           <div class="invite_friend">
              <form action="/profiles/invite_friend" id="friend" method="post">
                 Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name"><br>
                 email address:<input type="text" name="email">
                 <!-- <input type="submit" value="Submit"> -->
                 <br/>
-                <button type="submit" value=" Send" class="btn btn-success" id="submit_form">Send</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <br/>
+                <div class="send">
+                  <button type="submit" value=" Send" class="btn btn-success" id="submit_form">Send</button>&nbsp;&nbsp;&nbsp;
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>  
             </form> 
             
            </div>
@@ -33,3 +36,11 @@
 <script>
   
 </script>
+<style type="text/css">
+    .invite_friend{
+        margin-left: 110px;
+    }
+    .send{
+        margin-left: 100px;
+    }
+</style>
