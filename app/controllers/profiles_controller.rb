@@ -352,8 +352,8 @@ class ProfilesController < ApplicationController
     user_profile = current_user.current_profile
     name = params[:name]
     email = params[:email]
-    user_profile.username = params[:name]
-    user_profile.headline = params[:email]
+    user_profile.invite_friend_name = params[:name]
+    user_profile.invite_friend_email = params[:email]
     user_profile.save
     #ProfileMailer.invite_mail(user_profile, name, email).deliver_now
     # raise user_profile.inspect
@@ -366,7 +366,11 @@ class ProfilesController < ApplicationController
   def user_email_change
     @profile = Profile.find(params[:profile_id])
     @user = User.where(:email => params[:email]).first
+    @user_fname = @user.first_name
+    @user_lname = @user.last_name
     @old_user = User.where(:email => params[:old_email]).first
+    @old_user_fname = @old_user.first_name
+    @old_user_lname = @old_user.last_name
     old_email = params[:old_email]
     new_email = params[:email]
     if @user.present? && @profile.present? && @old_user.present?
@@ -375,7 +379,7 @@ class ProfilesController < ApplicationController
       ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
     end  
     respond_to do |format|
-      format.json{ render :json=>  {:status => 200, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_created_at => @profile.created_at.strftime('%d/%m/%y'), :profile_migrated_at => @profile.migration_date.strftime('%d/%m/%y') } }
+      format.json{ render :json=>  {:status => 200, :old_user_fname => @old_user_fname, :old_user_lname => @old_user_lname, :user_lname => @user_lname, :user_fname => @user_fname, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_created_at => @profile.created_at.strftime('%d/%m/%y'), :profile_migrated_at => @profile.migration_date.strftime('%d/%m/%y') } }
     end  
   end
 

@@ -42,9 +42,9 @@
         dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
       }).success(function(json){
         var html1 = "<p>"+json.profile_name+" created by account <a href='/admin/user/"+json.old_user_id+"'>"
-          +"Account</a> with email "+json.old_email+" on  "+json.profile_created_at+"</p>"
+          +json.old_user_fname+" "+json.old_user_lname+"</a> with email "+json.old_email+" on  "+json.profile_created_at+"</p>"
         var html2 = "<p>"+json.profile_name+" migrated to account <a href='/admin/user/"+json.new_user_id+"'>"
-          +"Account</a> with email "+json.new_email+" on  "+json.profile_migrated_at+"</p>"
+          +json.user_fname+" "+json.user_lname+"</a> with email "+json.new_email+" on  "+json.profile_migrated_at+"</p>"
         var html3 = html1+html2
         $("#history_back").html(html3); 
         $("#history").html(html3);
