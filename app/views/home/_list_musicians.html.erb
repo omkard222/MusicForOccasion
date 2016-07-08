@@ -15,7 +15,7 @@
                 <label class="btn-booking">view profile</label>
                 <%= image_tag profile.picture, id: 'img-profile', class: 'img-responsive' %>
               </a>
-              <% if profile.site_logo.present? %>
+              <% if profile.site_logo.present? && profile.user.premium_account?%>
                 <% if profile.site_url.present? %>
                   <% url = profile.site_url.split("//").last %> 
                   <a href="http://<%= url%>" target="_blank">
