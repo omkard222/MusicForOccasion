@@ -84,16 +84,12 @@ class HomeController < ApplicationController
         @location = params[:location]
         @genres = params[:genres].split(",") if params[:genres].present?
         @instruments = params[:instruments].split(",") if params[:instruments].present?
-        # session[:stage_name] = ""
-        # session[:location] = ""
-        # session[:genres] = ""
-        # session[:instruments] = ""
-        # session[:stage_name] = nil 
-        # session[:location] = nil 
-        # session[:genres] = nil 
-        # session[:instruments] = nil
       end    
     else
+      session[:stage_name] = ""
+      session[:location] = ""
+      session[:genres] = ""
+      session[:instruments] = ""
       @profiles = Profile.musician_has_services
       @select2_form = {
         instrument_id: [['', Instrument.order(:name).all.map { |i| ["#{i.name}", i.id] }]],

@@ -1,6 +1,5 @@
 <% if session[:stage_name].present? || session[:location].present? || session[:genres].present? || session[:instruments].present?%>
-  <%= link_to '<i class="glyphicon glyphicon-chevron-left"></i>Back to search'.html_safe, browse_musicians_path(:back => "ok"), :id => "back_search", :class => "btn btn-primary"%>
-  
+    <%= link_to '<i class="glyphicon glyphicon-chevron-left"></i>Back to search'.html_safe, browse_musicians_path(:back => "ok"), :id => "back_search", :class => "btn btn-primary"%>
 <% end %>  
 <div class="top-profile">
   <div class="container">
@@ -561,6 +560,6 @@
   #back_search{
     margin-top: 10px;
     margin-left: 10px;
-    position: absolute;
+    position: unset;
   }
 </style>

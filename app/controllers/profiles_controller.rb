@@ -258,6 +258,10 @@ class ProfilesController < ApplicationController
   end
 
   def show
+    session[:stage_name] = ""
+    session[:location] = ""
+    session[:genres] = ""
+    session[:instruments] = ""
     profile = Profile.find_by_id(params[:id])
     if profile.nil?
       redirect_to root_url, flash: {error: translate('.not_found')}
