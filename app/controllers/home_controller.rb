@@ -84,6 +84,15 @@ class HomeController < ApplicationController
         @location = params[:location]
         @genres = params[:genres].split(",") if params[:genres].present?
         @instruments = params[:instruments].split(",") if params[:instruments].present?
+      else
+        @profiles = Profile.musician_has_services
+        @select2_form = {
+          instrument_id: [['', Instrument.order(:name).all.map { |i| ["#{i.name}", i.id] }]],
+          genre_id: [['', Genre.order(:name).all.map { |g| ["#{g.name}", g.id] }]]
+        }
+        @search_term = params[:location]
+        @profiles = location_filter(@profiles, @search_term) if @search_term.present?
+        @profiles = priority_ordering(@profiles, 50)  
       end    
     else
       session[:stage_name] = ""
