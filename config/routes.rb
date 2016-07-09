@@ -32,9 +32,13 @@ Rails.application.routes.draw do
   get '/profiles/list' => 'profiles#users_profiles_list' , as: :profiles_users_profiles_list
   get "profiles/facebook_one" => 'profiles#facebook_one', :as => :facebook_one
   get "profiles/facebook_two" => 'profiles#facebook_two', :as => :facebook_two
+  get "profiles/twitter_one" => 'profiles#twitter_one', :as => :twitter_one
+  get "profiles/twitter_two" => 'profiles#twitter_two', :as => :twitter_two
   post '/profiles/invite_friend' => 'profiles#invite_friend'
+  post '/profiles/invite_twitter_friend' => 'profiles#invite_twitter_friend'
   post "/profiles/user_email_change" => 'profiles#user_email_change', :as => :user_email_change
-  get "/facebook_disconnect_friend" => "profiles#facebook_disconnect_friend", :as => :facebook_disconnect_friend 
+  get "/facebook_disconnect_friend" => "profiles#facebook_disconnect_friend", :as => :facebook_disconnect_friend
+  get "/twitter_disconnect_friend" => "profiles#twitter_disconnect_friend", :as => :twitter_disconnect_friend 
   constraints(id: /[0-9]+/) do
     resources :profiles, only: [:show, :edit, :update, :destroy] do
       get :choose_profile

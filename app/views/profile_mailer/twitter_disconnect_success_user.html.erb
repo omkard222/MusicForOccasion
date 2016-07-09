@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <%= stylesheet_link_tag 'mailer', media: 'all' %>
+  </head>
+  <body class="mailer-body">
+    <div class="header wrapper">
+      <div class="logo">
+        <%= image_tag 'mailer/logo.png', alt: 'gigBazaar', class: 'logo' %>
+      </div>
+    </div>
+    <div class="content wrapper">
+      <div class="profile-email">
+	  <p>Hello <%= @name%>, </p>
+
+	  <p>Your profile <%= @name %> is now disconnected to Twitter.</p>
+
+	  <p>You can view again the profile <a href="http://gigzbazzar.herokuapp.com/profiles/<%= @slug%>"%>here</a></p>
+
+	  <p>Contact us if you need any clarifications.</p>
+
+	  <p>Best Regards,</p>
+    <hr class="line"/>
+    </div>  
+      <p class="preferences-note">
+        Your preferences are set to receive <%= link_to "Email Notifications", notifications_url%>
+        <br/>
+        <%= "You can manage your notification preferences." %>
+        <br/>
+        <%= link_to "Privacy Policy", privacy_policy_url, class: 'privacy-policy' %>
+      </p>
+
+    <div class="footer-note">
+      <%= "We are Passion - We are Vibration - We are Everywhere" %>
+    </div>
+  </body>
+</html>

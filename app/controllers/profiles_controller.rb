@@ -2,7 +2,7 @@
 class ProfilesController < ApplicationController
   include ApplicationHelper
   include ServicesHelper
-  skip_before_filter :verify_authenticity_token, :only => [:invite_friend, :user_email_change]
+  skip_before_filter :verify_authenticity_token, :only => [:invite_friend, :user_email_change, :invite_twitter_friend]
 
   before_action :authenticate_user!, except: [:show, :show_slug, :new, :create, :paypal_confirmation, :invite_friend, :user_email_change]
   before_action :verify_user, only: [:edit, :update, :delete]
@@ -220,6 +220,30 @@ class ProfilesController < ApplicationController
     redirect_to edit_profile_path(current_user.current_profile.id)
   end
 
+
+  def twitter_disconnect_friend
+    user_profile = Profile.find(params[:source])
+    if user_profile
+      begin
+        user_profile.twitter_token = nil
+        user_profile.twitter_secret = nil
+        user_profile.twitter_followers = nil
+        user_profile.twitter_name = nil
+        user_profile.save!
+      rescue
+        flash[:error] = "Failed to disconnect twitter"
+      end
+      flash[:notice] = "Disconnected successfully with Tweeter."
+    else
+      flash[:error] = "Failed to disconnect twitter"
+    end
+    user_profile.twitter_disconnect_time = Time.now 
+    user_profile.save
+    ProfileMailer.twitter_disconnect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+    ProfileMailer.twitter_disconnect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+    redirect_to edit_profile_path(current_user.current_profile.id)
+  end
+
   def youtube_disconnect
     user_profile = current_user.current_profile
     if user_profile
@@ -366,6 +390,21 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def twitter_one
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
+  def twitter_two
+    @profile = Profile.find(current_user.current_profile.id)
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
+
 
    def invite_friend
     user_profile = current_user.current_profile
@@ -375,6 +414,18 @@ class ProfilesController < ApplicationController
     user_profile.invite_friend_email = params[:email]
     user_profile.save
     ProfileMailer.invite_mail(user_profile, name, email).deliver_now
+    flash[:success] = "email sent successfully"
+    redirect_to edit_profile_path(user_profile.id)
+  end 
+
+  def invite_twitter_friend
+    user_profile = current_user.current_profile
+    name = params[:name]
+    email = params[:email]
+    user_profile.invite_friend_name = params[:name]
+    user_profile.invite_friend_email = params[:email]
+    user_profile.save
+    ProfileMailer.invite_twitter_mail(user_profile, name, email).deliver_now
     flash[:success] = "email sent successfully"
     redirect_to edit_profile_path(user_profile.id)
   end 

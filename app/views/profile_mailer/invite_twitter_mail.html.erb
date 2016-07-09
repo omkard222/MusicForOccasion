@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <%= stylesheet_link_tag 'mailer', media: 'all' %>
+  </head>
+  <body class="mailer-body">
+    <div class="header wrapper">
+      <div class="logo">
+        <%= image_tag 'mailer/logo.png', alt: 'gigBazaar', class: 'logo' %>
+      </div>
+    </div>
+    <div class="content wrapper">
+      <div class="profile-email">
+	  <p>Hello <%= @name%>, </p>
+
+	  <p>I am Gee, the administrator of gigBazaar.com</p>
+
+	  <p>You have received an invitation from <%= @profile_name%> to connect the profile of <%= @name%> to its Twitter account.
+
+	  <p>Connecting the profile will increase its popularity and coverage online to get new live music opportunities.</p>
+
+	  <p>Simply click on the connect button below to connect the profile with security:</p>
+	  
+	  <a class="btn btn-primary" href="http://gigzbazzar.herokuapp.com/users/auth/twitter"> Connect</a>
+
+	  <p>You can view the  profile by clicking <a href="http://gigzbazzar.herokuapp.com/profile/<%= @slug%>">here</a></p>
+
+	  <p>After connecting a profile, you will be free to disconnect it at any time.</p>
+
+	  <p>Contact us if you need any clarifications.</p>
+
+	  <p>Best Regards,</p>
+
+      <hr class="line"/>
+    </div>  
+      <p class="preferences-note">
+        Your preferences are set to receive <%= link_to "Email Notifications", notifications_url%>
+        <br/>
+        <%= "You can manage your notification preferences." %>
+        <br/>
+        <%= link_to "Privacy Policy", privacy_policy_url, class: 'privacy-policy' %>
+      </p>
+
+    <div class="footer-note">
+      <%= "We are Passion - We are Vibration - We are Everywhere" %>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

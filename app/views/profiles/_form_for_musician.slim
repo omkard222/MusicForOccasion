@@ -16,7 +16,9 @@
                   div id="flash_#{key}"
                     = sanitize(message)
               #modal-window.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
-              #modal-window1.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"       
+              #modal-window1.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+              #modal-window2.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+              #modal-window3.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"       
               = semantic_form_for @profile do |f|
                 .space30
                 = f.input :profile_picture, input_html: { id: 'file' }
@@ -71,6 +73,7 @@
                     br
                     a.btn.btn_connect.profile_save href='/users/auth/twitter'
                       = t('.connect_twitter')
+                    = link_to 'Connect', twitter_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window2'}  
                 - if @profile.soundcloud_datum
                   .number.input.optional.numeric.stringish.form-group
                     span.form-label
