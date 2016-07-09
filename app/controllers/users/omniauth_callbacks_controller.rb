@@ -1,7 +1,6 @@
 module Users
   # controller for facebook authentication
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
-
     def facebook
       if user_signed_in?
         user_profile = current_user.current_profile
@@ -45,6 +44,10 @@ module Users
     def twitter
       user_profile = Profile.find(current_user.current_profile.id)
       if user_profile
+        user_profile.twitter_connect_time = Time.now
+        user_profile.save
+        ProfileMailer.twitter_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+        ProfileMailer.twitter_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
         if user_profile.update(twitter_token: auth.credentials.token, twitter_secret: auth.credentials.secret,
                                twitter_name: auth.info.nickname, twitter_followers: auth.extra.raw_info.followers_count)
           flash[:notice] = "Connected successfully with Twitter."
