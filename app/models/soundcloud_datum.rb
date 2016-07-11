@@ -38,8 +38,6 @@ class SoundcloudDatum < ActiveRecord::Base
   end
 
   def self.soundcloud_client(arguments = nil)
-    cc = App.soundcloud[:id]
-    raise cc.inspect
     arguments_final = arguments || { client_id: App.soundcloud[:id],
                                      client_secret: App.soundcloud[:secret],
                                      redirect_uri: App.soundcloud[:return_url] }
