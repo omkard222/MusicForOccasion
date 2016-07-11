@@ -60,9 +60,9 @@
                   .form-group.margin_bottom_nil
                     label.label-control.margin_bottom_2_5 Facebook: show the number of likes to gain in popularity.
                     br
-                    a.btn.btn_connect.profile_save href='/users/auth/facebook'
-                      = t('.connect_facebook')
-                    = link_to 'Connect', facebook_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}
+                    //a.btn.btn_connect.profile_save href='/users/auth/facebook'
+                      //= t('.connect_facebook')
+                    = link_to 'Connect Facebook', facebook_one_path, {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class =>"btn btn_connect"}
                 - if @profile.twitter_token && @profile.twitter_secret
                   = f.input :twitter_followers, label: 'Twitter followers'
                   .space5
@@ -71,9 +71,9 @@
                   .form-group.margin_bottom_nil
                     label.label-control.margin_bottom_2_5.label_margin Twitter: show the number of followers to gain in popularity.
                     br
-                    a.btn.btn_connect.profile_save href='/users/auth/twitter'
-                      = t('.connect_twitter')
-                    = link_to 'Connect', twitter_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window2'}  
+                    //a.btn.btn_connect.profile_save href='/users/auth/twitter'
+                      //= t('.connect_twitter')
+                    = link_to 'Connect Twitter', twitter_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window2', :class =>"btn btn_connect"}  
                 - if @profile.soundcloud_datum
                   .number.input.optional.numeric.stringish.form-group
                     span.form-label

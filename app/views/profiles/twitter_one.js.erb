@@ -1,2 +1,12 @@
 $('#modal-window2').html("<%= escape_javascript(render 'profiles/twitter_one') %>");
+  var valuesToSubmit = $('form.profile').serialize();
+  var uu = $('form.profile').attr('action');
+  $.ajax({
+      type: "POST",
+      url: $('form.profile').attr('action'), //sumbits it to the given url of the form
+      data: valuesToSubmit,
+      dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+    }).success(function(json){
+      console.log("success", json);
+    });
 $('#modal-window2').modal('show');
