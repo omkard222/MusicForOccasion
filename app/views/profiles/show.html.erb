@@ -557,6 +557,12 @@
     <% end %>
 
   $(document).ready(function(){
+    nn = window.location
+    n1 = nn.toString();
+    n2 = n1.contains("#_=_")
+    if (n2 == true ){
+      window.close();
+    }
     var nn = window.location.search.indexOf('post_id');
     if (nn == 1){
       window.close();
