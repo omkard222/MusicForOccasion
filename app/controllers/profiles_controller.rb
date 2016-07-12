@@ -137,8 +137,10 @@ class ProfilesController < ApplicationController
   def facebook_page
     user_profile = current_user.current_profile
     url = "https://graph.facebook.com/me/accounts?access_token="+current_user.current_profile.facebook_token.to_s
-    ProfileMailer.facebook_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
-    ProfileMailer.facebook_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+    if user_profile.invite_friend_email.present?
+      ProfileMailer.facebook_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+      ProfileMailer.facebook_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+    end 
     user_profile.fb_connect_time = Time.now
     user_profile.save 
     begin
