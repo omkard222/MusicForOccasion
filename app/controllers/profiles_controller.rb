@@ -324,6 +324,8 @@ class ProfilesController < ApplicationController
   end
 
   def edit
+    session[:user_fb_idd] = ""
+    session[:user_fb_idd] = ""
     @profile = Profile.find(params[:id])
     @bank_account = @profile.bank_account || @profile.create_bank_account
   end
