@@ -168,6 +168,7 @@ Rails.application.routes.draw do
   get 'contact'               => 'home#contact'
   post'contact'               => 'home#submit_contact_us', as: :submit_contact_us
   get 'help'                  => 'home#help'
-
+  get '/twitter_home'         => 'home#twitter_home', as: :twitter_home
+  get '/facebook_home'        => 'home#facebook_home', as: :facebook_home
   root 'home#index'
 end
