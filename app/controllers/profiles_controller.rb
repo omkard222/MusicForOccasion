@@ -262,42 +262,52 @@ class ProfilesController < ApplicationController
   end
 
   def show_slug
-    @profile = Profile.find_by_slug(params[:slug])
-    if @profile
-      @twitter_followers = @profile.twitter_followers
-      @popularity = @profile.calculate_popularity
-      @soundcloud = @profile.get_soundcloud_user_info
-      @user = @profile.user
-      @pictures = @profile.additional_pictures.all
-      services = @profile.services.all
-      @services = services.where(deleted_at: nil)
-      @instruments = @profile.instruments
-      get_review = @profile.collect_reviews
-      if @profile.biography && @profile.biography.length > 750
-        # @bio_show = @profile.biography[0..1250].squish
-        # @bio_hide = @profile.biography[1251..-1].try(:squish)
-        @bio_show = @profile.biography[0..750]
-        @bio_hide = @profile.biography[750..-1]
-      else
-        @bio_show = @profile.biography
-        @bio_hide = false
-      end
-      begin
-        review_current_profile = get_review.find_by_reviewer_id(current_profile.id)
-        @old_commented = review_current_profile.message  ? review_current_profile.message : ""
-        @user_rate = review_current_profile.score ? review_current_profile.score : 0
-      rescue
-        @user_rate = 0.00
-      end
-      @reviews_comment = get_review.where.not(message: nil).order(:created_at)
-      review_scores = get_review.where(profile_id: @profile.id, deleted_at: nil)
-      @rate_count = review_scores.where.not(score: nil).count
-      @score_average = review_scores.average(:score).to_f
+    if session[:user_fb_idd].present?
+      profile_id = session[:user_fb_idd]
+      session[:user_fb_idd] = nil 
+      redirect_to edit_profile_path(profile_id)
+    elsif session[:user_idd]
+      profile_id = session[:user_fb_idd]
+      session[:user_idd] = nil 
+      redirect_to edit_profile_path(profile_id)  
+    else   
+      @profile = Profile.find_by_slug(params[:slug])
+      if @profile
+        @twitter_followers = @profile.twitter_followers
+        @popularity = @profile.calculate_popularity
+        @soundcloud = @profile.get_soundcloud_user_info
+        @user = @profile.user
+        @pictures = @profile.additional_pictures.all
+        services = @profile.services.all
+        @services = services.where(deleted_at: nil)
+        @instruments = @profile.instruments
+        get_review = @profile.collect_reviews
+        if @profile.biography && @profile.biography.length > 750
+          # @bio_show = @profile.biography[0..1250].squish
+          # @bio_hide = @profile.biography[1251..-1].try(:squish)
+          @bio_show = @profile.biography[0..750]
+          @bio_hide = @profile.biography[750..-1]
+        else
+          @bio_show = @profile.biography
+          @bio_hide = false
+        end
+        begin
+          review_current_profile = get_review.find_by_reviewer_id(current_profile.id)
+          @old_commented = review_current_profile.message  ? review_current_profile.message : ""
+          @user_rate = review_current_profile.score ? review_current_profile.score : 0
+        rescue
+          @user_rate = 0.00
+        end
+        @reviews_comment = get_review.where.not(message: nil).order(:created_at)
+        review_scores = get_review.where(profile_id: @profile.id, deleted_at: nil)
+        @rate_count = review_scores.where.not(score: nil).count
+        @score_average = review_scores.average(:score).to_f
 
-      render :show
-    else
-      redirect_to root_url, :flash => { :error => "Musician not found." }
-    end
+        render :show
+      else
+        redirect_to root_url, :flash => { :error => "Musician not found." }
+      end
+    end  
   end
 
   def show
