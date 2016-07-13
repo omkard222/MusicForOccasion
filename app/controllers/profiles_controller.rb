@@ -200,7 +200,7 @@ class ProfilesController < ApplicationController
     else
       flash[:error] = "Failed to disconnect facebook"
     end
-    redirect_to profile_path(user_profile.id)
+    redirect_to edit_profile_path(user_profile.id)
   end
 
   def twitter_disconnect
@@ -418,7 +418,6 @@ class ProfilesController < ApplicationController
       format.js
     end
   end
-
 
    def invite_friend
     user_profile = current_user.current_profile
