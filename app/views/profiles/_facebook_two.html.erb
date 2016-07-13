@@ -9,13 +9,13 @@
         <div class="modal-body">
            <div class="invite_friend">
              <form action="/profiles/invite_friend" id="friend" method="post">
-                Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name"><br>
-                email address:<input type="text" name="email">
+                Name:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="name" required><br>
+                email address:<input type="text" name="email" required>
                 <!-- <input type="submit" value="Submit"> -->
                 <br/>
                 <br/>
                 <div class="send">
-                  <button type="submit" value=" Send" class="btn btn-success" id="submit_form">Send</button>&nbsp;&nbsp;&nbsp;
+                  <button type="submit" value=" Send" class="btn btn-primary" id="submit_form">Send</button>&nbsp;&nbsp;&nbsp;
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>  
             </form> 

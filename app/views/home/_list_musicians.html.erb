@@ -18,8 +18,8 @@
               <% if profile.site_logo.present? && profile.user.premium_account?%>
                 <% if profile.site_url.present? %>
                   <% url = profile.site_url.split("//").last %> 
-                  <a href="http://<%= url%>" target="_blank">
-                    <%= image_tag profile.site_logo, id: 'site_logo_show', :size => "50x50"%>
+                  <a href="http://<%= url%>"  target="_blank">
+                    <%= image_tag profile.site_logo, id: 'site_logo_show', :onmouseover=>"bigImg(this)", :onmouseout=>"normalImg(this)", :size => "50x50"%>
                   </a>
                 <% else %>
                   <%= image_tag profile.site_logo, id: 'site_logo_show', :size => "50x50"%>
@@ -88,6 +88,12 @@
 <% end %>
 <script type="text/javascript">
   $('div.rating').rateit();
+  function bigImg(x) {
+    $(".btn-booking").hide();
+  }
+  function normalImg(x) {
+    $(".btn-booking").show();
+  }
 </script>
 <style>
   #site_logo_show{
