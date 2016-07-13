@@ -44,11 +44,12 @@ module Users
     def twitter
       user_profile = Profile.find(current_user.current_profile.id)
       if user_profile
-        user_profile.twitter_connect_time = Time.now
-        user_profile.save
         if user_profile.invite_friend_email.present?
           ProfileMailer.twitter_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
           ProfileMailer.twitter_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+          user_profile.twitter_connect_time = Time.now
+          user_profile.twitter_dis_connect_time = nil
+          user_profile.save
         end 
         if user_profile.update(twitter_token: auth.credentials.token, twitter_secret: auth.credentials.secret,
                                twitter_name: auth.info.nickname, twitter_followers: auth.extra.raw_info.followers_count)

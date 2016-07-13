@@ -140,9 +140,10 @@ class ProfilesController < ApplicationController
     if user_profile.invite_friend_email.present?
       ProfileMailer.facebook_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
       ProfileMailer.facebook_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+      user_profile.fb_connect_time = Time.now
+      user_profile.fb_disconnect_time = nil
+      user_profile.save 
     end 
-    user_profile.fb_connect_time = Time.now
-    user_profile.save 
     begin
       fb_info_json = JSON.parse(open(url).read)
       @pages_info = fb_info_json["data"]
