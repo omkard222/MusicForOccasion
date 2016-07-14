@@ -364,7 +364,7 @@ class ProfilesController < ApplicationController
     @profile = Profile.find(params[:id])
     @bank_account = @profile.bank_account || @profile.create_bank_account
   end
-
+ 
   def update
     @profile = Profile.find(params[:id])
     if @profile.update(update_profile)
@@ -453,7 +453,12 @@ class ProfilesController < ApplicationController
   end
 
   def profile_save_params
-    session[:profile_edit_value] = params[:profile]
+    # session[:edit_stage_name] = params[:profile][:stage_name]
+    # session[:edit_category] = params[:profile][:category]
+    # session[:edit_instrument_ids] = params[:profile][:instrument_ids]
+    # session[:edit_genre_ids] = params[:profile][:genre_ids]
+    # session[:edit_biography] = params[:profile][:biography]
+    # session[:edit_location] = params[:profile][:location]
     respond_to do |format|
       format.json{ render :json=>  {:status => 200, :response=>"ok"} }
     end     
@@ -494,12 +499,17 @@ class ProfilesController < ApplicationController
     old_email = params[:old_email]
     new_email = params[:email]
     if @user.present? && @profile.present? && @old_user.present?
+      @profile.update_columns(:update_date => @profile.migration_date ) if @profile.migration_date.present?
       @profile.update_columns(:user_id => @user.id, :previous_account_mail => old_email, :migration_date => Time.now )
       ProfileMailer.profile_mail_previous(@profile, @old_user, @user).deliver_now
       ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
     end  
     respond_to do |format|
-      format.json{ render :json=>  {:status => 200, :old_user_fname => @old_user_fname, :old_user_lname => @old_user_lname, :user_lname => @user_lname, :user_fname => @user_fname, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_created_at => @profile.created_at.strftime('%d/%m/%y'), :profile_migrated_at => @profile.migration_date.strftime('%d/%m/%y') } }
+      if @profile.update_date.present?
+        format.json{ render :json=>  {:status => 200, :old_user_fname => @old_user_fname, :old_user_lname => @old_user_lname, :user_lname => @user_lname, :user_fname => @user_fname, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_created_at => @profile.update_date.strftime('%d/%m/%y'), :profile_migrated_at => @profile.migration_date.strftime('%d/%m/%y') } }
+      else
+        format.json{ render :json=>  {:status => 200, :old_user_fname => @old_user_fname, :old_user_lname => @old_user_lname, :user_lname => @user_lname, :user_fname => @user_fname, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_created_at => @profile.created_at.strftime('%d/%m/%y'), :profile_migrated_at => @profile.migration_date.strftime('%d/%m/%y') } }
+      end  
     end  
   end
 
