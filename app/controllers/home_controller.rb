@@ -46,7 +46,8 @@ class HomeController < ApplicationController
   def facebook_home
 
     session[:user_fb_idd] = params[:source]
-    redirect_to edit_profile_path(params[:source])
+    #redirect_to edit_profile_path(params[:source])
+    redirect_to "/users/auth/facebook"
   end 
 
   def privacy_policy

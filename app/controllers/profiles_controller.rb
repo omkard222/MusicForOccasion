@@ -2,9 +2,9 @@
 class ProfilesController < ApplicationController
   include ApplicationHelper
   include ServicesHelper
-  skip_before_filter :verify_authenticity_token, :only => [:invite_friend, :user_email_change, :invite_twitter_friend]
+  skip_before_filter :verify_authenticity_token, :only => [:facebook_friend_page_connect, :facebook_friend_page, :invite_friend, :user_email_change, :invite_twitter_friend]
 
-  before_action :authenticate_user!, except: [:show, :show_slug, :new, :create, :paypal_confirmation, :invite_friend, :user_email_change, :facebook_disconnect_friend]
+  before_action :authenticate_user!, except: [:facebook_friend_page_connect, :show,:facebook_friend_page, :show_slug, :new, :create, :paypal_confirmation, :invite_friend, :user_email_change, :facebook_disconnect_friend]
   #before_action :verify_user, only: [:edit, :update, :delete]
   before_action :verify_user, only: [:update, :delete]
   before_action :check_destroy_profile_possibility, only: [:delete]
@@ -159,6 +159,30 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def facebook_friend_page
+    @user_profile = Profile.find(session[:user_fb_idd])
+    url = "https://graph.facebook.com/me/accounts?access_token="+@user_profile.facebook_token.to_s
+    if @user_profile.invite_friend_email.present?
+      ProfileMailer.facebook_connect_success_user(@user_profile, @user_profile.invite_friend_name,@user_profile.invite_friend_email).deliver_now
+      ProfileMailer.facebook_connect_success_profile(@user_profile, @user_profile.invite_friend_name,@user_profile.invite_friend_email).deliver_now
+      @user_profile.fb_connect_time = Time.now
+      @user_profile.fb_disconnect_time = nil
+      @user_profile.save 
+    end 
+    begin
+      fb_info_json = JSON.parse(open(url).read)
+      @pages_info = fb_info_json["data"]
+    rescue
+      @user_profile = Profile.find(@user_profile.id)
+      @user_profile.facebook_token = nil
+      @user_profile.facebook_page_id = nil
+      @user_profile.facebook_page_likes = nil
+      @user_profile.save
+      flash[:error] = "Sorry, your connection are exipred. please try to connect facebook agian."
+      redirect_to profile_path(@user_profile.id)
+    end
+  end 
+
   def facebook_page_connect
     profile = current_user.current_profile
     likes = FacebookLikesLoader.get_likes_for profile, params[:profile][:facebook_page_id]
@@ -169,6 +193,18 @@ class ProfilesController < ApplicationController
       flash[:error] = "Failed to connect facebook page"
     end
     redirect_to edit_profile_path(current_user.current_profile.id)
+  end
+
+  def facebook_friend_page_connect
+    @profile = Profile.find(session[:user_fb_idd]);
+    likes = FacebookLikesLoader.get_likes_for @profile, params[:profile][:facebook_page_id]
+    session[:user_fb_idd] = ""
+    if @profile.update(facebook_page_id_param.merge(facebook_page_likes: likes))
+      flash[:notice] = "Connected successfully with Facebook page."
+    else
+      flash[:error] = "Failed to connect facebook page"
+    end
+    redirect_to profile_path(@profile.id)
   end
 
   def facebook_disconnect

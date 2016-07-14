@@ -20,6 +20,25 @@ module Users
           flash[:error] = 'Failed to connect facebook'
           redirect_to edit_profile_path(current_user.current_profile.id)
         end
+      elsif session[:user_fb_idd].present?
+        user_profile = Profile.find(session[:user_fb_idd])
+        if user_profile
+          if user_profile.update(facebook_token: auth.credentials.token)
+            get_token_no_error = true
+          else
+            get_token_no_error = false
+          end
+        else
+          get_token_no_error = false
+        end
+        if get_token_no_error
+          flash[:notice] = 'Connected successfully with Facebook. Select the page you would like to be connected with:'
+          redirect_to facebook_friend_page_path
+        else
+          flash[:error] = 'Failed to connect facebook'
+          redirect_to profile_path(user_profile.id)
+        end
+         
       else
         if existing_account(request.env['omniauth.auth']) || request.env['omniauth.params']['param'] == 'registration'
           @user = User.connections(request.env['omniauth.auth'])
