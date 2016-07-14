@@ -21,6 +21,8 @@
                   <a href="http://<%= url%>"  target="_blank">
                     <%= image_tag profile.site_logo, id: 'site_logo_show', :onmouseover=>"bigImg(this)", :onmouseout=>"normalImg(this)", :size => "50x50"%>
                   </a>
+                <% else %>
+                  <%= image_tag profile.site_logo, id: 'site_logo_show',:onmouseover=>"bigImg(this)", :onmouseout=>"normalImg(this)", :size => "50x50"%>
                 <% end %>  
               <% end %>  
             </div>
