@@ -17,8 +17,6 @@
             <a href="http://<%= url%>" target="_blank">
               <%= image_tag @profile.site_logo, id: 'site_logo_showw', :size => "50x50"%>
             </a>
-          <% else %>
-            <%= image_tag @profile.site_logo, id: 'site_logo_showw', :size => "50x50"%>
           <% end %>  
         <% end %>   
         <%= image_tag(@profile.picture, class: 'img-rounded img-responsive') %>
@@ -584,7 +582,7 @@
 
   #site_logo_showw{
     z-index: 9;
-    left: 44%;
+    left: 42%;
     right: 50%;
     position: absolute;
     top: 0;
