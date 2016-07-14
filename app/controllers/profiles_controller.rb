@@ -4,8 +4,9 @@ class ProfilesController < ApplicationController
   include ServicesHelper
   skip_before_filter :verify_authenticity_token, :only => [:invite_friend, :user_email_change, :invite_twitter_friend]
 
-  before_action :authenticate_user!, except: [:show, :show_slug, :new, :create, :paypal_confirmation, :invite_friend, :user_email_change]
-  before_action :verify_user, only: [:edit, :update, :delete]
+  before_action :authenticate_user!, except: [:show, :show_slug, :new, :create, :paypal_confirmation, :invite_friend, :user_email_change, :facebook_disconnect_friend]
+  #before_action :verify_user, only: [:edit, :update, :delete]
+  before_action :verify_user, only: [:update, :delete]
   before_action :check_destroy_profile_possibility, only: [:delete]
   before_action :check_soundcloud_datum, only: [:soundcloud, :soundcloud_request]
 
@@ -186,6 +187,7 @@ class ProfilesController < ApplicationController
   end
 
   def facebook_disconnect_friend
+
     user_profile = Profile.find(params[:source])
     if user_profile
       begin
@@ -419,6 +421,13 @@ class ProfilesController < ApplicationController
       format.js
     end
   end
+
+  def profile_save_params
+    session[:profile_edit_value] = params[:profile]
+    respond_to do |format|
+      format.json{ render :json=>  {:status => 200, :response=>"ok"} }
+    end     
+  end 
 
    def invite_friend
     user_profile = current_user.current_profile
