@@ -297,15 +297,15 @@ class ProfilesController < ApplicationController
   end
 
   def show_slug
-    if session[:user_fb_idd].present?
-      profile_id = session[:user_fb_idd]
-      session[:user_fb_idd] = nil 
-      redirect_to profile_path(profile_id)
-    elsif session[:user_idd]
-      profile_id = session[:user_fb_idd]
-      session[:user_idd] = nil 
-      redirect_to profile_path(profile_id)  
-    else   
+    # if session[:user_fb_idd].present?
+    #   profile_id = session[:user_fb_idd]
+    #   session[:user_fb_idd] = nil 
+    #   redirect_to profile_path(profile_id)
+    # elsif session[:user_idd]
+    #   profile_id = session[:user_fb_idd]
+    #   session[:user_idd] = nil 
+    #   redirect_to profile_path(profile_id)  
+    # else   
       @profile = Profile.find_by_slug(params[:slug])
       if @profile
         @twitter_followers = @profile.twitter_followers
@@ -342,7 +342,7 @@ class ProfilesController < ApplicationController
       else
         redirect_to root_url, :flash => { :error => "Musician not found." }
       end
-    end  
+    #end  
   end
 
   def show
