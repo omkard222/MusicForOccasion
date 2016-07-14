@@ -30,6 +30,8 @@ Rails.application.routes.draw do
   post '/facebook_page/connect' => 'profiles#facebook_page_connect', as: :facebook_page_connect
   post  '/facebook/disconnect' => 'profiles#facebook_disconnect', as: :facebook_disconnect
   get '/profiles/list' => 'profiles#users_profiles_list' , as: :profiles_users_profiles_list
+  get '/profiles/facebook_friend_page' => 'profiles#facebook_friend_page', as: :facebook_friend_page
+  post '/facebook_friend_page/connect' => 'profiles#facebook_friend_page_connect', as: :facebook_friend_page_connect
   get "profiles/facebook_one" => 'profiles#facebook_one', :as => :facebook_one
   get "profiles/facebook_two" => 'profiles#facebook_two', :as => :facebook_two
   get "profiles/twitter_one" => 'profiles#twitter_one', :as => :twitter_one
@@ -39,6 +41,7 @@ Rails.application.routes.draw do
   post "/profiles/user_email_change" => 'profiles#user_email_change', :as => :user_email_change
   get "/facebook_disconnect_friend" => "profiles#facebook_disconnect_friend", :as => :facebook_disconnect_friend
   get "/twitter_disconnect_friend" => "profiles#twitter_disconnect_friend", :as => :twitter_disconnect_friend 
+  # patch "/profiles/profile_save_params" => "profiles#profile_save_params", :as => :profile_save_params
   constraints(id: /[0-9]+/) do
     resources :profiles, only: [:show, :edit, :update, :destroy] do
       get :choose_profile
