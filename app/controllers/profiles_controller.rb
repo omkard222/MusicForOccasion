@@ -278,6 +278,7 @@ class ProfilesController < ApplicationController
     redirect_to profile_path(user_profile.id)
   end
 
+  
   def youtube_disconnect
     user_profile = current_user.current_profile
     if user_profile
@@ -299,11 +300,11 @@ class ProfilesController < ApplicationController
     if session[:user_fb_idd].present?
       profile_id = session[:user_fb_idd]
       session[:user_fb_idd] = nil 
-      redirect_to edit_profile_path(profile_id)
+      redirect_to profile_path(profile_id)
     elsif session[:user_idd]
       profile_id = session[:user_fb_idd]
       session[:user_idd] = nil 
-      redirect_to edit_profile_path(profile_id)  
+      redirect_to profile_path(profile_id)  
     else   
       @profile = Profile.find_by_slug(params[:slug])
       if @profile
