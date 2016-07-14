@@ -76,7 +76,7 @@ class ProfileMailer < ApplicationMailer
     @name = name
     @profile_name = profile.user.first_name
     @slug = @profile.id 
-    mail(to: email, subject: "connected #{@name} with facebook successfully")
+    mail(to: email, subject: "connected #{@name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with twitter successfully") 
   end 
   def twitter_connect_success_profile(profile, name, email)
@@ -86,7 +86,7 @@ class ProfileMailer < ApplicationMailer
     @slug = @profile.id
     @profile_name = profile.user.first_name
     @profile_email = profile.user.email 
-    mail(to: @profile_email, subject: "connected #{@name} with facebook successfully")
+    mail(to: @profile_email, subject: "connected #{@name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with twitter successfully") 
   end
 
@@ -96,7 +96,7 @@ class ProfileMailer < ApplicationMailer
     @name = name
     @slug = @profile.id
     @profile_name = profile.user.first_name 
-    mail(to: @email, subject: "disconnected #{@name} with facebook successfully")
+    mail(to: @email, subject: "disconnected #{@name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with twitter successfully")
   end 
 
@@ -107,7 +107,7 @@ class ProfileMailer < ApplicationMailer
     @slug = @profile.id
     @profile_name = profile.user.first_name
     @profile_email = profile.user.email
-    mail(to: @profile_email, subject: "disconnected #{@name} with facebook successfully")
+    mail(to: @profile_email, subject: "disconnected #{@name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with twitter successfully")
   end 
  
