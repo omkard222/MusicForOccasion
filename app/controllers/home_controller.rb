@@ -39,8 +39,8 @@ class HomeController < ApplicationController
   def twitter_home
      
      session[:user_idd] = params[:source]
-     # redirect_to "/users/auth/twitter"
-     redirect_to edit_profile_path(params[:source])
+     redirect_to "/users/auth/twitter"
+     #redirect_to edit_profile_path(params[:source])
   end
 
   def facebook_home

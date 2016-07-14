@@ -138,13 +138,6 @@ class ProfilesController < ApplicationController
   def facebook_page
     user_profile = current_user.current_profile
     url = "https://graph.facebook.com/me/accounts?access_token="+current_user.current_profile.facebook_token.to_s
-    if user_profile.invite_friend_email.present?
-      ProfileMailer.facebook_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
-      ProfileMailer.facebook_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
-      user_profile.fb_connect_time = Time.now
-      user_profile.fb_disconnect_time = nil
-      user_profile.save 
-    end 
     begin
       fb_info_json = JSON.parse(open(url).read)
       @pages_info = fb_info_json["data"]
@@ -282,7 +275,7 @@ class ProfilesController < ApplicationController
     user_profile.save
     ProfileMailer.twitter_disconnect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
     ProfileMailer.twitter_disconnect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
-    redirect_to edit_profile_path(current_user.current_profile.id)
+    redirect_to profile_path(user_profile.id)
   end
 
   def youtube_disconnect

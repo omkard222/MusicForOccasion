@@ -61,23 +61,37 @@ module Users
     end
 
     def twitter
-      user_profile = Profile.find(current_user.current_profile.id)
-      if user_profile
-        if user_profile.invite_friend_email.present?
-          ProfileMailer.twitter_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
-          ProfileMailer.twitter_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
-          user_profile.twitter_connect_time = Time.now
-          user_profile.twitter_dis_connect_time = nil
-          user_profile.save
-        end 
-        if user_profile.update(twitter_token: auth.credentials.token, twitter_secret: auth.credentials.secret,
-                               twitter_name: auth.info.nickname, twitter_followers: auth.extra.raw_info.followers_count)
-          flash[:notice] = "Connected successfully with Twitter."
-        else
-          flash[:error] = "Failed to connect twitter"
+      if current_user.present?
+        user_profile = Profile.find(current_user.current_profile.id)
+        if user_profile
+          if user_profile.update(twitter_token: auth.credentials.token, twitter_secret: auth.credentials.secret,
+                                 twitter_name: auth.info.nickname, twitter_followers: auth.extra.raw_info.followers_count)
+            flash[:notice] = "Connected successfully with Twitter."
+          else
+            flash[:error] = "Failed to connect twitter"
+          end
         end
-      end
-      redirect_to edit_profile_path(current_user.current_profile.id)
+        redirect_to edit_profile_path(current_user.current_profile.id)
+      elsif session[:user_idd].present?
+        user_profile = Profile.find(session[:user_idd])
+        if user_profile
+          if user_profile.invite_friend_email.present?
+            ProfileMailer.twitter_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+            ProfileMailer.twitter_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+            user_profile.twitter_connect_time = Time.now
+            user_profile.twitter_disconnect_time = nil
+            user_profile.save
+          end 
+          if user_profile.update(twitter_token: auth.credentials.token, twitter_secret: auth.credentials.secret,
+                                 twitter_name: auth.info.nickname, twitter_followers: auth.extra.raw_info.followers_count)
+            flash[:notice] = "Connected successfully with Twitter."
+          else
+            flash[:error] = "Failed to connect twitter"
+          end
+        end
+        session[:user_idd]=""
+        redirect_to profile_path(user_profile.id)
+      end   
     end
 
     def google_oauth2
