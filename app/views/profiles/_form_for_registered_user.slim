@@ -14,6 +14,10 @@
                   button.close data-dismiss="alert" type="button"  x
                   div id="flash_#{key}"
                     = sanitize(message)
+              #modal-window.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+              #modal-window1.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+              #modal-window2.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+              #modal-window3.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"      
               = semantic_form_for @profile do |f|
                 .space30
                 = f.input :profile_picture, input_html: { id: 'file' }
@@ -46,7 +50,8 @@
                   .form-group.margin_bottom_nil
                     label.label-control.margin_bottom_2_5 Facebook: show the number of likes to gain in popularity.
                     br
-                    a.btn.btn_connect href='/users/auth/facebook'  Connect Facebook
+                    //a.btn.btn_connect href='/users/auth/facebook'  Connect Facebook
+                    = link_to 'Connect Facebook', facebook_one_path, {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class =>"btn btn_connect"}
                 - if @profile.twitter_token && @profile.twitter_secret
                   = f.input :twitter_followers, label: 'Twitter followers'
                   .space5
@@ -55,7 +60,8 @@
                   .form-group.margin_bottom_nil
                     label.label-control.margin_bottom_2_5.label_margin Twitter: show the number of followers to gain in popularity.
                     br
-                    a.btn.btn_connect href='/users/auth/twitter'  Connect Twitter
+                    //a.btn.btn_connect href='/users/auth/twitter'  Connect Twitter
+                    = link_to 'Connect Twitter', twitter_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window2', :class =>"btn btn_connect"}
                 .space25
                 = render 'paypal_email_settings', f: f
                 .space30
