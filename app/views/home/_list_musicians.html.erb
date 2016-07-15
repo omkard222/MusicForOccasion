@@ -19,10 +19,10 @@
                 <% if profile.site_url.present? %>
                   <% url = profile.site_url.split("//").last %> 
                   <a href="http://<%= url%>"  target="_blank">
-                    <%= image_tag profile.site_logo, id: 'site_logo_show', :onmouseover=>"bigImg(this)", :onmouseout=>"normalImg(this)", :size => "50x50"%>
+                    <%= image_tag profile.site_logo, id: 'site_logo_show', :onmouseover=>"bigImg(this)", :onmouseout=>"normalImg(this)", :size => "50x50", :class => "img-rounded"%>
                   </a>
                 <% else %>
-                  <%= image_tag profile.site_logo, id: 'site_logo_show',:onmouseover=>"bigImg(this)", :onmouseout=>"normalImg(this)", :size => "50x50"%>
+                  <%= image_tag profile.site_logo, id: 'site_logo_show',:onmouseover=>"bigImg(this)", :onmouseout=>"normalImg(this)", :size => "50x50", :class => "img-rounded"%>
                 <% end %>  
               <% end %>  
             </div>
