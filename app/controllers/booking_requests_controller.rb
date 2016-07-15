@@ -113,13 +113,14 @@ class BookingRequestsController < ApplicationController
     send_inquiry = params[:booking_request][:confirmed_price]!='' ? params[:booking_request][:confirmed_price].to_i : false
     update_confirmed_price_and_service_proposer(new_request,send_inquiry)
     new_request.currency = new_request.service.currency
+    new_request.confirmed_price = params[:booking_request][:confirmed_price].to_i
     if new_request.save
       create_message_from_booking_action(new_request)
       recipient = new_request.service.profile
-        current_admin_or_profile.send_message(
-          recipient,
-          new_request.message,
-          "Message from #{ username }")
+      current_admin_or_profile.send_message( 
+      recipient,          
+      new_request.message,
+      "Message from #{ username }")
       BookingStatusMailer.new_booking_request_service_owner_notification(new_request).deliver_later if new_request.service_proposer.user.notify_create_booking
       redirect_to list_my_booking_path, notice: 'Booking request is created successfully.'
     else
@@ -183,7 +184,8 @@ class BookingRequestsController < ApplicationController
               short_date: DateTime.parse(booking_request.date.to_s).strftime("%d/%m/%Y %H:%M"),
               location:   booking_request.event_location,
               message:    booking_request.message,
-              requestor:  booking_request.updated_by_id
+              requestor:  booking_request.updated_by_id,
+              user_type:  current_user.profiles.first.profile_type
             }
     render json: data
   end
@@ -191,7 +193,8 @@ class BookingRequestsController < ApplicationController
   private
 
   def create_message_from_booking_action(request)
-    is_special_offer = request.special_offer?
+    # is_special_offer = request.special_offer?
+    is_special_offer = request.special_price.present? && request.special_price > 0.0
     action = request.status
     if action == 'Pending' || action == 'Special Offer'
       action = 'Created'
@@ -211,14 +214,19 @@ class BookingRequestsController < ApplicationController
                    currency: request.currency,
                    price: request.special_price)
         else
+      
           if request.service.booking_fee
             body_msg = I18n.t("#{action}_booking_request",
                      headline: "<a class='booking_request' booking_id='#{request.id}' href='/booking_request/#{request.id}'> #{request.service.headline} </a>",
                      currency: preferred_currency_session.upcase,
                      price: convert_to_preferred_currency(request.currency, request.service.booking_fee))
           else
-            body_msg = I18n.t("#{action}_booking_request_no_price",
-                     headline: "<a class='booking_request' booking_id='#{request.id}' href='/booking_request/#{request.id}'> #{request.service.headline} </a>")
+            body_msg = I18n.t("#{action}_booking_request",
+                     headline: "<a class='booking_request' booking_id='#{request.id}' href='/booking_request/#{request.id}'> #{request.service.headline} </a>",
+                     currency: request.currency,
+                     price: request.confirmed_price)
+
+
           end
         end
         MailboxerNotification.transaction do

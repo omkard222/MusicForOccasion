@@ -1,3 +1,4 @@
+
 <div class="content-theme-grey">
   <div class="container">
     <div class="space20"></div>
@@ -29,6 +30,7 @@
             </div>
             <div class="space30"></div>
         <% end %>
+           
         <% @receipts_history.each do |receipt| %>
             <% msg = receipt.message.nil? ? receipt.notification : receipt.message %>
             <% owner = msg.sender.id == current_user.current_profile.id %>
@@ -170,6 +172,7 @@
       e.preventDefault();
       var booking_id = $(this).attr('booking_id');
       $.getJSON( "/booking_request/" + booking_id, function(data) {
+        console.log(data.user_type);
         $('#booking_id').val(data.id.toString());
         if (data.requestor.toString() == "<%= current_user.current_profile.id.to_s %>"){
           $('.cancel').removeClass('hidden');
@@ -189,7 +192,11 @@
           $('.reject').removeClass('hidden');
           $('.edit-special').addClass('hidden');
           if (data.status == "Pending"){
-              $('.special').removeClass('hidden');
+              if (data.user_type == "registered_user")
+              {
+                $('.reject').addClass('hidden');
+              }
+             $('.special').removeClass('hidden');     
           }else if (data.status == "Rejected"){
               $('.special').removeClass('hidden');
               $('.cancel').addClass('hidden');
