@@ -184,7 +184,8 @@ class BookingRequestsController < ApplicationController
               short_date: DateTime.parse(booking_request.date.to_s).strftime("%d/%m/%Y %H:%M"),
               location:   booking_request.event_location,
               message:    booking_request.message,
-              requestor:  booking_request.updated_by_id
+              requestor:  booking_request.updated_by_id,
+              user_type:  current_user.profiles.first.profile_type
             }
     render json: data
   end
