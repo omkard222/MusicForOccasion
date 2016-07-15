@@ -490,7 +490,8 @@ class ProfilesController < ApplicationController
 
   def user_email_change
     @profile = Profile.find(params[:profile_id])
-    @user = User.where(:email => params[:email]).first
+
+    @user = User.where(:email => params[:email].strip).first
     @user_fname = @user.first_name
     @user_lname = @user.last_name
     @old_user = User.where(:email => params[:old_email]).first
