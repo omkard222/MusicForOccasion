@@ -31,7 +31,7 @@
           <!-- <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=263498987348507&amp;display=popup&amp;description=faceeeeeeeeebokkk&amp;name=delhiii&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');">share on facebook</a> -->
         <% if @profile.profile_type == "musician"%>  
           <div style="margin-left: 20px;">
-            <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=<%= @fb_app_id%>&amp;display=popup&amp;description=<%= @desc%>&amp;name=<%= @name%>&amp;link=<%= @ll%>&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');"><%= image_tag("/images/fb_new.png", :style => "margin-left:-9px; margin-top: 4px;")%></a>
+            <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=<%= @fb_app_id%>&amp;display=popup&amp;description=<%= @desc%>&amp;name=<%= @name%>&amp;link=<%= @ll%>&amp;picture=<%= @pic%>&amp;fg=b00000ff&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');"><%= image_tag("/images/fb_new.png", :style => "margin-left:-9px; margin-top: 4px;")%></a>
           </div>
         <% end %>     
 
