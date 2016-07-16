@@ -112,7 +112,11 @@ class BookingRequestsController < ApplicationController
     new_request.status = 'Pending'
     send_inquiry = params[:booking_request][:confirmed_price]!='' ? params[:booking_request][:confirmed_price].to_i : false
     update_confirmed_price_and_service_proposer(new_request,send_inquiry)
-    new_request.currency = new_request.service.currency
+    if new_request.service.currency.present?
+      new_request.currency = new_request.service.currency
+    else
+      new_request.currency = session[:preferred_currency]
+    end   
     new_request.confirmed_price = params[:booking_request][:confirmed_price].to_i
     if new_request.save
       create_message_from_booking_action(new_request)
