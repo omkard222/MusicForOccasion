@@ -4,11 +4,6 @@ class HomeController < ApplicationController
   def index
     @profiles = Profile.musician_has_services
     @profiles = priority_ordering(@profiles, 6)
-    if params[:currency]
-      session[:preferred_currency] = params[:currency]
-    else
-      session[:preferred_currency] = "USD"
-    end
   end
 
   def new_visitor
