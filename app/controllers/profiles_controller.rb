@@ -363,6 +363,7 @@ class ProfilesController < ApplicationController
     session[:user_fb_idd] = "" 
     @profile = Profile.find(params[:id])
     if session[:all_params].present?
+      @profile.username = session[:all_params]["username"] if session[:all_params]["username"].present?
       @profile.stage_name = session[:all_params]["stage_name"] if session[:all_params]["stage_name"].present?
       @profile.category = session[:all_params]["category"] if session[:all_params]["category"].present?
       @profile.instrument_ids = session[:all_params]["instrument_ids"] if session[:all_params]["instrument_ids"].present?
