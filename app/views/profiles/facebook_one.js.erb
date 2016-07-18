@@ -4,7 +4,7 @@ $('#modal-window').html("<%= escape_javascript(render 'profiles/facebook_one') %
   var uu = $('form.profile').attr('action');
   $.ajax({
       type: "POST",
-      url: $('form.profile').attr('action'), //sumbits it to the given url of the form
+      url: "/profiles/profile_save_params", //$('form.profile').attr('action')
       data: valuesToSubmit,
       dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
     }).success(function(json){

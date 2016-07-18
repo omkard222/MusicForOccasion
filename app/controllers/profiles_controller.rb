@@ -360,8 +360,26 @@ class ProfilesController < ApplicationController
 
   def edit
     session[:user_fb_idd] = ""
-    session[:user_fb_idd] = ""
+    session[:user_fb_idd] = "" 
     @profile = Profile.find(params[:id])
+    if session[:all_params].present?
+      @profile.stage_name = session[:all_params]["stage_name"] if session[:all_params]["stage_name"].present?
+      @profile.category = session[:all_params]["category"] if session[:all_params]["category"].present?
+      @profile.instrument_ids = session[:all_params]["instrument_ids"] if session[:all_params]["instrument_ids"].present?
+      @profile.genre_ids = session[:all_params]["genre_ids"] if session[:all_params]["genre_ids"].present?
+      @profile.biography = session[:all_params]["biography"] if session[:all_params]["biography"].present?
+      @profile.location = session[:all_params]["location"] if session[:all_params]["location"].present?
+      @profile.site_url = session[:all_params]["site_url"] if session[:all_params]["site_url"].present?
+      @profile.youtube_url = session[:all_params]["youtube_url"] if session[:all_params]["youtube_url"].present?
+      @profile.soundcloud_url = session[:all_params]["soundcloud_url"] if session[:all_params]["soundcloud_url"].present?
+      if session[:all_params]["bank_account_attributes"].present?
+        @profile.bank_account.bank_name = session[:all_params]["bank_account_attributes"]["bank_name"] if session[:all_params]["bank_account_attributes"]["bank_name"].present?
+        @profile.bank_account.name = session[:all_params]["bank_account_attributes"]["name"] if session[:all_params]["bank_account_attributes"]["name"].present?
+        @profile.bank_account.acc_number = session[:all_params]["bank_account_attributes"]["acc_number"] if session[:all_params]["bank_account_attributes"]["acc_number"].present?
+        @profile.bank_account.id = session[:all_params]["bank_account_attributes"]["id"] if session[:all_params]["bank_account_attributes"]["id"].present?
+      end
+      session.delete(:all_params)
+    end
     @bank_account = @profile.bank_account || @profile.create_bank_account
   end
  
@@ -453,12 +471,7 @@ class ProfilesController < ApplicationController
   end
 
   def profile_save_params
-    # session[:edit_stage_name] = params[:profile][:stage_name]
-    # session[:edit_category] = params[:profile][:category]
-    # session[:edit_instrument_ids] = params[:profile][:instrument_ids]
-    # session[:edit_genre_ids] = params[:profile][:genre_ids]
-    # session[:edit_biography] = params[:profile][:biography]
-    # session[:edit_location] = params[:profile][:location]
+    session[:all_params] = params[:profile]
     respond_to do |format|
       format.json{ render :json=>  {:status => 200, :response=>"ok"} }
     end     

@@ -37,11 +37,12 @@ Rails.application.routes.draw do
   get "profiles/twitter_one" => 'profiles#twitter_one', :as => :twitter_one
   get "profiles/twitter_two" => 'profiles#twitter_two', :as => :twitter_two
   post '/profiles/invite_friend' => 'profiles#invite_friend'
+  post '/profiles/crop' => 'profiles#crop', :as => :crop
   post '/profiles/invite_twitter_friend' => 'profiles#invite_twitter_friend'
   post "/profiles/user_email_change" => 'profiles#user_email_change', :as => :user_email_change
   get "/facebook_disconnect_friend" => "profiles#facebook_disconnect_friend", :as => :facebook_disconnect_friend
   get "/twitter_disconnect_friend" => "profiles#twitter_disconnect_friend", :as => :twitter_disconnect_friend 
-  # patch "/profiles/profile_save_params" => "profiles#profile_save_params", :as => :profile_save_params
+  patch "/profiles/profile_save_params" => "profiles#profile_save_params", :as => :profile_save_params
   constraints(id: /[0-9]+/) do
     resources :profiles, only: [:show, :edit, :update, :destroy] do
       get :choose_profile
