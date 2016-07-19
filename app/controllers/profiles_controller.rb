@@ -471,12 +471,12 @@ class ProfilesController < ApplicationController
     end
   end
 
-  def profile_save_params
-    session[:all_params] = params[:profile]
-    respond_to do |format|
-      format.json{ render :json=>  {:status => 200, :response=>"ok"} }
-    end     
-  end 
+  # def profile_save_params
+    # session[:all_params] = params[:profile]
+    # respond_to do |format|
+      # format.json{ render :json=>  {:status => 200, :response=>"ok"} }
+    # end     
+  # end 
 
    def invite_friend
     user_profile = current_user.current_profile

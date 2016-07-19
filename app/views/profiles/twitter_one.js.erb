@@ -1,11 +1,37 @@
 $('#modal-window2').html("<%= escape_javascript(render 'profiles/twitter_one') %>");
-  var valuesToSubmit = $('form.profile').serialize();
-  var uu = $('form.profile').attr('action');
+  //var valuesToSubmit = $('form.profile').serialize();
+  //var uu = $('form.profile').attr('action');
+
+  var file_data = $("#file").prop("files")[0];   // Getting the properties of file from file field
+  var profile_id = $("#profile_id").val();
+  var form_data = new FormData();                  // Creating object of FormData class
+  form_data.append("profile[profile_picture]", file_data)
+  form_data.append("profile[username]", $("#profile_username").val());
+  form_data.append("profile[location]", $("#profile_location").val());
+  form_data.append("profile[biography]", $("#profile_biography").val());
+  form_data.append("profile[bank_account_attributes][bank_name]", $("#profile_bank_account_attributes_bank_name").val());
+  form_data.append("profile[bank_account_attributes][name]", $("#profile_bank_account_attributes_name").val());
+  form_data.append("profile[bank_account_attributes][acc_number]", $("#profile_bank_account_attributes_acc_number").val());
+  form_data.append("profile[bank_account_attributes][id]", $("#profile_bank_account_attributes_id").val());
+  form_data.append("id", profile_id);
+  
+  form_data.append("profile[stage_name]", $("#profile_stage_name").val());
+  form_data.append("profile[category]", $('[name="profile[category]"]:checked').val());
+  form_data.append("profile[genre_ids][]", $('#profile_genre_ids').val());
+
+  var tech_rider = $("#profile_tech_rider").prop("files")[0];
+  form_data.append("profile[tech_rider][]", tech_rider)
+  form_data.append("profile[youtube_url]", $('#profile_youtube_url').val());
+  form_data.append("profile[soundcloud_url]", $('#profile_soundcloud_url').val());
+
   $.ajax({
-      type: "POST",
-      url: $('form.profile').attr('action'), //sumbits it to the given url of the form
-      data: valuesToSubmit,
-      dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+      type: "PUT",
+      url: "/profiles/"+ profile_id , //$('form.profile').attr('action')
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: form_data,
+      dataType: "script" // you want a difference between normal and ajax-calls, and json is standard
     }).success(function(json){
       console.log("success", json);
     });
