@@ -33,7 +33,7 @@
           <% if current_user.current_profile.id == @profile.id %>
 
             <div style="margin-left: 20px;">
-              <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=<%= @fb_app_id%>&amp;display=popup&amp;description=<%= @desc%>&amp;name=<%= @name%>&amp;link=<%= @ll%>&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');"><%= image_tag("/images/fb_new.png", :style => "margin-left:-9px; margin-top: 4px;")%></a>
+              <a href="javascript: void(0)" onclick="window.open('https://www.facebook.com/dialog/feed?app_id=<%= @fb_app_id%>&amp;display=popup&amp;description=<%= @desc%>&amp;name=<%= @name%>&amp;link=<%= @ll%>&amp;picture=<%= @pic%>&amp;redirect_uri=<%= @urll%>','sharer','toolbar=0,status=0,width=548,height=325');"><%= image_tag("/images/fb_new_2.png", :style => "margin-left:-9px; margin-top: 4px; width: 100%; height: 100%;")%></a>
             </div>
           <% end %>  
         <% end %>     
