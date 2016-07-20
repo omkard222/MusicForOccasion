@@ -160,7 +160,9 @@ RailsAdmin.config do |config|
            a =  %{<div id="history">
                 <p>#{util.stage_name} created by account <a href="/admin/user/#{uu.id}">#{uu.first_name} #{uu.last_name}</a> with email #{util.previous_account_mail} on #{util.created_at.strftime('%d/%m/%y')}</p>
                 </div >}
-           b = %{<div></div>} 
+           b = %{<div></div>}
+           fb1 = %{<div></div>}
+           twr1 = %{<div></div>} 
            d = %{<div id="append_history"></div>}      
           util.profile_history.each do |p|
             user_one = User.where(:email => p.new_user_email).first 
@@ -168,14 +170,49 @@ RailsAdmin.config do |config|
               <p>#{util.stage_name} migrated to account <a href="/admin/user/#{user_one.id}">#{user_one.first_name} #{user_one.last_name}</a> with email #{user_one.email} on #{p.migration_date.strftime('%d/%m/%y')}</p>
             </div >}
             b = b+c 
-          end  
-            (a+b+d).html_safe  
+          end
+          if util.fb_disconnect_time.present?
+             fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> 
+                    <p> Facebook disconnected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.fb_disconnect_time.strftime('%d/%m/%y')}</p> }
+             fb1 = fb1+fb2
+          elsif util.fb_connect_time.present?
+             fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> }
+             fb1 = fb1+fb2   
+          end
+
+          if util.twitter_disconnect_time.present?
+             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
+                    <p> Twitter disconnected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.twitter_disconnect_time.strftime('%d/%m/%y')}</p> }
+             twr1 = twr1+twr2
+          elsif util.twitter_connect_time.present?
+             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
+             twr1 = twr1+twr2   
+          end    
+            (a+b+d+fb1+twr1).html_safe  
            
         else
-          %{<div id="history">
+          a =  %{<div id="history">
             <p>#{util.stage_name} created by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with email #{util.user.email} on #{util.created_at.strftime('%d/%m/%y')}</p>
-          </div ><div id="append_history"></div>}.html_safe
-
+            </div ><div id="append_history"></div>}
+          fb1 = %{<div></div>}
+          twr1 = %{<div></div>}
+          if util.fb_disconnect_time.present?
+             fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> 
+                    <p> Facebook disconnected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.fb_disconnect_time.strftime('%d/%m/%y')}</p> }
+             fb1 = fb1+fb2
+          elsif util.fb_connect_time.present?
+             fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> }
+             fb1 = fb1+fb2   
+          end 
+          if util.twitter_disconnect_time.present?
+             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
+                    <p> Twitter disconnected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.twitter_disconnect_time.strftime('%d/%m/%y')}</p> }
+             twr1 = twr1+twr2
+          elsif util.twitter_connect_time.present?
+             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
+             twr1 = twr1+twr2   
+          end 
+          (a+fb1+twr1).html_safe    
         end  
       end
       children_fields [:stage_name] # will be used for searching/filtering, first field will be used for sorting
