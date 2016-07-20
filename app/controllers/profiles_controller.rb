@@ -493,7 +493,7 @@ class ProfilesController < ApplicationController
     user_profile.invite_friend_email = params[:email]
     user_profile.save
     ProfileMailer.invite_mail(user_profile, name, email).deliver_now
-    flash[:success] = "email sent successfully"
+    flash[:success] = "invitation to connect Facebook sent successfully"
     redirect_to edit_profile_path(user_profile.id)
   end 
 
@@ -505,7 +505,7 @@ class ProfilesController < ApplicationController
     user_profile.invite_friend_email = params[:email]
     user_profile.save
     ProfileMailer.invite_twitter_mail(user_profile, name, email).deliver_now
-    flash[:success] = "email sent successfully"
+    flash[:success] = "invitation to connect Twitter sent successfully"
     redirect_to edit_profile_path(user_profile.id)
   end 
 
