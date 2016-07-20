@@ -35,7 +35,8 @@ class ProfileMailer < ApplicationMailer
   	@profile = profile
   	@email = email
   	@name = name
-  	@profile_name = profile.user.first_name
+  	@account_name = profile.user.first_name
+    @profile_name = profile.stage_name
     @slug = @profile.id 
     mail(to: email, subject: "connected #{@name} with facebook successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with facebook successfully") 
@@ -45,7 +46,8 @@ class ProfileMailer < ApplicationMailer
   	@email = email
   	@name = name
     @slug = @profile.id
-  	@profile_name = profile.user.first_name
+  	@account_name = profile.user.first_name
+    @profile_name = profile.stage_name
     @profile_email = profile.user.email 
     mail(to: @profile_email, subject: "connected #{@name} with facebook successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with facebook successfully") 
@@ -56,7 +58,8 @@ class ProfileMailer < ApplicationMailer
     @email = email
     @name = name
     @slug = @profile.id
-    @profile_name = profile.user.first_name 
+    @account_name = profile.user.first_name
+    @profile_name = profile.stage_name 
     mail(to: @email, subject: "disconnected #{@name} with facebook successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with facebook successfully")
   end 
@@ -66,7 +69,8 @@ class ProfileMailer < ApplicationMailer
     @email = email
     @name = name
     @slug = @profile.id
-    @profile_name = profile.user.first_name
+    @account_name = profile.user.first_name
+    @profile_name = profile.stage_name
     @profile_email = profile.user.email
     mail(to: @profile_email, subject: "disconnected #{@name} with facebook successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with facebook successfully")
@@ -76,7 +80,8 @@ class ProfileMailer < ApplicationMailer
     @profile = profile
     @email = email
     @name = name
-    @profile_name = profile.user.first_name
+    @account_name = profile.user.first_name
+    @profile_name = profile.stage_name
     @slug = @profile.id 
     mail(to: email, subject: "connected #{@name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with twitter successfully") 
@@ -86,7 +91,8 @@ class ProfileMailer < ApplicationMailer
     @email = email
     @name = name
     @slug = @profile.id
-    @profile_name = profile.user.first_name
+    @account_name = profile.user.first_name
+    @profile_name = profile.stage_name
     @profile_email = profile.user.email 
     mail(to: @profile_email, subject: "connected #{@name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with twitter successfully") 
@@ -97,7 +103,8 @@ class ProfileMailer < ApplicationMailer
     @email = email
     @name = name
     @slug = @profile.id
-    @profile_name = profile.user.first_name 
+    @account_name = profile.user.first_name
+    @profile_name = profile.stage_name 
     mail(to: @email, subject: "disconnected #{@name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with twitter successfully")
   end 
@@ -107,7 +114,8 @@ class ProfileMailer < ApplicationMailer
     @email = email
     @name = name
     @slug = @profile.id
-    @profile_name = profile.user.first_name
+    @account_name = profile.user.first_name
+    @profile_name = profile.stage_name
     @profile_email = profile.user.email
     mail(to: @profile_email, subject: "disconnected #{@name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with twitter successfully")
