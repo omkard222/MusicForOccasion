@@ -19,8 +19,11 @@ $('#modal-window2').html("<%= escape_javascript(render 'profiles/twitter_one') %
   if ($('[name="profile[category]"]:checked').length > 0) form_data.append("profile[category]", $('[name="profile[category]"]:checked').val());
   if ($("#profile_genre_ids").length > 0) form_data.append("profile[genre_ids][]", $('#profile_genre_ids').val());
 
-  if ( $("#profile_tech_rider") .length > 0 ) var tech_rider = $("#profile_tech_rider").prop("files")[0];
-  if ($("#profile_tech_rider") .length > 0  && $("#profile_tech_rider").prop("files").length > 0) form_data.append("profile[tech_rider]", tech_rider)
+  if ( $("#profile_site_logo") .length > 0 ) var site_logo = $("#profile_site_logo").prop("files")[0];
+  if ($("#profile_site_logo") .length > 0  && $("#profile_site_logo").prop("files").length > 0) form_data.append("profile[site_logo]", site_logo)
+  if ($("#profile_site_url").length > 0) form_data.append("profile[site_url]", $('#profile_site_url').val());
+  //if ( $("#profile_tech_rider") .length > 0 ) var tech_rider = $("#profile_tech_rider").prop("files")[0];
+  //if ($("#profile_tech_rider") .length > 0  && $("#profile_tech_rider").prop("files").length > 0) form_data.append("profile[tech_rider]", tech_rider)
   if ($("#profile_youtube_url").length > 0) form_data.append("profile[youtube_url]", $('#profile_youtube_url').val());
   if ($("#profile_soundcloud_url").length > 0) form_data.append("profile[soundcloud_url]", $('#profile_soundcloud_url').val());
   
