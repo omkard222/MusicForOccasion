@@ -46,9 +46,9 @@
         var html2 = "<p>"+json.profile_name+" migrated to account <a href='/admin/user/"+json.new_user_id+"'>"
           +json.user_fname+" "+json.user_lname+"</a> with email "+json.new_email+" on  "+json.profile_migrated_at+"</p>"
         var html3 = html1+html2
-        $("#history_back").html(html3); 
-        $("#history").html(html3);
-        $("#user_email").val("");
+        $("#append_history").append(html2); 
+        //$("#history").html(html3);
+        //$("#user_email").val("");
         $('#show_notice').html("<p>profile migrated successfully.</p>").slideDown(10).delay(10).slideUp(10000)
       });
       return false ;

@@ -477,8 +477,15 @@ class ProfilesController < ApplicationController
       # format.json{ render :json=>  {:status => 200, :response=>"ok"} }
     # end     
   # end 
+  def crop
+    @profile = Profile.find(current_user.current_profile.id)
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
 
-   def invite_friend
+  def invite_friend
     user_profile = current_user.current_profile
     name = params[:name]
     email = params[:email]
@@ -504,7 +511,7 @@ class ProfilesController < ApplicationController
 
   def user_email_change
     @profile = Profile.find(params[:profile_id])
-
+    
     @user = User.where(:email => params[:email].strip).first
     @user_fname = @user.first_name
     @user_lname = @user.last_name
@@ -513,17 +520,23 @@ class ProfilesController < ApplicationController
     @old_user_lname = @old_user.last_name
     old_email = params[:old_email]
     new_email = params[:email]
-    if @user.present? && @profile.present? && @old_user.present?
-      @profile.update_columns(:update_date => @profile.migration_date ) if @profile.migration_date.present?
-      @profile.update_columns(:user_id => @user.id, :previous_account_mail => old_email, :migration_date => Time.now )
-      ProfileMailer.profile_mail_previous(@profile, @old_user, @user).deliver_now
-      ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
+    if @user.present? && @profile.present?
+      if @profile.previous_account_mail.present?
+         @profile.update_columns(:user_id => @user.id)
+         p_history = ProfileHistory.create(:profile_id => @profile.id, :old_user_email => old_email, :new_user_email => new_email, :migration_date => Time.now)
+      else 
+        #@profile.update_columns(:update_date => @profile.migration_date ) if @profile.migration_date.present?
+        @profile.update_columns(:user_id => @user.id, :previous_account_mail => old_email)
+        p_history = ProfileHistory.create(:profile_id => @profile.id, :old_user_email => old_email, :new_user_email => new_email, :migration_date => Time.now)
+      end
+      #ProfileMailer.profile_mail_previous(@profile, @old_user, @user).deliver_now
+      #ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
     end  
     respond_to do |format|
-      if @profile.update_date.present?
-        format.json{ render :json=>  {:status => 200, :old_user_fname => @old_user_fname, :old_user_lname => @old_user_lname, :user_lname => @user_lname, :user_fname => @user_fname, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_created_at => @profile.update_date.strftime('%d/%m/%y'), :profile_migrated_at => @profile.migration_date.strftime('%d/%m/%y') } }
+      if p_history.present?
+        format.json{ render :json=>  {:status => 200, :old_user_fname => @old_user_fname, :old_user_lname => @old_user_lname, :user_lname => @user_lname, :user_fname => @user_fname, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_migrated_at => p_history.migration_date.strftime('%d/%m/%y')} }
       else
-        format.json{ render :json=>  {:status => 200, :old_user_fname => @old_user_fname, :old_user_lname => @old_user_lname, :user_lname => @user_lname, :user_fname => @user_fname, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_created_at => @profile.created_at.strftime('%d/%m/%y'), :profile_migrated_at => @profile.migration_date.strftime('%d/%m/%y') } }
+        format.json{ render :json=>  {:status => 200, :old_user_fname => @old_user_fname, :old_user_lname => @old_user_lname, :user_lname => @user_lname, :user_fname => @user_fname, :new_email=> new_email, :old_email => old_email, :new_user_id => @user.id, :old_user_id => @old_user.id, :profile_name => @profile.stage_name, :profile_migrated_at => p_history.migration_date.strftime('%d/%m/%y') } }
       end  
     end  
   end

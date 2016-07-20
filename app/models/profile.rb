@@ -15,6 +15,7 @@ class Profile < ActiveRecord::Base
 
   has_one :soundcloud_datum, dependent: :destroy
   has_one :bank_account, dependent: :destroy
+  has_many :profile_history, dependent: :destroy
 
   accepts_nested_attributes_for :user
   accepts_nested_attributes_for :additional_pictures
@@ -32,6 +33,8 @@ class Profile < ActiveRecord::Base
   mount_uploader :site_logo, SiteLogoUploader
   alias_attribute :name, :username
   
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :rotation_angle, 
+  :zoom_w, :zoom_h, :zoom_x, :zoom_y, :drag_x, :drag_y
   #validate :site_logo_size_validation, unless: -> { site_logo.blank? }
 
   before_save :save_slug
