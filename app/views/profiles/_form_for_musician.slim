@@ -18,12 +18,14 @@
               #modal-window.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
               #modal-window1.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
               #modal-window2.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
-              #modal-window3.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"       
+              #modal-window3.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+              #modal-window4.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"       
               = semantic_form_for @profile do |f|
                 .space30
                 = f.input :id, as: :hidden
                 = f.input :profile_picture, input_html: { id: 'file' }
                 = image_tag(@profile.picture, class: 'img-responsive ', id: 'image_profile')
+                #image_profilee
                 #fileUpload.div_upload_profile
                   table
                     tr
@@ -65,7 +67,7 @@
                       //= t('.connect_facebook')
                     = link_to 'Connect Facebook', facebook_one_path, {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class =>"btn btn_connect"}
                 - if @profile.twitter_token && @profile.twitter_secret
-                  = f.input :twitter_followers, label: 'Twitter followers'
+                  = f.input :twitter_followers, label: 'Twitter followers', input_html: {disabled: "disabled"}
                   .space5
                   a#disconnect_twitter.btn.btn_connect href='' onclick=('return false;') data-url=twitter_disconnect_path()  Disconnect Twitter
                 - else
@@ -160,3 +162,32 @@ javascript:
     $('#existing_profile_site_logo').removeClass('hidden_field');
     return $('#existing_profile_site_logo').text($('#profile_site_logo').val().replace(/.+[\\\/]/, ""));
   };
+
+  
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#image_profile')
+          .attr('src', e.target.result).width(150)
+              .height(200);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+    var form_data = {profile_id : 1}
+    $.ajax({
+          type: "GET",
+          url: "/profiles/crop", //sumbits it to the given url of the form
+          data: form_data,
+          dataType: "script" // you want a difference between normal and ajax-calls, and json is standard
+      }).success(function(json){
+          console.log("success", json);
+      }); 
+
+  }
+
+  $("#file").change(function(input){
+    readURL(input);
+  })
