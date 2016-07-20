@@ -529,8 +529,8 @@ class ProfilesController < ApplicationController
         @profile.update_columns(:user_id => @user.id, :previous_account_mail => old_email)
         p_history = ProfileHistory.create(:profile_id => @profile.id, :old_user_email => old_email, :new_user_email => new_email, :migration_date => Time.now)
       end
-      #ProfileMailer.profile_mail_previous(@profile, @old_user, @user).deliver_now
-      #ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
+      ProfileMailer.profile_mail_previous(@profile, @old_user, @user).deliver_now
+      ProfileMailer.profile_mail_current(@profile, @old_user, @user).deliver_now
     end  
     respond_to do |format|
       if p_history.present?
