@@ -247,7 +247,7 @@ class ProfilesController < ApplicationController
       rescue
         flash[:error] = "Failed to disconnect twitter"
       end
-      flash[:notice] = "Disconnected successfully with Tweeter."
+      flash[:notice] = "Disconnected successfully with Twitter."
     else
       flash[:error] = "Failed to disconnect twitter"
     end
