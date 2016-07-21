@@ -16,7 +16,7 @@ class ProfileMailer < ApplicationMailer
   	@name = name
   	@account_name = profile.user.first_name
     @profile_name = profile.stage_name 
-    mail(to: email, subject: "Invitation from #{@profile.stage_name} to connect with gigbazaar")
+    mail(to: email, subject: "Invitation from #{@account_name} to connect with gigbazaar")
     #mail(to: "rupinder.enbake@gmail.com", subject: "invitation from #{@profile.stage_name} to connect with gigbazaar")
   end
 
@@ -27,7 +27,7 @@ class ProfileMailer < ApplicationMailer
     @name = name
     @account_name = profile.user.first_name
     @profile_name = profile.stage_name 
-    mail(to: email, subject: "Invitation from #{@profile.stage_name} to connect with gigbazaar")
+    mail(to: email, subject: "Invitation from #{@account_name} to connect with gigbazaar")
     #mail(to: "rupinder.enbake@gmail.com", subject: "invitation from #{@profile.stage_name} to connect with gigbazaar")
   end
 
@@ -60,7 +60,7 @@ class ProfileMailer < ApplicationMailer
     @slug = @profile.id
     @account_name = profile.user.first_name
     @profile_name = profile.stage_name 
-    mail(to: @email, subject: "disconnected #{@name} with facebook successfully")
+    mail(to: @email, subject: "disconnected #{@account_name} with facebook successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with facebook successfully")
   end 
 
@@ -72,7 +72,7 @@ class ProfileMailer < ApplicationMailer
     @account_name = profile.user.first_name
     @profile_name = profile.stage_name
     @profile_email = profile.user.email
-    mail(to: @profile_email, subject: "disconnected #{@name} with facebook successfully")
+    mail(to: @profile_email, subject: "disconnected #{@account_name} with facebook successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "disconnected #{@name} with facebook successfully")
   end 
 
