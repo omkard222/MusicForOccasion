@@ -16,7 +16,7 @@ class ProfileMailer < ApplicationMailer
   	@name = name
   	@account_name = profile.user.first_name
     @profile_name = profile.stage_name 
-    mail(to: email, subject: "invitation from #{@profile.stage_name} to connect with gigbazaar")
+    mail(to: email, subject: "Invitation from #{@profile.stage_name} to connect with gigbazaar")
     #mail(to: "rupinder.enbake@gmail.com", subject: "invitation from #{@profile.stage_name} to connect with gigbazaar")
   end
 
@@ -27,7 +27,7 @@ class ProfileMailer < ApplicationMailer
     @name = name
     @account_name = profile.user.first_name
     @profile_name = profile.stage_name 
-    mail(to: email, subject: "invitation from #{@profile.stage_name} to connect with gigbazaar")
+    mail(to: email, subject: "Invitation from #{@profile.stage_name} to connect with gigbazaar")
     #mail(to: "rupinder.enbake@gmail.com", subject: "invitation from #{@profile.stage_name} to connect with gigbazaar")
   end
 
