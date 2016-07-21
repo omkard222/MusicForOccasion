@@ -38,7 +38,7 @@ class ProfileMailer < ApplicationMailer
   	@account_name = profile.user.first_name
     @profile_name = profile.stage_name
     @slug = @profile.id 
-    mail(to: email, subject: "connected #{@name} with facebook successfully")
+    mail(to: email, subject: "connected #{@account_name} with facebook successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with facebook successfully") 
   end 
   def facebook_connect_success_profile(profile, name, email)
@@ -49,7 +49,7 @@ class ProfileMailer < ApplicationMailer
   	@account_name = profile.user.first_name
     @profile_name = profile.stage_name
     @profile_email = profile.user.email 
-    mail(to: @profile_email, subject: "connected #{@name} with facebook successfully")
+    mail(to: @profile_email, subject: "connected #{@account_name} with facebook successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with facebook successfully") 
   end
 
@@ -83,7 +83,7 @@ class ProfileMailer < ApplicationMailer
     @account_name = profile.user.first_name
     @profile_name = profile.stage_name
     @slug = @profile.id 
-    mail(to: email, subject: "connected #{@name} with Twitter successfully")
+    mail(to: email, subject: "connected #{@account_name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with twitter successfully") 
   end 
   def twitter_connect_success_profile(profile, name, email)
@@ -94,7 +94,7 @@ class ProfileMailer < ApplicationMailer
     @account_name = profile.user.first_name
     @profile_name = profile.stage_name
     @profile_email = profile.user.email 
-    mail(to: @profile_email, subject: "connected #{@name} with Twitter successfully")
+    mail(to: @profile_email, subject: "connected #{@account_name} with Twitter successfully")
     #mail(to: "rupinder.enbake@gmail.com", subject: "connected #{@name} with twitter successfully") 
   end
 
