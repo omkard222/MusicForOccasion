@@ -117,7 +117,11 @@ class BookingRequestsController < ApplicationController
     else
       new_request.currency = session[:preferred_currency]
     end   
-    new_request.confirmed_price = params[:booking_request][:confirmed_price].to_i
+    if params[:booking_request][:confirmed_price].present?
+      new_request.confirmed_price = params[:booking_request][:confirmed_price].to_i
+    else
+      new_request.confirmed_price = new_request.service.booking_fee
+    end
     if new_request.save
       create_message_from_booking_action(new_request)
       recipient = new_request.service.profile
@@ -172,7 +176,7 @@ class BookingRequestsController < ApplicationController
 
   def show
     booking_request = BookingRequest.find(params[:id])
-    if booking_request.special_price
+    if booking_request.special_price != 0.0
       booking_price = convert_to_preferred_currency(booking_request.currency, booking_request.special_price)
     else
       booking_price = convert_to_preferred_currency(booking_request.currency, booking_request.confirmed_price ? booking_request.confirmed_price : false)

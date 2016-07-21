@@ -30,17 +30,35 @@
             </div>
             <div class="space30"></div>
         <% end %>
-           
-        <% @receipts_history.each do |receipt| %>
+
+      <% @receipts_history.each do |receipt| %>
             <% msg = receipt.message.nil? ? receipt.notification : receipt.message %>
             <% owner = msg.sender.id == current_user.current_profile.id %>
+            <% a = msg.body %>
+
+            <% if a.present? %>
+              <% b = a.split("at") %>
+              <% b = b[0]  %>
+              <% a1 = msg.body %>
+              <% b1 = a1.split("'number_font'>")%>
+              <% c = b1[1].split("</") if b1[1].present? %>
+              <% d = c[0].to_f if c.present? %>
+
+              <% a = msg.body.split("at ") %>
+              <% b12 = a[1].split(" <span") if a[1].present? %>
+              <% curr = b12[0] if b12.present? %>
+            <% else %>
+              <% b = [] %>
+              <% curr = nil %>
+            <% end %>
             <table align="<%= owner ? 'right' : 'left' %>">
               <tr>
                 <td style="display:<%= owner ? 'none' : 'inline' %>">
                   <%= profile_picture(msg.sender) %>
                 </td>
                 <td class="<%= owner ? 'chat-box box-right' : 'chat-box box-left' %>">
-                  <p class="msg-label"><%= raw msg.body %></p>
+
+                  <p class="msg-label"><%= raw b %><%= "at " if b1[1].present? %> <span class="number_font"><%= preferred_currency_session.upcase if b1[1].present? %> <%= convert_to_preferred_currency(curr.downcase, d) if d.present? %></span></p>
                   <p class="footer-label"><%= local_time(msg.created_at.strftime("%d %B %Y, %I:%M %P")) %></p>
                 </td>
                 <td style="display: <%= owner ? 'inline' : 'none' %>">
