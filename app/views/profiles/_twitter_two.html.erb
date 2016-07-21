@@ -2,7 +2,8 @@
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-             <h4 class="modal-title"><p>Do you know someone who has access to the Twitter account and who could sign in for you?</p> 
+             <h4 class="modal-title"><p>Do you know someone who has access to the Twitter account        
+                   and who could sign in for you?</p> 
              <p>Simply send him/her an invite by email to get connected: </p> </h4>
             
         </div>
@@ -11,7 +12,7 @@
              <form action="/profiles/invite_twitter_friend" id="friend" method="post">
                 <div class="form-group">
                   <div style="float: left;width: 110px;">
-                    <label for="text">Name:</label>
+                    <label for="text" style="float:right; margin:5px;">Name:</label>
                   </div>
                   <div class="input-group">    
                     <input class="form-control" type="text" name="name" required><br>
@@ -19,7 +20,7 @@
                 </div>
                 <div class="form-group">
                   <div style="float: left;width: 110px;">
-                    <label for="text">Email address:</label>
+                    <label for="text" style="float:right;margin-top:4px;margin-right:4px;">Email address:</label>
                   </div>
                   <div class="input-group">  
                     <input class="form-control" type="text" name="email" required>
