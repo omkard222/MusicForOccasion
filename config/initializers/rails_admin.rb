@@ -181,11 +181,11 @@ RailsAdmin.config do |config|
           end
 
           if util.twitter_disconnect_time.present?
-             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
-                    <p> Twitter disconnected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.twitter_disconnect_time.strftime('%d/%m/%y')}</p> }
+             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.twitter_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
+                    <p> Twitter disconnected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.twitter_friend_email} on #{util.twitter_disconnect_time.strftime('%d/%m/%y')}</p> }
              twr1 = twr1+twr2
           elsif util.twitter_connect_time.present?
-             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
+             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.twitter_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
              twr1 = twr1+twr2   
           end    
             (a+b+d+fb1+twr1).html_safe  
@@ -205,11 +205,11 @@ RailsAdmin.config do |config|
              fb1 = fb1+fb2   
           end 
           if util.twitter_disconnect_time.present?
-             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
-                    <p> Twitter disconnected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.twitter_disconnect_time.strftime('%d/%m/%y')}</p> }
+             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.twitter_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
+                    <p> Twitter disconnected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.twitter_friend_email} on #{util.twitter_disconnect_time.strftime('%d/%m/%y')}</p> }
              twr1 = twr1+twr2
           elsif util.twitter_connect_time.present?
-             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
+             twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.twitter_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
              twr1 = twr1+twr2   
           end 
           (a+fb1+twr1).html_safe    

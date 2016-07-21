@@ -76,8 +76,8 @@ module Users
         user_profile = Profile.find(session[:user_idd])
         if user_profile
           if user_profile.invite_friend_email.present?
-            ProfileMailer.twitter_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
-            ProfileMailer.twitter_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+            ProfileMailer.twitter_connect_success_user(user_profile, user_profile.invite_friend_name,user_profile.twitter_friend_email).deliver_now
+            ProfileMailer.twitter_connect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.twitter_friend_email).deliver_now
             user_profile.twitter_connect_time = Time.now
             user_profile.twitter_disconnect_time = nil
             user_profile.save

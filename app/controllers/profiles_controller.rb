@@ -273,8 +273,8 @@ class ProfilesController < ApplicationController
     end
     user_profile.twitter_disconnect_time = Time.now 
     user_profile.save
-    ProfileMailer.twitter_disconnect_success_user(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
-    ProfileMailer.twitter_disconnect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.invite_friend_email).deliver_now
+    ProfileMailer.twitter_disconnect_success_user(user_profile, user_profile.invite_friend_name,user_profile.twitter_friend_email).deliver_now
+    ProfileMailer.twitter_disconnect_success_profile(user_profile, user_profile.invite_friend_name,user_profile.twitter_friend_email).deliver_now
     redirect_to profile_path(user_profile.id)
   end
 
@@ -471,12 +471,6 @@ class ProfilesController < ApplicationController
     end
   end
 
-  # def profile_save_params
-    # session[:all_params] = params[:profile]
-    # respond_to do |format|
-      # format.json{ render :json=>  {:status => 200, :response=>"ok"} }
-    # end     
-  # end 
   def crop
     @profile = Profile.find(current_user.current_profile.id)
     respond_to do |format|
@@ -502,7 +496,7 @@ class ProfilesController < ApplicationController
     name = params[:name]
     email = params[:email]
     user_profile.invite_friend_name = params[:name]
-    user_profile.invite_friend_email = params[:email]
+    user_profile.twitter_friend_email = params[:email]
     user_profile.save
     ProfileMailer.invite_twitter_mail(user_profile, name, email).deliver_now
     flash[:success] = "Invitation to connect Twitter sent successfully"
