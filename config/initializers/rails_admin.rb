@@ -185,7 +185,7 @@ RailsAdmin.config do |config|
           elsif util.fb_connect_time.present?
             user2 = User.where(:email => util.invite_friend_email).first 
             if user2.present?
-              fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account <a href="/admin/user/#{user2.id}">#{user2.first_name} #{user2.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> }
+              fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with account <a href="/admin/user/#{user2.id}">#{user2.first_name} #{user2.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> }
               fb1 = fb1+fb2
             else  
               fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> }
