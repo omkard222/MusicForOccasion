@@ -26,4 +26,6 @@
 //= require jquery.rateit.min
 //= require local_time
 //= require select2
+//= require underscore
+//= require gmaps/google
 //= require_tree .

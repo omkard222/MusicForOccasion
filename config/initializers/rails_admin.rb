@@ -423,6 +423,12 @@ RailsAdmin.config do |config|
         label I18n.t "labels.birthday"
       end
       field :instruments
+      field :sub_type do 
+        formatted_value do
+	        arr = ["private_events", "event_organizer", "venue", "corporate", "booking_agent"]
+          arr[value] if value
+        end
+      end
       field :profile_picture
       field :additional_pictures
     end
