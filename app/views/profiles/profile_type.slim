@@ -1,0 +1,68 @@
+.content-theme-grey
+  .container
+    .space20
+    .col-lg-10.col-lg-offset-1
+      h1 I am looking for a musician for:
+      hr
+      .space30
+      .panel.panel-default
+        .panel-body.edit-profile
+          .row
+            .col-md-10.col-md-offset-1
+              - flash.each do |key, message|
+                div class=("alert alert-#{flash_type(key.to_s)} fade in")
+                  button.close data-dismiss="alert" type="button"  x
+                  div id="flash_#{key}"
+                    = sanitize(message)
+              
+          - if params[:type] == "professionals"
+            .row
+              h3 *{:style => "text-align: center;"}
+               PROFESSIONALS
+              br
+              .col-md-3
+                .space30
+                  = link_to  image_tag("/images/organizer.png", class: 'img-responsive ', id: 'image_profile'), edit_profile_path(current_user.current_profile.id, type: "event_organizer")
+              .col-md-3
+                h4 EVENT ORGANIZER
+                p You regularly book musicians for your own events
+                = link_to "Create Your Profile", edit_profile_path(current_user.current_profile.id, type: "event_organizer"), class: "btn btn-primary"
+              .col-md-3
+                .space30
+                  = link_to  image_tag("/images/venue.png", class: 'img-responsive ', id: 'image_profile'), edit_profile_path(current_user.current_profile.id, type: "venue")
+              .col-md-3
+                h4 VENUE
+                p You regularly book musicians for your place (Club/Bar/Hotel/…)
+                = link_to "Create Your Profile", edit_profile_path(current_user.current_profile.id, type: "venue"), class: "btn btn-primary"
+            .row
+              .col-md-3
+                .space30
+                  = link_to  image_tag("/images/corporate.png", class: 'img-responsive ', id: 'image_profile'), edit_profile_path(current_user.current_profile.id, type: "corporate")
+              .col-md-3
+                h4 CORPORATE
+                p You need musicians for your company event(s)
+                = link_to "Create Your Profile", edit_profile_path(current_user.current_profile.id, type: "corporate"), class: "btn btn-primary"
+              .col-md-3
+                .space30
+                  = link_to  image_tag("/images/agent.png", class: 'img-responsive ', id: 'image_profile'), edit_profile_path(current_user.current_profile.id, type: "booking_agent")
+              .col-md-3
+                h4 BOOKING AGENT
+                p You regularly book musicians for your clients
+                = link_to "Create Your Profile", edit_profile_path(current_user.current_profile.id, type: "booking_agent"), class: "btn btn-primary"
+          - else
+            .row
+              .col-md-3
+                .space30
+                  = link_to  image_tag("/images/private_event.png", class: 'img-responsive ', id: 'image_profile'), edit_profile_path(current_user.current_profile.id, type: "private_events")
+              .col-md-3
+                h4 MY PRIVATE EVENT
+                p Wedding / Birthday / etc.
+                = link_to "Create Your Profile", edit_profile_path(current_user.current_profile.id, type: "private_events"), class: "btn btn-primary"
+              .col-md-3
+                .space30
+                  = link_to  image_tag("/images/events.png", class: 'img-responsive ', id: 'image_profile'), profile_type_profiles_path(type: "professionals")
+              .col-md-3
+                h4 MY EVENTS (PRO)
+                p You regularly book musicians
+                = link_to "Next", profile_type_profiles_path(type: "professionals"), class: "btn btn-primary"
+            
