@@ -225,8 +225,8 @@ RailsAdmin.config do |config|
           if util.fb_disconnect_time.present?
             user2 = User.where(:email => util.invite_friend_email).first 
              if user2.present?
-               fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account <a href="/admin/user/#{user2.id}">#{user2.first_name} #{user2.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> 
-                    <p> Facebook disconnected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a>  with external account <a href="/admin/user/#{user2.id}">#{user2.first_name} #{user2.last_name}</a> on #{util.fb_disconnect_time.strftime('%d/%m/%y')}</p> }
+               fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with account <a href="/admin/user/#{user2.id}">#{user2.first_name} #{user2.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> 
+                    <p> Facebook disconnected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a>  with account <a href="/admin/user/#{user2.id}">#{user2.first_name} #{user2.last_name}</a> on #{util.fb_disconnect_time.strftime('%d/%m/%y')}</p> }
                fb1 = fb1+fb2
              else  
                fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> 
@@ -236,7 +236,7 @@ RailsAdmin.config do |config|
           elsif util.fb_connect_time.present?
             user2 = User.where(:email => util.invite_friend_email).first 
             if user2.present?
-              fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account <a href="/admin/user/#{user2.id}">#{user2.first_name} #{user2.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> }
+              fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with account <a href="/admin/user/#{user2.id}">#{user2.first_name} #{user2.last_name}</a> on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> }
               fb1 = fb1+fb2
             else  
               fb2 = %{<p> Facebook connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.invite_friend_email} on #{util.fb_connect_time.strftime('%d/%m/%y')}</p> }
@@ -246,8 +246,8 @@ RailsAdmin.config do |config|
           if util.twitter_disconnect_time.present?
             user3 = User.where(:email => util.twitter_friend_email).first 
             if user3.present?
-              twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account <a href="/admin/user/#{user3.id}">#{user3.first_name} #{user3.last_name}</a> on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
-                    <p> Twitter disconnected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account <a href="/admin/user/#{user3.id}">#{user3.first_name} #{user3.last_name}</a> on #{util.twitter_disconnect_time.strftime('%d/%m/%y')}</p> }
+              twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with account <a href="/admin/user/#{user3.id}">#{user3.first_name} #{user3.last_name}</a> on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
+                    <p> Twitter disconnected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with account <a href="/admin/user/#{user3.id}">#{user3.first_name} #{user3.last_name}</a> on #{util.twitter_disconnect_time.strftime('%d/%m/%y')}</p> }
               twr1 = twr1+twr2
             else  
               twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.twitter_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p>  
@@ -257,7 +257,7 @@ RailsAdmin.config do |config|
           elsif util.twitter_connect_time.present?
             user3 = User.where(:email => util.twitter_friend_email).first 
             if user3.present?
-              twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account <a href="/admin/user/#{user3.id}">#{user3.first_name} #{user3.last_name}</a> on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
+              twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with account <a href="/admin/user/#{user3.id}">#{user3.first_name} #{user3.last_name}</a> on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
               twr1 = twr1+twr2
             else  
              twr2 = %{<p> Twitter connected by account <a href="/admin/user/#{util.user.id}">#{util.user.first_name} #{util.user.last_name}</a> with external account #{util.twitter_friend_email} on #{util.twitter_connect_time.strftime('%d/%m/%y')}</p> }
