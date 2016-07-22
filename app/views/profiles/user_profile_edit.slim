@@ -1,0 +1,126 @@
+.pages
+  .container
+    .space40
+    .row
+      .col-md-4.col-xs-12
+        = render 'layouts/profile/edit_profile'
+      .col-md-8.col-xs-12
+        .setting
+          h1 Edit Profile
+          span.msg-label Chnage information related to your profile
+          hr/
+          - flash.each do |key, message|
+            div class=("alert alert-#{flash_type(key.to_s)} fade in")
+              button.close data-dismiss="alert" type="button"  x
+              div id="flash_#{key}"
+                = sanitize(message)
+          #modal-window.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+          #modal-window1.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+          #modal-window2.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+          #modal-window3.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
+          #modal-window4.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"       
+          = semantic_form_for @profile do |f|
+            .space30
+            = f.input :id, as: :hidden
+            = f.input :profile_picture, input_html: { id: 'file' }
+            = image_tag(@profile.picture, class: 'img-responsive ', id: 'image_profile')
+            #image_profilee
+                #fileUpload.div_upload_profile
+                  table
+                    tr
+                      td
+                        i.fa.fa-camera.fa-3x
+                      td.padding_left_15
+                        div= ".Update picture"
+                #fileUploadName
+            br
+            = f.input :stage_name
+            = f.input :category, as: :radio, collection: profile_categories
+            = f.input :genres, collection: profile_genres
+            = f.input :biography
+            = f.inputs :location, class: 'location'
+            - if (controller.action_name == "edit") && (@profile.user.premium_account == true)
+              = render 'site_logo', f: f, profile: @profile
+              = f.input :site_url,:label => "URL for your website (link on the logo):"   
+            = render 'tech_rider_form_item', f: f, profile: @profile
+            = f.input :youtube_url
+            = f.input :soundcloud_url
+            .row
+              .col-sm-4
+                h3= f.submit 'Save', class: 'btn btn-info btn-block btn-base'
+= render 'shared/blankfooter'                
+
+javascript:
+
+  $(document).ready(function(){
+    $(".profile_save").click(function(e){
+          
+      var valuesToSubmit = $('form.profile').serialize();
+      var uu = $('form.profile').attr('action');
+      $.ajax({
+          type: "POST",
+          url: $('form.profile').attr('action'), //sumbits it to the given url of the form
+          data: valuesToSubmit,
+          dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+      }).success(function(json){
+          console.log("success", json);
+      });
+    });
+  });
+
+  if ($('#existing_profile_site_logo').text().length === 0) {
+  $('#delete_profile_site_logo').hide();
+  } else {
+    $('#upload_site_logo').hide();
+  }
+  $('#upload_site_logo').on('click', function() {
+    return $('#profile_site_logo').trigger('click');
+  });
+  $('#profile_site_logo').on('change', function() {
+    return site_logo_func();
+  });
+  $('#delete_profile_site_logo').on('click', function() {
+    $('#existing_profile_site_logo').hide();
+    $('#delete_profile_site_logo').hide();
+    $('#upload_site_logo').show();
+    $('#profile_remove_site_logo').prop('checked', true);
+    $('#profile_site_logo').replaceWith($('#profile_site_logo').clone());
+    return $('#profile_site_logo').on('change', function() {
+      return site_logo_func();
+    });
+  });
+  window.site_logo_func = function() {
+    $('#existing_profile_site_logo').show();
+    $('#delete_profile_site_logo').show();
+    $('#upload_site_logo').hide();
+    $('#profile_remove_site_logo').prop('checked', false);
+    $('#existing_profile_site_logo').removeClass('hidden_field');
+    return $('#existing_profile_site_logo').text($('#profile_site_logo').val().replace(/.+[\\\/]/, ""));
+  };
+
+  
+  function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        $('#image_profile')
+          .attr('src', e.target.result).width(150)
+              .height(200);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+    var form_data = {profile_id : 1}
+    $.ajax({
+          type: "GET",
+          url: "/profiles/crop", //sumbits it to the given url of the form
+          data: form_data,
+          dataType: "script" // you want a difference between normal and ajax-calls, and json is standard
+      }).success(function(json){
+          console.log("success", json);
+      }); 
+
+  }
+
+ 

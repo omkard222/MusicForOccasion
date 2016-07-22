@@ -9,6 +9,9 @@ class ProfilesController < ApplicationController
   before_action :verify_user, only: [:update, :delete]
   before_action :check_destroy_profile_possibility, only: [:delete]
   before_action :check_soundcloud_datum, only: [:soundcloud, :soundcloud_request]
+  # edit tab divide
+  before_action :edit, only: [:user_profile_edit, :payment_information, :connect_social_media,  :delete_user_profile]
+  
 
   def users_profiles_list
     @profiles = current_user.profiles.order(:profile_type).order(:id)
@@ -535,8 +538,30 @@ class ProfilesController < ApplicationController
     end  
   end
 
+# ...............edit profile into devide section tab........
+  def user_profile_edit
+
+
+  end
+  
+  def payment_information
+
+
+  end
+
+  def connect_social_media
+  end  
+
+  def  delete_user_profile
+  end  
+
+  
+
+  
+
 
   private
+
 
   def set_unable_to_delete_profile_result(profile)
     flash[:error] = t('.unable_to_delete_profile')

@@ -26,10 +26,17 @@
             a href=profile_path(current_user.current_profile)
               i.fa.fa-user>
               = t('.menu.profile')
-          li
-            a href=edit_profile_path(current_user.current_profile)
-              i.fa.fa-pencil-square-o>
-              = t('.menu.edit_profile')
+          - if current_user.is_musician?    
+            li
+              a href=user_profile_edit_path(current_user.current_profile)
+                i.fa.fa-pencil-square-o>
+                = t('.menu.edit_profile')
+          - else              
+            li
+              a href=edit_profile_path(current_user.current_profile)
+                i.fa.fa-pencil-square-o>
+                = t('.menu.edit_profile')
+              
         - elsif current_user.is_musician?
           li
             a href=new_profile_path
