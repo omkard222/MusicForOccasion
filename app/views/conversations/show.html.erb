@@ -223,7 +223,7 @@
           }
         }
 
-        if (data.status == "Cancelled"){
+        if (data.status == "Cancelled" || data.status == "Expired" ){
             $('.cancel').addClass('hidden');
             $('.accept').addClass('hidden');
             $('.reject').addClass('hidden');
