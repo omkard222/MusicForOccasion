@@ -1,0 +1,50 @@
+.pages
+  .container
+    .space40
+    .row
+      .col-md-4.col-xs-12
+        = render 'layouts/profile/edit_profile'
+      .col-md-8.col-xs-12
+        .setting
+          h1
+            = "Delete Profile"
+          span class="msg-label"
+            = "Permanently delete your profile"
+          hr
+          = form_tag profile_path(current_user), method: :destroy , id: 'delete_profile_form' do
+            .space20
+            - flash.each do |key, message|
+              div class=("alert alert-#{flash_type(key.to_s)} fade in")
+                button.close data-dismiss="alert" type="button"  x
+                div id="flash_#{key}"
+                  = sanitize(message)
+            h4
+              b
+                = t('profiles.delete_profile.question')
+              .space20
+              h5
+                = t('profiles.delete_profile.huge_description')
+              h5
+                = t('profiles.delete_profile.email_support_link', link: link_to(ApplicationHelper::SUPPORT_EMAIL, "mailto:#{ApplicationHelper::SUPPORT_EMAIL}")).html_safe
+              h5
+                = t('profiles.delete_profile.second_question')
+          .space30
+          div style="display: none;"
+            #alert_title
+              - if @able_to_destroy_current_profile
+                = t('profiles.delete_profile.able_to_destroy_title', name: @profile.stage_name)
+              - else
+                = t('profiles.delete_profile.unable_to_destroy_title')
+            #alert_message
+              - link = link_to('YES', profile_path(@profile), method: :delete, class: 'btn btn_modal_confirm btn-defaul', id: 'submit_form', style: 'width:90px;')
+              - button = button_tag('CANCEL', class: 'btn btn_modal_confirm btn-default', id: 'close_modal', aria: { label: "Close" }, data: { dismiss: "modal" } )
+              - if @able_to_destroy_current_profile
+                = t('profiles.delete_profile.able_to_destroy_message', link: link, button: button)
+              - else
+                = t('profiles.delete_profile.unable_to_destroy_message', message: button)
+          .row
+            .col-sm-4
+              h3= link_to "Delete profile", profile_delete_profile_path(@profile), class: 'btn btn-danger btn-block btn-base'
+              .space10
+= render 'shared/blankfooter'
+
