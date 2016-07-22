@@ -42,6 +42,7 @@ class Profile < ActiveRecord::Base
   before_update :if_last_profile
 
   enum profile_type: [:registered_user, :musician]
+  enum sub_type: [:private_events, :event_organizer, :venue, :corporate, :booking_agent]
   enum paypal_account_email_confirmation_status: [:paypal_unconfirmed, :paypal_confirmation_sent, :paypal_confirmed]
 
   scope :musician_has_services, -> { musician.joins(:services).where(services: { deleted_at: nil }).uniq }

@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
+  before_filter :set_booker_profile
 
   before_filter :authenticate if ENV['STAGING_PASSWORD'] && ENV['STAGING_PASSWORD'].size > 0
   include ApplicationHelper
@@ -23,6 +24,12 @@ class ApplicationController < ActionController::Base
       else
         super
       end
+  end
+
+  def set_booker_profile
+    if current_user && current_user.current_profile.profile_type == "registered_user"
+      redirect_to profile_type_profiles_path unless current_user.current_profile.sub_type
+    end
   end
 
   private

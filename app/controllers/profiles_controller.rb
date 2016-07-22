@@ -3,7 +3,8 @@ class ProfilesController < ApplicationController
   include ApplicationHelper
   include ServicesHelper
   skip_before_filter :verify_authenticity_token, :only => [:facebook_friend_page_connect, :facebook_friend_page, :invite_friend, :user_email_change, :invite_twitter_friend]
-
+  skip_before_filter :set_booker_profile, :only => [:profile_type, :edit, :update]
+  
   before_action :authenticate_user!, except: [:facebook_friend_page_connect, :show,:facebook_friend_page, :show_slug, :new, :create, :paypal_confirmation, :invite_friend, :user_email_change, :facebook_disconnect_friend, :twitter_disconnect_friend]
   #before_action :verify_user, only: [:edit, :update, :delete]
   before_action :verify_user, only: [:update, :delete]
@@ -365,25 +366,7 @@ class ProfilesController < ApplicationController
     session[:user_fb_idd] = ""
     session[:user_fb_idd] = "" 
     @profile = Profile.find(params[:id])
-    if session[:all_params].present?
-      @profile.username = session[:all_params]["username"] if session[:all_params]["username"].present?
-      @profile.stage_name = session[:all_params]["stage_name"] if session[:all_params]["stage_name"].present?
-      @profile.category = session[:all_params]["category"] if session[:all_params]["category"].present?
-      @profile.instrument_ids = session[:all_params]["instrument_ids"] if session[:all_params]["instrument_ids"].present?
-      @profile.genre_ids = session[:all_params]["genre_ids"] if session[:all_params]["genre_ids"].present?
-      @profile.biography = session[:all_params]["biography"] if session[:all_params]["biography"].present?
-      @profile.location = session[:all_params]["location"] if session[:all_params]["location"].present?
-      @profile.site_url = session[:all_params]["site_url"] if session[:all_params]["site_url"].present?
-      @profile.youtube_url = session[:all_params]["youtube_url"] if session[:all_params]["youtube_url"].present?
-      @profile.soundcloud_url = session[:all_params]["soundcloud_url"] if session[:all_params]["soundcloud_url"].present?
-      if session[:all_params]["bank_account_attributes"].present?
-        @profile.bank_account.bank_name = session[:all_params]["bank_account_attributes"]["bank_name"] if session[:all_params]["bank_account_attributes"]["bank_name"].present?
-        @profile.bank_account.name = session[:all_params]["bank_account_attributes"]["name"] if session[:all_params]["bank_account_attributes"]["name"].present?
-        @profile.bank_account.acc_number = session[:all_params]["bank_account_attributes"]["acc_number"] if session[:all_params]["bank_account_attributes"]["acc_number"].present?
-        @profile.bank_account.id = session[:all_params]["bank_account_attributes"]["id"] if session[:all_params]["bank_account_attributes"]["id"].present?
-      end
-      session.delete(:all_params)
-    end
+    @profile.sub_type = params[:type] if params[:type]
     @bank_account = @profile.bank_account || @profile.create_bank_account
   end
  
@@ -560,6 +543,12 @@ class ProfilesController < ApplicationController
   
 
 
+  def profile_type
+    
+  end
+
+
+
   private
 
 
@@ -596,7 +585,7 @@ class ProfilesController < ApplicationController
 
   def update_profile
     params[:profile][:instrument_ids] = nil unless params[:profile][:category] == 'Solo'
-    params.require(:profile).permit(:stage_name, :category, :user_id, :biography, :profile_picture,
+    params.require(:profile).permit(:stage_name, :category, :user_id, :biography, :profile_picture, :sub_type,
                                     :youtube_url, :soundcloud_url, :location, :username, :tech_rider,:site_logo, :site_url, :remove_tech_rider,:remove_site_logo,
                                     instrument_ids: [],
                                     genre_ids: [],
