@@ -203,7 +203,8 @@
           }else if (data.status == "Special Offer"){
               if (data.user_type == "musician")
               {
-               $('.cancel').removeClass('hidden');
+               $('.accept').addClass('hidden');
+               $('.reject').addClass('hidden');
               }else{
               $('.edit-special').removeClass('hidden');
               }
