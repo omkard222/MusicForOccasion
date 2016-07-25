@@ -192,6 +192,7 @@
       $.getJSON( "/booking_request/" + booking_id, function(data) {
         console.log(data.user_type);
         $('#booking_id').val(data.id.toString());
+        console.log(data.requestor);
         if (data.requestor.toString() == "<%= current_user.current_profile.id.to_s %>"){
           $('.cancel').removeClass('hidden');
           $('.accept').addClass('hidden');
@@ -201,15 +202,11 @@
           if (data.status == "Rejected"){
               $('.cancel').addClass('hidden');
           }else if (data.status == "Special Offer"){
-              if (data.user_type == "musician")
-              {
-               $('.accept').addClass('hidden');
-               $('.reject').addClass('hidden');
-              }else{
-              $('.edit-special').removeClass('hidden');
+            
+              $('.edit-special').addClass('hidden');
               }
-          }
-        }
+          
+            }
         else{
           $('.cancel').addClass('hidden');
           $('.accept').removeClass('hidden');
