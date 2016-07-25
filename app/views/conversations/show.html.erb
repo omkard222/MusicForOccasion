@@ -194,6 +194,7 @@
         $('#booking_id').val(data.id.toString());
         console.log(data.requestor);
         if (data.requestor.toString() == "<%= current_user.current_profile.id.to_s %>"){
+          console.log("first**********")
           $('.cancel').removeClass('hidden');
           $('.accept').addClass('hidden');
           $('.reject').addClass('hidden');
@@ -208,6 +209,7 @@
           
             }
         else{
+          console.log("second**********")
           $('.cancel').addClass('hidden');
           $('.accept').removeClass('hidden');
           $('.reject').removeClass('hidden');
