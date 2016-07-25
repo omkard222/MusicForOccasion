@@ -210,11 +210,13 @@
             }
         else{
           console.log("second**********")
+          console.log(data.status)
           $('.cancel').addClass('hidden');
           $('.accept').removeClass('hidden');
           $('.reject').removeClass('hidden');
           $('.edit-special').addClass('hidden');
           if (data.status == "Pending"){
+              console.log("second* pending *********")
               if (data.user_type == "registered_user")
               {
                 $('.accept').addClass('hidden');
@@ -223,6 +225,7 @@
               }
              $('.special').removeClass('hidden');     
           }else if (data.status == "Rejected"){
+              console.log("second* rejected *********")
               $('.special').removeClass('hidden');
               $('.cancel').addClass('hidden');
               $('.accept').addClass('hidden');
