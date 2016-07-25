@@ -213,6 +213,8 @@
               if (data.user_type == "registered_user")
               {
                 $('.accept').addClass('hidden');
+                $('.reject').addClass('hidden');
+                $('.cancel').removeClass('hidden');
               }
              $('.special').removeClass('hidden');     
           }else if (data.status == "Rejected"){
