@@ -231,9 +231,11 @@
               $('.accept').addClass('hidden');
               $('.reject').addClass('hidden');
           }else if (data.status == "Special Offer"){
-            $('.cancel').removeClass('hidden');
-            $('.accept').addClass('hidden');
-            $('.reject').addClass('hidden');
+            if (data.user_type == "musician"){
+              $('.cancel').removeClass('hidden');
+              $('.accept').addClass('hidden');
+              $('.reject').addClass('hidden');
+            }  
           }
         }
 
