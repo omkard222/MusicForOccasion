@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411134133) do
+ActiveRecord::Schema.define(version: 20160721122204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,6 +190,15 @@ ActiveRecord::Schema.define(version: 20160411134133) do
   add_index "musician_genres", ["genre_id"], name: "index_musician_genres_on_genre_id", using: :btree
   add_index "musician_genres", ["profile_id"], name: "index_musician_genres_on_profile_id", using: :btree
 
+  create_table "profile_histories", force: :cascade do |t|
+    t.integer  "profile_id"
+    t.string   "old_user_email"
+    t.string   "new_user_email"
+    t.datetime "migration_date"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "profiles", force: :cascade do |t|
     t.string   "username"
     t.text     "headline"
@@ -226,6 +235,20 @@ ActiveRecord::Schema.define(version: 20160411134133) do
     t.integer  "paypal_account_email_confirmation_status", default: 0
     t.string   "paypal_account_email_confirmation_token"
     t.integer  "position_priority",                        default: 0
+    t.string   "previous_account_mail"
+    t.datetime "migration_date"
+    t.string   "site_logo"
+    t.string   "site_url"
+    t.string   "invite_friend_name"
+    t.string   "invite_friend_email"
+    t.datetime "fb_connect_time"
+    t.datetime "fb_disconnect_time"
+    t.datetime "twitter_connect_time"
+    t.datetime "twitter_disconnect_time"
+    t.datetime "update_date"
+    t.string   "twitter_friend_email"
+    t.string   "google_friend_email"
+    t.string   "scloud_friend_email"
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
@@ -297,12 +320,12 @@ ActiveRecord::Schema.define(version: 20160411134133) do
   add_index "soundcloud_data", ["profile_id"], name: "index_soundcloud_data_on_profile_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                           default: "",   null: false
-    t.string   "encrypted_password",              default: "",   null: false
+    t.string   "email",                           default: "",    null: false
+    t.string   "encrypted_password",              default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                   default: 0,    null: false
+    t.integer  "sign_in_count",                   default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
@@ -331,6 +354,7 @@ ActiveRecord::Schema.define(version: 20160411134133) do
     t.string   "avatar"
     t.boolean  "notify_cancel_confirmed_booking", default: true
     t.boolean  "notify_receive_message",          default: true
+    t.boolean  "premium_account",                 default: false
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
