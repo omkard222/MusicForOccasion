@@ -5,7 +5,7 @@
 = semantic_form_for @profile do |f|
   .space30
   = f.input :id, as: :hidden
-  = f.input :sub_type, as: :hidden, :input_html => { :value => params[:type] } 
+  = f.input :sub_type, as: :hidden, :input_html => { :value => params[:type] || @profile.sub_type } 
   = f.input :profile_picture, input_html: { id: 'file' }
   = image_tag(@profile.picture, class: 'img-responsive ', id: 'image_profile')
   #fileUpload.div_upload_profile
