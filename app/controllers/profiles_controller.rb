@@ -377,7 +377,7 @@ class ProfilesController < ApplicationController
         format.json{ render :json=>  {:status => 200, :response=>"ok"} }
         #flash[:success] = translate('.success')
         #redirect_to profile_path
-        format.html { redirect_to profile_path, :flash => { :success => translate('.success') }}
+        format.html { redirect_to profile_path(@profile), :flash => { :success => translate('.success') }}
       end  
     else
       check_for_error(update_profile)
