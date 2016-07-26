@@ -24,7 +24,9 @@
                 <% if receipt.message.body.gsub(/(<[^>]+>)/, '').include?(' 0.0')%>
                   <%= receipt.message.body.gsub(/(<[^>]+>)/, '')%>
                   <p class="msg-label number_font"><%= receipt.message.body.gsub(/(<[^>]+>)/, '').split(" at ").first%></p>
-                <% else %>  
+                <% else %>
+                  <%= "else part"%>
+                  <%= receipt.message.body.gsub(/(<[^>]+>)/, '')%>  
                   <p class="msg-label number_font"><%= truncate(receipt.message.body.gsub(/(<[^>]+>)/, ''), :length => 100) %></p>
                 <% end %>  
                 <p class="footer-label">
