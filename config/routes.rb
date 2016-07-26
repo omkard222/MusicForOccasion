@@ -42,6 +42,12 @@ Rails.application.routes.draw do
   post "/profiles/user_email_change" => 'profiles#user_email_change', :as => :user_email_change
   get "/facebook_disconnect_friend" => "profiles#facebook_disconnect_friend", :as => :facebook_disconnect_friend
   get "/twitter_disconnect_friend" => "profiles#twitter_disconnect_friend", :as => :twitter_disconnect_friend 
+  get "/payment_information/:id" => "profiles#payment_information", :as => :payment_information 
+  get "/connect_social_media/:id" => "profiles#connect_social_media", :as => :connect_social_media 
+  get "/user_profile_edit/:id" => "profiles#user_profile_edit", :as => :user_profile_edit
+  get "/delete_user_profile/:id" => "profiles#delete_user_profile", :as => :delete_user_profile
+
+
   #patch "/profiles/profile_save_params" => "profiles#profile_save_params", :as => :profile_save_params
   constraints(id: /[0-9]+/) do
     resources :profiles, only: [:show, :edit, :update, :destroy] do

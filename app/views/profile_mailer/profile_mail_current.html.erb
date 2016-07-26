@@ -11,13 +11,13 @@
     </div>
     <div class="content wrapper">
       <div class="profile-email">
-    <p>Hello <%= @new_user.first_name%>, </p>
+    <p class="profile_line">Hello <%= @new_user.first_name%>, </p>
 
-    <p>Your profile <%= @profile.stage_name%> has been migrated from the account <%= @old_user.first_name%> with email address <%= @old_user.email%></p>
+    <p class="profile_line">Your profile <%= @profile.stage_name%> has been migrated from the account <%= @old_user.first_name%> with email address <%= @old_user.email%></p>
 
-    <p>to a new account <%= @new_user.first_name%> with email address: <%= @new_user.email%></p>
+    <p class="profile_line">to a new account <%= @new_user.first_name%> with email address: <%= @new_user.email%></p>
     
-    <p>Contact us if you need any clarifications.</p>
+    <p class="profile_line">Contact us if you need any clarifications.</p>
 
     <p style="line-height: 70%;">Best Regards,</p>
     <p style="line-height: 70%;">The gigBazaar Team </p>
@@ -37,3 +37,8 @@
     </div>
   </body>
 </html>
+<style type="text/css">
+  .profile_line{
+    line-height: 80%
+  }
+</style>
