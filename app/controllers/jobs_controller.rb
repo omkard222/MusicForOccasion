@@ -22,7 +22,8 @@ class JobsController < ApplicationController
   end
 
   def index
-    @jobs = current_profile.jobs.all
+    jobs = current_profile.jobs.all
+    @jobs = jobs.where(deleted_at: nil)
   end
 
   def update
