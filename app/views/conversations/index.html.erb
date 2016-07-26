@@ -21,7 +21,11 @@
                   <% end %>
                 </h3>
                 <hr/>
-                <p class="msg-label number_font"><%= truncate(receipt.message.body.gsub(/(<[^>]+>)/, ''), :length => 100) %></p>
+                <% if receipt.message.body.gsub(/(<[^>]+>)/, '').include?('0.0')%>
+                  <p class="msg-label number_font"><%= receipt.message.body.gsub(/(<[^>]+>)/, '').split(" at ").first%></p>
+                <% else %>  
+                  <p class="msg-label number_font"><%= truncate(receipt.message.body.gsub(/(<[^>]+>)/, ''), :length => 100) %></p>
+                <% end %>  
                 <p class="footer-label">
                   <%= receipt.message.created_at.strftime('%d %B %Y, %I:%M %P') %>
                   <a class="btn btn-blue-i-m chat-button" href="<%= conversation_path(profile) %>">
