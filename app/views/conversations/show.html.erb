@@ -218,8 +218,9 @@
                 $('.accept').addClass('hidden');
                 $('.reject').addClass('hidden');
                 $('.cancel').removeClass('hidden');
-              }
-             $('.special').removeClass('hidden');     
+              }else{
+               $('.special').removeClass('hidden');
+               }     
           }else if (data.status == "Rejected"){
               $('.special').removeClass('hidden');
               $('.cancel').addClass('hidden');
