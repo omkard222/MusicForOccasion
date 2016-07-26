@@ -247,6 +247,10 @@ class BookingRequestsController < ApplicationController
               receiver = MailboxerReceipt.new(receiver_type: "Profile", notification_id: notice.id, mailbox_type: "inbox")
               requestor.receiver_id = current_user.current_profile.id
               receiver.receiver_id = (current_user.current_profile.id != request.profile_id) ? request.profile_id : request.service.profile_id
+              requestor.created_at = Time.now + 2.minutes
+              requestor.updated_at = Time.now + 2.minutes
+              receiver.created_at = Time.now + 2.minutes
+              receiver.updated_at = Time.now + 2.minutes
               requestor.save! && receiver.save!
             end
           end
