@@ -61,6 +61,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :jobs
+
   resources :conversations,
             only: [:index, :show],
             path: 'inbox', param: :id do

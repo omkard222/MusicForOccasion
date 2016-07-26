@@ -9,6 +9,7 @@ class Profile < ActiveRecord::Base
   has_many :musician_genres, dependent: :destroy
   has_many :genres, through: :musician_genres
   has_many :services, dependent: :destroy
+  has_many :jobs, dependent: :destroy
   has_many :booking_requests, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :created_reviews, dependent: :destroy, foreign_key: 'reviewer_id', class_name: 'Review'
