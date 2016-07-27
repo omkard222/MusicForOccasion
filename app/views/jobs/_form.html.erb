@@ -79,7 +79,7 @@
           </div>
           <div class="row">
             <div class="col-sm-6">
-              <h3><%= f.submit @new ? 'Save' : 'Update', class: 'btn btn-info btn-block btn-base' %></h3>
+              <h3><%= f.submit @job.new_record? ? 'Save' : 'Update', class: 'btn btn-info btn-block btn-base' %></h3>
               <div class="space10"></div>
             </div>
             <div class="col-sm-6">

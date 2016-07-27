@@ -14,7 +14,7 @@
             <h3>My Offers</h3>
           </div>
           <div class="col-sm-3">
-            <h3 class="t-offer"><%= link_to "create offer", new_job_path, class: 'btn btn-default btn-block btn-offer' %></h3>
+            <h3 class="t-offer"><%= link_to "Create offer", new_job_path, class: 'btn btn-default btn-block btn-offer' %></h3>
           </div>
         </div>
       </div>
@@ -40,8 +40,12 @@
               </thead>
               <tbody>
               <tr>
-                <% @jobs.each do |job| %>
-                    <%= render 'list_details', job: job %>
+                <% if @jobs.present? %>
+                  <% @jobs.each do |job| %>
+                      <%= render 'list_details', job: job %>
+                  <% end %>
+                <% else %>
+                  <h4>You have no offers</h4>
                 <% end %>
               </tr>
               </tbody>
