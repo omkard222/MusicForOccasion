@@ -21,7 +21,7 @@
                   <% end %>
                 </h3>
                 <hr/>
-                <% if receipt.message.body.gsub(/(<[^>]+>)/, '').include?(' 0.0')%>
+                <% if receipt.message.body.gsub(/(<[^>]+>)/, '').include?(' 30.0')%>
                   <%= receipt.message.body.gsub(/(<[^>]+>)/, '')%>
                   <p class="msg-label number_font"><%= receipt.message.body.gsub(/(<[^>]+>)/, '').split(" at ").first%></p>
                 <% else %>
