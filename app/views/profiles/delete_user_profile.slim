@@ -1,7 +1,7 @@
 .pages
   .container
     .space40
-    .row
+    .row.edit-profile
       .col-md-4.col-xs-12
         = render 'layouts/profile/edit_profile'
       .col-md-8.col-xs-12
@@ -42,9 +42,10 @@
                 = t('profiles.delete_profile.able_to_destroy_message', link: link, button: button)
               - else
                 = t('profiles.delete_profile.unable_to_destroy_message', message: button)
+          
           .row
             .col-sm-4
-              h3= link_to "Delete profile", profile_delete_profile_path(@profile), class: 'btn btn-danger btn-block btn-base'
+              = link_to "Delete Profile", '#', id: "delete_profile_btn", class: 'btn btn-red-i btn-block'
               .space10
 = render 'shared/blankfooter'
 

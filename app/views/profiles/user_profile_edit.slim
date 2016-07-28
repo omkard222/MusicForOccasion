@@ -5,7 +5,7 @@
       .col-md-4.col-xs-12
         = render 'layouts/profile/edit_profile'
       .col-md-8.col-xs-12
-        .setting
+        .edit-profile
           h1 Edit Profile
           span.msg-label Chnage information related to your profile
           hr/
@@ -31,11 +31,12 @@
                       td
                         i.fa.fa-camera.fa-3x
                       td.padding_left_15
-                        div= ".Update picture"
+                        div= "Update Picture"
                 #fileUploadName
             br
             = f.input :stage_name
             = f.input :category, as: :radio, collection: profile_categories
+            = f.input :instruments, collection: profile_instruments
             = f.input :genres, collection: profile_genres
             = f.input :biography
             = f.inputs :location, class: 'location'
@@ -46,7 +47,7 @@
             = f.input :youtube_url
             = f.input :soundcloud_url
             .row
-              .col-sm-4
+              .col-sm-4.col-md-offset-6
                 h3= f.submit 'Save', class: 'btn btn-info btn-block btn-base'
 = render 'shared/blankfooter'                
 
