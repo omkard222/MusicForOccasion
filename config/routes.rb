@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     resources :profiles, only: [:show, :edit, :update, :destroy] do
       get :choose_profile
       get :delete_profile
+      get :profile_type, on: :collection
     end
   end
   get '/profile/:slug' => 'profiles#show_slug', as: :profile_slug, constraints: { slug: /[a-z|\d|\-]+/ } 
@@ -65,6 +66,8 @@ Rails.application.routes.draw do
       post :delete
     end
   end
+
+  resources :jobs
 
   resources :conversations,
             only: [:index, :show],

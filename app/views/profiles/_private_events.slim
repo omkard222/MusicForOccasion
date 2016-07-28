@@ -1,0 +1,28 @@
+= semantic_form_for @profile do |f|
+  .space30
+  = f.input :id, as: :hidden
+  = f.input :sub_type, as: :hidden, :input_html => { :value => params[:type] || @profile.sub_type } 
+  = f.input :profile_picture, input_html: { id: 'file' }
+  = image_tag(@profile.picture, class: 'img-responsive ', id: 'image_profile')
+  #fileUpload.div_upload_profile
+    table
+      tr
+        td
+          i.fa.fa-camera.fa-3x
+        td.padding_left_15
+          div= t('profiles.form_for_registered_user.update_picture')
+  #fileUploadName
+  br
+  = f.input :username
+  = f.inputs :location, class: 'location'
+  .row
+    .col-sm-4
+      h3= f.submit 'Update profile', class: 'btn btn-info btn-block btn-base'
+      .space10                  
+    .col-sm-4
+      h3= link_to t('profiles.form_for_registered_user.delete_profile'), profile_delete_profile_path(@profile), class: 'btn btn-danger btn-block btn-base'
+      .space10
+    .col-sm-4
+      h3= link_to 'Cancel', profile_path(current_user.current_profile), class: 'btn btn-default btn-block btn-base'
+      .space10
+.space40

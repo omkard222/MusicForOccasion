@@ -176,12 +176,13 @@
 
       <% if @profile.biography %>
           <div class="bio divBioMusic">
-            <h1>Biography</h1>
+            <!-- <h1>Biography</h1> -->
+            <div style="height: 69px; width: 75%; top: 1px;position: absolute;background-color: rgb(255, 255, 255);"><h1>Biography</h1></div>
             <% if @bio_hide %>
-                  <p id="bioMusic" class="break_word" style="white-space: pre-wrap;"><%= @bio_show %>
+                  <p id="bioMusic" class="break_word" style="white-space: pre-wrap; margin-top:62px;"><%= @bio_show %>
                   <a onclick="show_hide_bio()" id="seeMore"> ... See More</a></p>
             <% else %>
-                <p style="white-space: pre-wrap;"><%= @profile.biography %></p>
+                <p style="white-space: pre-wrap; margin-top: 62px;"><%= @profile.biography %></p>
                 <p style="white-space: pre-line;"><%#= @profile.biography %></p>
             <% end %>
           </div>

@@ -11,20 +11,20 @@
     </div>
     <div class="content wrapper">
       <div class="profile-email">
-	  <p>Hello <%= @name%>, </p>
+	  <p class="profile_line">Hello <%= @name%>, </p>
 
-	  <p>Your profile <%= @profile_name %> is now connected to Twitter.</p>
-	  <p>You can view again the profile <a href="http://gigzbazzar.herokuapp.com/profiles/<%=@profile.id%>">here</a></p>
+	  <p class="profile_line">Your profile <%= @profile_name %> is now connected to Twitter.</p>
+	  <p class="profile_line">You can view again the profile <a href="http://gigzbazzar.herokuapp.com/profiles/<%=@profile.id%>">here</a></p>
 
-      <p>You could ask to disconnect the profile anytime by clicking the button below.</p>
+    <p class="profile_line">You could ask to disconnect the profile anytime by clicking the button below.</p>
+    <p class="profile_line">
+	    <a class="btn btn_connect" href="http://gigzbazzar.herokuapp.com/twitter_disconnect_friend?source=<%=@slug%>">Disconnect</a>
 
-	  <a class="btn btn_connect" href="http://gigzbazzar.herokuapp.com/twitter_disconnect_friend?source=<%=@slug%>">Disconnect</a>
+    </p>
+	  <p class="profile_line">Contact us if you need any clarifications.</p>
 
-
-	  <p>Contact us if you need any clarifications.</p>
-
-	  <p style="line-height: 70%;">Best Regards,</p>
-    <p style="line-height: 70%;">The gigBazaar Team </p>
+	  <p style="line-height: 80%;">Best Regards,</p>
+    <p style="line-height: 1%;">The gigBazaar Team </p>
     <hr class="line"/>
     </div>  
       <p class="preferences-note">
@@ -40,5 +40,9 @@
     </div>
   </body>
 </html>
-
+<style type="text/css">
+  .profile_line{
+    line-height: 80%;
+  }
+</style>
   

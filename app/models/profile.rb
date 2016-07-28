@@ -9,6 +9,7 @@ class Profile < ActiveRecord::Base
   has_many :musician_genres, dependent: :destroy
   has_many :genres, through: :musician_genres
   has_many :services, dependent: :destroy
+  has_many :jobs, dependent: :destroy
   has_many :booking_requests, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :created_reviews, dependent: :destroy, foreign_key: 'reviewer_id', class_name: 'Review'
@@ -42,6 +43,7 @@ class Profile < ActiveRecord::Base
   before_update :if_last_profile
 
   enum profile_type: [:registered_user, :musician]
+  enum sub_type: [:private_events, :event_organizer, :venue, :corporate, :booking_agent]
   enum paypal_account_email_confirmation_status: [:paypal_unconfirmed, :paypal_confirmation_sent, :paypal_confirmed]
 
   scope :musician_has_services, -> { musician.joins(:services).where(services: { deleted_at: nil }).uniq }

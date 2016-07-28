@@ -1,0 +1,28 @@
+<tr>
+  <td>
+    <p class="p_headline"><%= link_to job.title, job_path(job)%></p>
+  </td>
+  <td>
+    <p class="p_description"><%=  job.description  %></p>
+  </td>
+  <td>
+    <%=  job.accommodation %>
+  </td>
+  <td>
+    <%= job.transportation %>
+  </td>
+  <td>
+    <%= link_to 'update', edit_job_path(job.id) %>
+  </td>
+  <td>
+    <a href="" id="delete_<%= job.id.to_s %>" onclick="return false;">delete</a>
+  </td>
+</tr>
+<script type="text/javascript">
+  $('#delete_<%= job.id.to_s %>').click(function(e){
+      bootbox.dialog({
+        title: "Are you sure you want to remove <%= job.title %> ?",
+        message: "<a class='btn btn_modal_confirm' href='/jobs/<%= job.id.to_s %>' data-method='delete'>Yes</a> <button type='button' class='btn btn-default btn_modal_confirm' data-dismiss='modal' aria-hidden='true'>No</button>"
+      });
+  });
+</script>

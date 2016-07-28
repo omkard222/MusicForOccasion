@@ -28,7 +28,7 @@
               = t('.menu.profile')
           - if current_user.is_musician?    
             li
-              a href=user_profile_edit_path(current_user.current_profile)
+              a href=edit_profile_path(current_user.current_profile)
                 i.fa.fa-pencil-square-o>
                 = t('.menu.edit_profile')
           - else              
@@ -56,6 +56,10 @@
               i.fa.fa-calendar>
               = t('.menu.bookings_sent')
         - else
+          li
+            a href=jobs_path
+              i.fa.fa-list-alt>
+              = t('.menu.jobs')
           li
             a href=list_my_booking_path
               i.fa.fa-calendar>

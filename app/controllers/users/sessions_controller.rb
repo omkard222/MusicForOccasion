@@ -3,6 +3,7 @@ module Users
   class SessionsController < Devise::SessionsController
     include ApplicationHelper
     before_filter :permit_devise_parameters
+    skip_before_filter :set_booker_profile, :only => [:destroy]
     # POST /user/sign_in
     def create
       logging_user = User.where(email: params[:user][:email]).first

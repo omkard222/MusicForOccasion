@@ -1,0 +1,59 @@
+<div class="offer">
+  <div class="content">
+    <div class="container">
+      <div class="space20"></div>
+      <% flash.each do |key, message| %>
+          <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+          </div>
+      <% end %>
+      <div class="page-header">
+        <div class="row">
+          <div class="col-sm-9">
+            <h3>My Offers</h3>
+          </div>
+          <div class="col-sm-3">
+            <h3 class="t-offer"><%= link_to "Create offer", new_job_path, class: 'btn btn-default btn-block btn-offer' %></h3>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <col width="10%">
+              <col width="30%">
+              <col width="25%">
+              <col width="25%">
+              <col width="5%">
+              <col width="5%">
+              <thead>
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Accomodation</th>
+                <th>Transportation</th>
+                <th></th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <% if @jobs.present? %>
+                  <% @jobs.each do |job| %>
+                      <%= render 'list_details', job: job %>
+                  <% end %>
+                <% else %>
+                  <h4>You have no offers</h4>
+                <% end %>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>
