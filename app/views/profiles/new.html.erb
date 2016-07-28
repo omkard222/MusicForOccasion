@@ -1,47 +1,42 @@
-<div class="space40"></div>
-
-<section class="login-body">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
-        <ul class="progress-indicator">
-          <li class="completed">
-            <span class="bubble"></span><i class="fa fa-check-circle"></i> Create your account
-          </li>
-          <li class="warning">
-            <span class="bubble"></span><i class="fa fa-cog fa-spin"></i> Create your profile
-          </li>
-        </ul>
+<% if @type == 'musician' %>
+  <div class="space40"></div>
+  
+  <section class="login-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <ul class="progress-indicator">
+            <li class="completed">
+              <span class="bubble"></span><i class="fa fa-check-circle"></i> Create your account
+            </li>
+            <li class="warning">
+              <span class="bubble"></span><i class="fa fa-cog fa-spin"></i> Create your profile
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h1 class="panel-title">Create your profile</h1>
-          </div>
-          <div class="panel-body">
-            <div class="row">
-              <div class="col-md-8 col-md-offset-2">
-                <% flash.each do |key, message| %>
-                    <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
-                      <button type="button" class="close" data-dismiss="alert">x</button>
-                      <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
-                    </div>
-                <% end %>
-                <div class="space30"></div>
-                <%= form_for @profile, url: create_profile_path, method: :post do |f| %>
-                    <%= f.hidden_field :profile_type, value: "#{(@type == 'musician') ? 1 : 0}".to_i %>
-                    <div class="form-group">
-                      <% if @type == 'musician' %>
+      <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h1 class="panel-title">Create your profile</h1>
+            </div>
+            <div class="panel-body">
+              <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                  <% flash.each do |key, message| %>
+                      <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+                        <button type="button" class="close" data-dismiss="alert">x</button>
+                        <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+                      </div>
+                  <% end %>
+                  <div class="space30"></div>
+                  <%= form_for @profile, url: create_profile_path, method: :post do |f| %>
+                      <%= f.hidden_field :profile_type, value: "#{(@type == 'musician') ? 1 : 0}".to_i %>
+                      <div class="form-group">
                         <%= f.label :stage_name %>
                         <%= f.text_field :stage_name, required: true, class: 'form-control', :maxlength => 30, placeholder: t('.name_placeholder') %>
-                      <% else %>
-                        <%= f.label :username %>
-                        <%= f.text_field :username, required: true, class: 'form-control', :maxlength => 30, placeholder: t('.name_placeholder') %>
-                      <% end %>
-                    </div>
-                    <% if @type == 'musician' %>
+                      </div>
                       <div class="form-group">
                         <%= f.label :category %>
                         <br>
@@ -82,46 +77,49 @@
                                        'style' => 'display: block; visibility: visible; position: absolute; margin-top: 4px; margin-left: 4px; width: 100%; height:34px;', class: 'form-control' %>
 
                       </div>
-                    <% end %>
-                    <div class="form-group">
-                      <%= f.label :location %>
-                      <%= f.text_field :location, required: true, class: 'form-control location', placeholder: 'These fields are needed.' %>
-                    </div>
-                    <input type="hidden" name="profile[user_id]" value="<%= current_user ? current_user.id : @user.id %>">
-
-                    <div class="space40"></div>
-                    <%= f.submit 'Create profile', class: 'btn btn-default btn-block btn-blue' %>
-                <% end %>
-                <div class="space40"></div>
+                      <div class="form-group">
+                        <%= f.label :location %>
+                        <%= f.text_field :location, required: true, class: 'form-control location', placeholder: 'These fields are needed.' %>
+                      </div>
+                      <input type="hidden" name="profile[user_id]" value="<%= current_user ? current_user.id : @user.id %>">
+  
+                      <div class="space40"></div>
+                      <%= f.submit 'Create profile', class: 'btn btn-default btn-block btn-blue' %>
+                  <% end %>
+                  <div class="space40"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-
-<% content_for :bottom_script do %>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#instrument_id').select2();
-            $('#genre_id').select2();
-            $('#instrument_id').select2('val', '');
-        })
-        function radioValueChanged() {
-            if (document.getElementById("profile_category_solo").checked) {
-                $('#instrument_field').removeClass('hidden');
-                $('#instrument_id').prop('required', true);
-                $('#instrument_id').prop('disabled', false);
-            }
-            else {
-                $('#instrument_field').addClass('hidden');
-                $('#instrument_id').prop('required', false);
-                $("#instrument_id").prop('disabled', true);
-            }
-        }
-    </script>
-
-<% end %>
+  </section>
+  
+  <% content_for :bottom_script do %>
+  
+      <script type="text/javascript">
+          $(document).ready(function () {
+              $('#instrument_id').select2();
+              $('#genre_id').select2();
+              $('#instrument_id').select2('val', '');
+          })
+          function radioValueChanged() {
+              if (document.getElementById("profile_category_solo").checked) {
+                  $('#instrument_field').removeClass('hidden');
+                  $('#instrument_id').prop('required', true);
+                  $('#instrument_id').prop('disabled', false);
+              }
+              else {
+                  $('#instrument_field').addClass('hidden');
+                  $('#instrument_id').prop('required', false);
+                  $("#instrument_id").prop('disabled', true);
+              }
+          }
+      </script>
+  
+  <% end %>
+<% else %>
+  <%= render 'form_for_registered_user' %>
+  <%= render 'shared/blankfooter' %>
+<% end%>

@@ -23,6 +23,7 @@ class ProfilesController < ApplicationController
     @type = params[:type]
     @user = current_user ? current_user : User.find(params[:user])
     @profile = @user.profiles.build
+    @profile.sub_type = params[:type] if params[:type]
     @pictures = @profile.additional_pictures.all
     @services = @profile.services.all
     select2_form
@@ -98,7 +99,7 @@ class ProfilesController < ApplicationController
 
   def create
     @no_menu = true
-    @profile = Profile.new(create_profile.except(:profile_type))
+    @profile = Profile.new(update_profile.except(:profile_type))
     @user = current_user ? current_user : User.find(@profile.user_id)
     @profile.profile_type = create_profile[:profile_type].to_i
     if @profile.valid?

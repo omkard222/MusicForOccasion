@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   def set_booker_profile
     if current_user && current_user.current_profile && current_user.current_profile.profile_type == "registered_user"
-      redirect_to profile_type_profiles_path unless current_user.current_profile.sub_type
+      redirect_to profile_type_profiles_path(edit: true) unless current_user.current_profile.sub_type
     end
   end
 
