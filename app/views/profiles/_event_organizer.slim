@@ -86,7 +86,7 @@ javascript:
   AvatarCropper = (function() {
   
     function AvatarCropper() {
-    
+      
       this.updatePreview = bind(this.updatePreview, this);
       this.update = bind(this.update, this);    $('#cropbox').Jcrop({
         aspectRatio: 1,
@@ -96,6 +96,7 @@ javascript:
       });
     }
     AvatarCropper.prototype.update = function(coords) {
+      alert("yes")
       $('#profile_crop_x').val(coords.x);
       $('#profile_crop_y').val(coords.y);
       $('#profile_crop_w').val(coords.w);
