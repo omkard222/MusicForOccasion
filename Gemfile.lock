@@ -84,7 +84,7 @@ GEM
       sexp_processor
     codeclimate-engine-rb (0.3.1)
       virtus (~> 1.0)
-    coderay (1.1.0)
+    coderay (1.1.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     coffee-rails (4.1.1)
@@ -333,6 +333,7 @@ GEM
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
+    jcrop-rails-v2 (0.9.12.3)
     jimson-temp (0.9.5)
       blankslate (>= 3.1.2)
       multi_json (~> 1.0)
@@ -537,6 +538,7 @@ GEM
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
     retriable (2.1.0)
+    rmagick (2.15.4)
     rollbar (2.8.0)
       multi_json
     rspec-core (3.4.2)
@@ -719,6 +721,7 @@ DEPENDENCIES
   haml-rails
   hashie (~> 3.4.0)
   jbuilder (~> 2.0)
+  jcrop-rails-v2
   jquery-datetimepicker-rails
   jquery-rails
   jquery-ui-rails
@@ -746,6 +749,7 @@ DEPENDENCIES
   rails_autolink (~> 1.1.6)
   rails_best_practices
   reek
+  rmagick
   rollbar (~> 2.8.0)
   rspec-rails
   rubocop (= 0.28)
@@ -769,3 +773,9 @@ DEPENDENCIES
   validates_timeliness (~> 3.0)
   web-console (~> 2.0)
   webmock
+
+RUBY VERSION
+   ruby 2.2.1p85
+
+BUNDLED WITH
+   1.12.5

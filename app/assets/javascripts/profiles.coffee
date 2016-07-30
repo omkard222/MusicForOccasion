@@ -37,8 +37,7 @@ $ ->
             reader.onload = (e) ->
               image_base64 = e.target.result
               $('.cropbox').attr 'src', image_base64
-              $('#cropbox1').attr 'src', image_base64
-              $('#preview').attr 'src', image_base64
+              $('.cropbox1').attr 'src', image_base64
             reader.readAsDataURL file
           else
             $('#fileUploadName').html $('Add File').val()

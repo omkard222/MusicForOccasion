@@ -373,10 +373,10 @@ class ProfilesController < ApplicationController
   def update
     @profile = Profile.find(params[:id])  
     if @profile.update(update_profile)
-      @profile.crop_x = params[:crop_x]
-      @profile.crop_y = params[:crop_y]
-      @profile.crop_w = params[:crop_w]
-      @profile.crop_h = params[:crop_h]
+      @profile.crop_x = params[:profile][:crop_x]
+      @profile.crop_y = params[:profile][:crop_y]
+      @profile.crop_w = params[:profile][:crop_w]
+      @profile.crop_h = params[:profile][:crop_h]
       @profile.save!
 
       respond_to do |format|

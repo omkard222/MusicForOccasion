@@ -362,7 +362,7 @@
     if (img_mode) {
 
       $img2 = $('<img />')
-          .attr('src', $img.attr('src')).attr("id","cropbox1").css(img_css).width(boundx).height(boundy),
+          .attr('src', $img.attr('src')).attr("class","cropbox1").css(img_css).width(boundx).height(boundy),
 
       $img_holder.append($img2);
 
