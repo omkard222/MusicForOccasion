@@ -79,9 +79,10 @@ gem 'hashie', '~> 3.4.0'
 gem 'omniauth-facebook'
 
 # uploader for picture and resize
+gem 'rmagick'
 gem 'carrierwave'
 gem 'mini_magick'
-
+gem 'jcrop-rails-v2'
 # payment gateway
 gem 'stripe', '~> 1.20.3'
 gem 'stripe-rails'

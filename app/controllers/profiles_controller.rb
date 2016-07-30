@@ -372,14 +372,22 @@ class ProfilesController < ApplicationController
   end
  
   def update
-    @profile = Profile.find(params[:id])
+    @profile = Profile.find(params[:id])  
     if @profile.update(update_profile)
+      @profile.crop_x = params[:profile][:crop_x]
+      @profile.crop_y = params[:profile][:crop_y]
+      @profile.crop_w = params[:profile][:crop_w]
+      @profile.crop_h = params[:profile][:crop_h]
+      @profile.save!
+
       respond_to do |format|
         format.json{ render :json=>  {:status => 200, :response=>"ok"} }
         #flash[:success] = translate('.success')
         #redirect_to profile_path
         format.html { redirect_to profile_path(@profile), :flash => { :success => translate('.success') }}
       end  
+    
+      
     else
       check_for_error(update_profile)
     end
@@ -587,7 +595,7 @@ class ProfilesController < ApplicationController
   def update_profile
     params[:profile][:instrument_ids] = nil unless params[:profile][:category] == 'Solo'
     params.require(:profile).permit(:stage_name, :category, :user_id, :biography, :profile_picture, :sub_type,
-                                    :youtube_url, :soundcloud_url, :location, :username, :tech_rider,:site_logo, :site_url, :remove_tech_rider,:remove_site_logo,
+                                    :youtube_url, :soundcloud_url, :location, :username, :tech_rider,:site_logo, :site_url, :remove_tech_rider,:remove_site_logo,  :crop_x, :crop_y, :crop_w, :crop_h,
                                     instrument_ids: [],
                                     genre_ids: [],
                                     bank_account_attributes: [:bank_name, :acc_number, :name])

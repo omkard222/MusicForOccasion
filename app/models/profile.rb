@@ -34,8 +34,17 @@ class Profile < ActiveRecord::Base
   mount_uploader :site_logo, SiteLogoUploader
   alias_attribute :name, :username
   
-  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :rotation_angle, 
-  :zoom_w, :zoom_h, :zoom_x, :zoom_y, :drag_x, :drag_y
+
+  attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
+  after_update :crop_avatar
+  
+  def crop_avatar
+
+    profile_picture.recreate_versions! if crop_x.present?
+  end
+
+  # attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :rotation_angle, 
+  # :zoom_w, :zoom_h, :zoom_x, :zoom_y, :drag_x, :drag_y
   #validate :site_logo_size_validation, unless: -> { site_logo.blank? }
 
   before_save :save_slug
