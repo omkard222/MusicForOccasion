@@ -143,7 +143,8 @@ class HomeController < ApplicationController
   end
 
   def submit_contact_us
-    AdminMessageMailer.contact_us(params[:name], params[:email], params[:subject], params[:message]).deliver_later
+    AdminMessageMailer.contact_us(params[:name], params[:email], params[:subject], params[:message]).deliver_now
+    #AdminMessageMailer.contact_us(params[:name], params[:email], params[:subject], params[:message]).deliver_later
     redirect_to :contact, notice: 'Thank you, we will be in touch.'
   end
 

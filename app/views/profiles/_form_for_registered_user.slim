@@ -2,7 +2,7 @@
   .container
     .space20
     .col-lg-10.col-lg-offset-1
-      h1= t('.title')
+      h1= @profile.new_record? ? t('.create_title') : t('.title')
       hr
       .space30
       .panel.panel-default

@@ -1,6 +1,6 @@
 class AdminMessageMailer < ApplicationMailer
-  default to: 'support@gigbazaar.com'
-
+  #default to: 'support@gigbazaar.com'
+  default to: 'gee@gigbazaar.com'
   def new_partner(name, email, subject, message)
     @name = name
     @email = email

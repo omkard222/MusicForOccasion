@@ -119,6 +119,7 @@ en:
       twitter: 'Twitter'
     form_for_registered_user:
       title: 'Edit profile'
+      create_title: 'Create Profile'
       update_picture: 'Update picture'
       delete_profile: 'Delete profile'
       connect_soundcloud: 'Connect Soundcloud'
