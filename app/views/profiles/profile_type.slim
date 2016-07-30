@@ -2,9 +2,9 @@
   .container
     .space20
     .col-lg-10.col-lg-offset-1
-      h1.text-primary I am looking for a musician for:
-      hr
-      .space30
+      //h1.text-primary I am looking for a musician for:
+      //hr
+      //.space30
       .edit-profile
         .row
           .col-md-10.col-md-offset-1
@@ -15,9 +15,11 @@
                   = sanitize(message)
             
         - if params[:type] == "professionals"
-          .row
-            h3.text-primary *{:style => "text-align: center;"}
+          h1.text-primary *{:style => "text-align: center;"}
              PROFESSIONALS
+          hr
+          .space30   
+          .row
             br
             .col-md-3
               .space30
@@ -28,35 +30,39 @@
               = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "event_organizer"), class: "btn btn-primary"
             .col-md-3
               .space30
-                = link_to  image_tag("/images/venue.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "venue")
+                = link_to  image_tag("/images/venue.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "venue") : new_profile_path( type: "venue")
             .col-md-3
               h4.text-primary VENUE
               p You regularly book musicians for your place (Club/Bar/Hotel/…)
-              = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "venue"), class: "btn btn-primary"
+              = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "venue") : new_profile_path( type: "venue"), class: "btn btn-primary"
           .row
             .col-md-3
               .space30
-                = link_to  image_tag("/images/corporate.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path(type: "corporate")
+                = link_to  image_tag("/images/corporate.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "corporate") : new_profile_path(type: "corporate")
             .col-md-3
               h4.text-primary CORPORATE
               p You need musicians for your company event(s)
-              = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "corporate"), class: "btn btn-primary"
+              = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "corporate") : new_profile_path( type: "corporate"), class: "btn btn-primary"
             .col-md-3
               .space30
-                = link_to  image_tag("/images/agent.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "booking_agent")
+                = link_to  image_tag("/images/agent.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "booking_agent") : new_profile_path( type: "booking_agent")
             .col-md-3
               h4.text-primary BOOKING AGENT
               p You regularly book musicians for your clients
-              = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "booking_agent"), class: "btn btn-primary"
+              = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "booking_agent") : new_profile_path( type: "booking_agent"), class: "btn btn-primary"
         - else
+          h1.text-primary *{:style => "text-align: center;"}
+            I am looking for a musician for:
+          hr
+          .space30
           .row
             .col-md-3
               .space30
-                = link_to  image_tag("/images/private_event.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "private_events")
+                = link_to  image_tag("/images/private_event.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "private_events") : new_profile_path( type: "private_events")
             .col-md-3
               h4.text-primary MY PRIVATE EVENT
               p Wedding / Birthday / etc.
-              = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "private_events"), class: "btn btn-primary"
+              = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "private_events") : new_profile_path( type: "private_events"), class: "btn btn-primary"
             .col-md-3
               .space30
                 = link_to  image_tag("/images/events.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? profile_type_profiles_path(type: "professionals", edit: true) : profile_type_profiles_path(type: "professionals")

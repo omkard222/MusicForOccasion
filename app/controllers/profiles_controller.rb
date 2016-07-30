@@ -3,7 +3,7 @@ class ProfilesController < ApplicationController
   include ApplicationHelper
   include ServicesHelper
   skip_before_filter :verify_authenticity_token, :only => [:facebook_friend_page_connect, :facebook_friend_page, :invite_friend, :user_email_change, :invite_twitter_friend]
-  skip_before_filter :set_booker_profile, :only => [:profile_type, :edit, :update]
+  skip_before_filter :set_booker_profile, :only => [:profile_type, :edit, :update, :facebook_one, :facebook_two, :twitter_one, :twitter_two]
   
   before_action :authenticate_user!, except: [:facebook_friend_page_connect, :show,:facebook_friend_page, :show_slug, :new, :create, :paypal_confirmation, :invite_friend, :user_email_change, :facebook_disconnect_friend, :twitter_disconnect_friend]
   #before_action :verify_user, only: [:edit, :update, :delete]
