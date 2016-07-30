@@ -24,7 +24,6 @@
   = f.input :username, :label => "Organisation Name"
   = f.inputs :location, class: 'location'
   = f.input :biography
-  = f.inputs :location, class: 'location'
   = f.input :genres, collection: profile_genres, :label => "Music Genres (optional)"
   - if @profile.facebook_page_id && @profile.facebook_page_likes
     = f.input :facebook_page_likes, input_html: {disabled: "disabled"}

@@ -21,7 +21,7 @@
           div= t('profiles.form_for_registered_user.update_picture')
   #fileUploadName
   br
-  = f.input :username, :label => "Comapny Name"
+  = f.input :username, :label => "Company Name"
   = f.inputs :location, class: 'location'
   - if @profile.facebook_page_id && @profile.facebook_page_likes
     = f.input :facebook_page_likes, input_html: {disabled: "disabled"}
