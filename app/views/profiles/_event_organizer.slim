@@ -79,7 +79,7 @@ javascript:
   var AvatarCropper,
     bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  jQuery(function() {
+  $(document).ready(function(){
     return new AvatarCropper();
   });
 
