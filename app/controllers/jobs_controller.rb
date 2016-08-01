@@ -52,7 +52,7 @@ class JobsController < ApplicationController
 
   def new_job_params
     params.require(:job)
-    .permit(:title, :event_type, :description, :booking_fee, :currency,
+    .permit(:title, :event_type, :description, :booking_fee, :currency, :country_origin,
             :transportation, :accommodation, :food_and_beverage, :minimum_fb_likes,
             :booking_fee_type, :free_fee_type, :genre_ids => [])
   end
