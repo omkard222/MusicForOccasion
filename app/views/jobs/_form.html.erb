@@ -36,7 +36,7 @@
             <%= f.select :accommodation, [["No", 0], ["Yes", 1]], {}, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <%= f.label "Food & Beverages" %>
+            <%= f.label :food_and_beverage, "Food & Beverages" %>
             <%= f.select :food_and_beverage, [["No", 0], ["Yes", 1]], {}, class: 'form-control' %>
           </div>
           <div class="form-group">
@@ -44,7 +44,7 @@
             <%= f.text_field :minimum_fb_likes, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <%= f.label :country_origin, "Country of origin the band(optional)" %>
+            <%= f.label :country_origin, "Country of origin the band (optional)" %>
             <%= f.text_field :country_origin, class: 'form-control' %>
           </div>
           <div class="form-group job_booking_fee_type">
