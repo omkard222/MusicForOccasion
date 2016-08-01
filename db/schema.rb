@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722134018) do
+ActiveRecord::Schema.define(version: 20160730140848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -147,6 +147,7 @@ ActiveRecord::Schema.define(version: 20160722134018) do
     t.integer  "profile_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.string   "country_origin"
   end
 
   add_index "jobs", ["event_type"], name: "index_jobs_on_event_type", using: :btree
@@ -269,10 +270,14 @@ ActiveRecord::Schema.define(version: 20160722134018) do
     t.datetime "twitter_connect_time"
     t.datetime "twitter_disconnect_time"
     t.datetime "update_date"
-    t.integer  "sub_type"
     t.string   "twitter_friend_email"
     t.string   "google_friend_email"
     t.string   "scloud_friend_email"
+    t.integer  "sub_type"
+    t.integer  "crop_x"
+    t.integer  "crop_y"
+    t.integer  "crop_h"
+    t.integer  "crop_w"
   end
 
   add_index "profiles", ["deleted_at"], name: "index_profiles_on_deleted_at", using: :btree
