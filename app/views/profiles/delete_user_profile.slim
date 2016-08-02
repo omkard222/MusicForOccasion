@@ -44,8 +44,13 @@
                 = t('profiles.delete_profile.unable_to_destroy_message', message: button)
           
           .row
-            .col-sm-4
-              = link_to "Delete Profile", '#', id: "delete_profile_btn", class: 'btn btn-red-i btn-block'
-              .space10
+            - if @profile.booking_requests.present?
+              .col-sm-8
+                div style ="color:red;"
+                  = "Unable to delete this account, this account still has ongoing booking activities"
+            - else
+              .col-sm-4
+                = link_to "Delete Profile", '#', id: "delete_profile_btn", class: 'btn btn-red-i btn-block'
+                .space10
 = render 'shared/blankfooter'
 
