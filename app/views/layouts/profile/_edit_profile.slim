@@ -1,5 +1,8 @@
 .list-group style=("max-width: 500px;")
-  = link_to 'Edit Profile', "/user_profile_edit/#{@profile.id}", class: "list-group-item #{'active' if current_page?(user_profile_edit_path)}"
+  - if current_page?(action: 'edit')
+    = link_to 'Edit Profile', "/user_profile_edit/#{@profile.id}", class: "list-group-item active"
+  - else
+    = link_to 'Edit Profile', "/user_profile_edit/#{@profile.id}", class: "list-group-item #{'active' if current_page?(user_profile_edit_path)}"
 
   = link_to 'Payment Information', "/payment_information/#{@profile.id}", class: "list-group-item #{'active' if current_page?(payment_information_path)}" 
   = link_to 'Connect Social Media', "/connect_social_media/#{@profile.id}", class: "list-group-item #{'active' if current_page?(connect_social_media_path)}"

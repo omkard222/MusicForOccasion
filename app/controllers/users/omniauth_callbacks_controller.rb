@@ -71,7 +71,11 @@ module Users
             flash[:error] = "Failed to connect twitter"
           end
         end
-        redirect_to edit_profile_path(current_user.current_profile.id)
+        if user_profile.profile_type == "musician"
+          redirect_to connect_social_media_path(current_user.current_profile.id)
+        else  
+          redirect_to edit_profile_path(current_user.current_profile.id)
+        end   
       elsif session[:user_idd].present?
         user_profile = Profile.find(session[:user_idd])
         if user_profile
@@ -100,6 +104,7 @@ module Users
         url = "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true&access_token="+auth.credentials.token
         url_read = JSON.parse(open(url).read)
         channel_id = url_read['items'][0]['id']
+
         url_with_channel = "https://www.googleapis.com/youtube/v3/channels?part=statistics&id=#{channel_id}&key=" + ENV["GOOGLE_CLIENT_KEY"]
         url_with_channel_read = JSON.parse(open(url_with_channel).read)
         if !url_with_channel_read['items'].empty?

@@ -190,7 +190,11 @@ class ProfilesController < ApplicationController
     else
       flash[:error] = "Failed to connect facebook page"
     end
-    redirect_to edit_profile_path(current_user.current_profile.id)
+    if profile.profile_type == "musician"
+      redirect_to connect_social_media_path(current_user.current_profile.id)
+    else
+      redirect_to edit_profile_path(current_user.current_profile.id)
+    end   
   end
 
   def facebook_friend_page_connect
@@ -217,7 +221,11 @@ class ProfilesController < ApplicationController
     else
       flash[:error] = "Failed to disconnect facebook"
     end
-    redirect_to edit_profile_path(current_user.current_profile.id)
+    if user_profile.profile_type == "musician"
+      redirect_to connect_social_media_path(current_user.current_profile.id)
+    else
+      redirect_to edit_profile_path(current_user.current_profile.id)
+    end   
   end
 
   def facebook_disconnect_friend
@@ -256,7 +264,11 @@ class ProfilesController < ApplicationController
     else
       flash[:error] = "Failed to disconnect twitter"
     end
-    redirect_to edit_profile_path(current_user.current_profile.id)
+    if user_profile.profile_type == "musician"
+      redirect_to connect_social_media_path(current_user.current_profile.id)
+    else  
+      redirect_to edit_profile_path(current_user.current_profile.id)
+    end   
   end
 
 

@@ -1,5 +1,7 @@
 - if @profile.profile_type == 'musician'
-  = render 'form_for_musician'
+  //= render 'form_for_musician'
+  //= render 'layouts/profile/edit_profile'
+  = render 'userr_profile_edit'
 - else 
   = render 'form_for_registered_user'
 = render 'shared/blankfooter'
