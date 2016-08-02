@@ -23,7 +23,9 @@ class ProfilesController < ApplicationController
     @type = params[:type]
     @user = current_user ? current_user : User.find(params[:user])
     @profile = @user.profiles.build
-    @profile.sub_type = params[:type] if params[:type]
+    unless params[:type] == "musician"
+      @profile.sub_type = params[:type] if params[:type]
+    end   
     @pictures = @profile.additional_pictures.all
     @services = @profile.services.all
     select2_form
