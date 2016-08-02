@@ -26,6 +26,22 @@
                     </h5>
                   </div>
                   <div class="space30"></div>
+              <% else %>
+                <div class="form-group">
+                  <h4><b>Activities related to your offers</b></h4>
+                  <h5 class="checkbox-inline">
+                    <%#= f.check_box :notify_create_offer, style: 'margin-top: 0px;' %>
+                    <span>Receive an email when you Receive an application</span>
+                    <span>
+                      <select>
+                        <option value="volvo">For each application</option>
+                        <option value="saab">Daily</option>
+                        <option value="mercedes">Weekly</option>
+                      </select> 
+                    </span>
+                  </h5>
+                </div>
+                <div class="space30"></div>    
               <% end %>
               <div class="form-group">
                 <h4><b>Activities related to your bookings</b></h4>
