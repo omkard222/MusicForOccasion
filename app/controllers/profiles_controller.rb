@@ -588,9 +588,12 @@ class ProfilesController < ApplicationController
   end
 
   def check_for_error(update_profile)
+    #raise update_profile.inspect
     if update_profile['location'].blank?
       flash[:error] = 'Please provide valid location'
-    else
+    elsif update_profile['username'].blank?
+      flash[:error] = 'username cannot be blank'
+    else  
       # image = MiniMagick::Image.open(update_profile['site_logo'].path)
       # if image[:width] > 50 && image[:height] > 50
       #   flash[:error] = 'Image should be of Size 50x50.'
