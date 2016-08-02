@@ -44,7 +44,8 @@
                 = t('profiles.delete_profile.unable_to_destroy_message', message: button)
           
           .row
-            - if @profile.booking_requests.present?
+            - @booking_request = BookingRequest.where(:service_proposer_id => @profile.id)
+            - if @profile.booking_requests.present? || @booking_request.present?
               .col-sm-8
                 div style ="color:red;"
                   = "Unable to delete this account, this account still has ongoing booking activities"
