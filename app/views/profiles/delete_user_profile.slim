@@ -46,7 +46,7 @@
           .row
             - @booking_request = BookingRequest.where(:service_proposer_id => @profile.id)
             - if @profile.booking_requests.present? || @booking_request.present?
-              .col-sm-8
+              .col-sm-10
                 div style ="color:red;"
                   = "***Unable to delete this account, this account still has ongoing booking activities***"
             - else
