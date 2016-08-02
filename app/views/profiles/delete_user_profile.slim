@@ -48,7 +48,7 @@
             - if @profile.booking_requests.present? || @booking_request.present?
               .col-sm-8
                 div style ="color:red;"
-                  = "Unable to delete this account, this account still has ongoing booking activities"
+                  = "***Unable to delete this account, this account still has ongoing booking activities***"
             - else
               .col-sm-4
                 = link_to "Delete Profile", '#', id: "delete_profile_btn", class: 'btn btn-red-i btn-block'
