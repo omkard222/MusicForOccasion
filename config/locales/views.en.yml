@@ -94,7 +94,7 @@ en:
       unable_to_destroy_message: "%{message}"
       question: 'Are you sure you want to delete your profile ?'
       huge_description: |
-        Is it because you have a technical problem or you would like to have more information about something on GigBazaar,
+        Is it because you have a technical problem or you would like to have more information about something on gigBazaar,
           we are here to help you !
       second_question: 'You really want to go ?? Oh man.. Can you tell us why ?'
       email_support_link: "Please then contact our support team: %{link}"
