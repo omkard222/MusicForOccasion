@@ -8,5 +8,5 @@
   = link_to 'Connect Social Medias', "/connect_social_media/#{@profile.id}", class: "list-group-item #{'active' if current_page?(connect_social_media_path)}"
   = link_to 'Delete Profile', "/delete_user_profile/#{@profile.id}", class: "list-group-item #{'active' if current_page?(delete_user_profile_path)}"
   
-  = image_tag ("/images/star.png"), :size=> "25x25", :style => "position:absolute;margin-top: -21%; margin-left: -7%; z-index: 9;"
+  = image_tag ("/images/star.png"), :size=> "25x25", :class =>'img-responsive', :style => "position:absolute;margin-top: -21%; margin-left: -7%; z-index: 9;"
   
