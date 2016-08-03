@@ -28,7 +28,7 @@
       #fileUploadName
     .col-md-6
       h4 style="padding-top: 20px; color: #00b0ff" = "Crop Profile Picture"
-      = image_tag(@profile.picture,  id: 'cropbox', class: "cropbox", style: "width: 250px; height: auto;")
+      = image_tag(@profile.picture,  id: 'cropbox', class: "cropbox", style: "width: 250px; height: 250px;")
       
   br
   = f.input :username
@@ -101,10 +101,10 @@ javascript:
       });
     }
     AvatarCropper.prototype.update = function(coords) {
-      $('#profile_crop_x').val(coords.x);
-      $('#profile_crop_y').val(coords.y);
-      $('#profile_crop_w').val(coords.w);
-      $('#profile_crop_h').val(coords.h);
+      $('#profile_crop_x').val($('#cropbox')[0].naturalWidth/ $('#cropbox').width() * coords.x);
+      $('#profile_crop_y').val($('#cropbox')[0].naturalHeight/ $('#cropbox').height() * coords.y);
+      $('#profile_crop_w').val($('#cropbox')[0].naturalWidth/ $('#cropbox').width() * coords.w);
+      $('#profile_crop_h').val($('#cropbox')[0].naturalHeight/ $('#cropbox').height() * coords.h);
       return this.updatePreview(coords);
     };
     AvatarCropper.prototype.updatePreview = function(coords) {
@@ -118,3 +118,10 @@ javascript:
     };
     return AvatarCropper;
   })();
+  
+  $(document).ready(function(){
+    $('#profile_crop_x').val("0");
+    $('#profile_crop_y').val("0");
+    $('#profile_crop_w').val($('#cropbox')[0].naturalWidth);
+    $('#profile_crop_h').val($('#cropbox')[0].naturalHeight);
+  });
