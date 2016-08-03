@@ -41,7 +41,7 @@
         //a.btn.btn_connect href='/users/auth/facebook'  Connect Facebook
         = link_to 'Connect Facebook', facebook_one_path, {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class =>"btn btn_connect"}
     - if @profile.twitter_token && @profile.twitter_secret
-      = f.input :twitter_followers, label: 'Twitter followers'
+      = f.input :twitter_followers, label: 'Twitter followers', input_html: {disabled: "disabled"}
       .space5
       a#disconnect_twitter.btn.btn_connect href='' onclick=('return false;') data-url=twitter_disconnect_path()  Disconnect Twitter
     - else
