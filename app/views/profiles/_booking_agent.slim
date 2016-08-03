@@ -25,32 +25,33 @@
   = f.inputs :location, class: 'location'
   = f.input :biography
   = f.input :genres, collection: profile_genres, :label => "Music Genres (optional)"
-  - if @profile.facebook_page_id && @profile.facebook_page_likes
-    = f.input :facebook_page_likes, input_html: {disabled: "disabled"}
-    .space5
-    a#disconnect_facebook.btn.btn_connect href='' onclick=('return false;') data-url=facebook_disconnect_path() Disconnect Facebook
-  - elsif @profile.facebook_token
-    .form-group.margin_bottom_nil
-      label.label-control.margin_bottom_2_5 Facebook: show the number of likes to gain in popularity.
-      br
-      => link_to 'Connect page', facebook_page_path, class: 'btn btn_connect'
-      a#disconnect_facebook.btn.btn_connect href='' onclick=('return false;') data-url=facebook_disconnect_path() Disconnect
-  - else
-    .form-group.margin_bottom_nil
-      label.label-control.margin_bottom_2_5 Facebook: show the number of likes to gain in popularity.
-      br
-      //a.btn.btn_connect href='/users/auth/facebook'  Connect Facebook
-      = link_to 'Connect Facebook', facebook_one_path, {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class =>"btn btn_connect"}
-  - if @profile.twitter_token && @profile.twitter_secret
-    = f.input :twitter_followers, label: 'Twitter followers'
-    .space5
-    a#disconnect_twitter.btn.btn_connect href='' onclick=('return false;') data-url=twitter_disconnect_path()  Disconnect Twitter
-  - else
-    .form-group.margin_bottom_nil
-      label.label-control.margin_bottom_2_5.label_margin Twitter: show the number of followers to gain in popularity.
-      br
-      //a.btn.btn_connect href='/users/auth/twitter'  Connect Twitter
-      = link_to 'Connect Twitter', twitter_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window2', :class =>"btn btn_connect"}
+  - unless @profile.new_record?
+    - if @profile.facebook_page_id && @profile.facebook_page_likes
+      = f.input :facebook_page_likes, input_html: {disabled: "disabled"}
+      .space5
+      a#disconnect_facebook.btn.btn_connect href='' onclick=('return false;') data-url=facebook_disconnect_path() Disconnect Facebook
+    - elsif @profile.facebook_token
+      .form-group.margin_bottom_nil
+        label.label-control.margin_bottom_2_5 Facebook: show the number of likes to gain in popularity.
+        br
+        => link_to 'Connect page', facebook_page_path, class: 'btn btn_connect'
+        a#disconnect_facebook.btn.btn_connect href='' onclick=('return false;') data-url=facebook_disconnect_path() Disconnect
+    - else
+      .form-group.margin_bottom_nil
+        label.label-control.margin_bottom_2_5 Facebook: show the number of likes to gain in popularity.
+        br
+        //a.btn.btn_connect href='/users/auth/facebook'  Connect Facebook
+        = link_to 'Connect Facebook', facebook_one_path, {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window', :class =>"btn btn_connect"}
+    - if @profile.twitter_token && @profile.twitter_secret
+      = f.input :twitter_followers, label: 'Twitter followers', input_html: {disabled: "disabled"}
+      .space5
+      a#disconnect_twitter.btn.btn_connect href='' onclick=('return false;') data-url=twitter_disconnect_path()  Disconnect Twitter
+    - else
+      .form-group.margin_bottom_nil
+        label.label-control.margin_bottom_2_5.label_margin Twitter: show the number of followers to gain in popularity.
+        br
+        //a.btn.btn_connect href='/users/auth/twitter'  Connect Twitter
+        = link_to 'Connect Twitter', twitter_one_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window2', :class =>"btn btn_connect"}
   .row
     .col-sm-4
       h3= f.submit (@profile.new_record? ? 'Save' : 'Update profile'), class: 'btn btn-info btn-block btn-base'
