@@ -178,10 +178,16 @@
   <div class="row">
     <div class="col-sm-8">
 
+      <% if @profile.sub_type == "venue" %>
+        <div  class="col-sm-12">
+          <div id="one_marker" style=' height: 300px;'></div>
+        </div>
+      <% end %>
       <% if @profile.biography %>
+        <div  class="col-sm-12">
           <div class="bio divBioMusic">
             <!-- <h1>Biography</h1> -->
-            <div style="height: 69px; width: 75%; top: 1px;position: absolute;background-color: rgb(255, 255, 255);"><h1>Biography</h1></div>
+            <div style="height: 69px; width: 75%; top: 1px;position: relative;background-color: rgb(255, 255, 255);"><h1>Biography</h1></div>
             <% if @bio_hide %>
                   <p id="bioMusic" class="break_word" style="white-space: pre-wrap; margin-top:62px;"><%= @bio_show %>
                   <a onclick="show_hide_bio()" id="seeMore"> ... See More</a></p>
@@ -190,6 +196,7 @@
                 <p style="white-space: pre-line;"><%#= @profile.biography %></p>
             <% end %>
           </div>
+        </div>
       <% end %>
     </div>
     <div class="col-sm-4">
@@ -419,7 +426,6 @@
     </div>
   </div>
 </div>
-
 <script type="text/javascript">
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
@@ -567,6 +573,18 @@
     <% end %>
 
   $(document).ready(function(){
+    var handler = Gmaps.build('Google');
+    var markerOnMap;
+    handler.buildMap( { internal: {id: 'one_marker'},zoom: 12}, function(){
+      markerOnMap = new google.maps.Marker({
+          position: new google.maps.LatLng(<%= @profile.latitude %> , <%= @profile.longitude %>),
+          map: handler.getMap()
+        });
+      handler.getMap().setCenter(markerOnMap.getPosition());
+    });
+  });
+
+  $(document).ready(function(){
     nn = window.location
     n1 = nn.toString();
     n2 = n1.contains("#_=_")
@@ -579,6 +597,7 @@
     }
     //window.close();
   })
+  
 
 </script>
 <style>
