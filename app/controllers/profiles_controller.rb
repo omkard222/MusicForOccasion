@@ -29,6 +29,9 @@ class ProfilesController < ApplicationController
     @pictures = @profile.additional_pictures.all
     @services = @profile.services.all
     select2_form
+    unless params[:type] == "musician"
+      render layout: "application"
+    end
   end
 
   def delete_profile
