@@ -38,6 +38,10 @@ $ ->
               image_base64 = e.target.result
               $('.cropbox').attr 'src', image_base64
               $('.cropbox1').attr 'src', image_base64
+              $('#profile_crop_x').val("0")
+              $('#profile_crop_y').val("0")
+              $('#profile_crop_w').val($('#cropbox')[0].naturalWidth)
+              $('#profile_crop_h').val($('#cropbox')[0].naturalHeight)
             reader.readAsDataURL file
           else
             $('#fileUploadName').html $('Add File').val()
