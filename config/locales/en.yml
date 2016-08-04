@@ -78,7 +78,7 @@ en:
       note_for_send_inquiry: "People will contact you and you will negociate your fees (note: x3 more enquiries when displaying a min fees)"
       note_for_send_inquiry_jobs: "People will contact you and you will negociate your fees (note: x3 more enquiries when displaying a fee)"
       booking_fee_types:
-        send_inquiry: "Send Inquiry"
+        send_inquiry: "Send Enquiry"
         free: "For Free"
         minimum_fees: "Minimum fees"
       accommodations:

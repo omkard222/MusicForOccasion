@@ -39,8 +39,7 @@ class Profile < ActiveRecord::Base
   after_save :crop_avatar
   
   def crop_avatar
-
-    profile_picture.recreate_versions! if crop_x.present?
+    profile_picture.recreate_versions! if( profile_picture.present? && crop_x.present?)
   end
 
   # attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :rotation_angle, 

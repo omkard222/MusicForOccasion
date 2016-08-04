@@ -10,16 +10,25 @@
   = f.input :profile_type, as: :hidden, :input_html => { :value => "#{(@type == 'musician') ? 1 : 0}".to_i }
   = f.input :id, as: :hidden
   = f.input :sub_type, as: :hidden, :input_html => { :value => params[:type] || @profile.sub_type }
-  = f.input :profile_picture, input_html: { id: 'file' }
-  = image_tag(@profile.picture, class: 'img-responsive ', id: 'image_profile')
-  #fileUpload.div_upload_profile
-    table
-      tr
-        td
-          i.fa.fa-camera.fa-3x
-        td.padding_left_15
-          div= t('profiles.form_for_registered_user.update_picture')
-  #fileUploadName
+  = f.input :id, as: :hidden
+  - %w[x y w h].each do |attribute| 
+    = f.hidden_field "crop_#{attribute}" 
+  
+  .row
+    .col-md-6
+      = f.input :profile_picture, input_html: { id: 'file' }
+      = image_tag(@profile.picture, class: 'img-responsive ', id: 'image_profile')
+      #fileUpload.div_upload_profile
+        table
+          tr
+            td
+              i.fa.fa-camera.fa-3x
+            td.padding_left_15
+              div= t('profiles.form_for_registered_user.update_picture')
+      #fileUploadName
+    .col-md-6
+      h4 style="padding-top: 20px; color: #00b0ff" = "Crop Profile Picture"
+      = image_tag(@profile.picture,  id: 'cropbox', class: "cropbox", style: "width: 250px; height: 250px;")
   br
   = f.input :username, :label => "Company Name"
   = f.inputs :location, class: 'location'
@@ -62,3 +71,5 @@
         h3= link_to 'Cancel', profile_path(current_user.current_profile), class: 'btn btn-default btn-block btn-base'
         .space10
 .space40
+
+= render 'crop_js'
