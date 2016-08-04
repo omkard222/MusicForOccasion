@@ -28,5 +28,4 @@
 //= require select2
 //= require underscore
 //= require gmaps/google
-//= require jquery.Jcrop
 //= require_tree .
