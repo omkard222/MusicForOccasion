@@ -40,7 +40,8 @@
             <%= f.select :food_and_beverage, [["No", 0], ["Yes", 1]], {}, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <%= f.label "Popularity filter (only artists with a minimum popularity can send you applications) minimum Facebook likes on Facebook Musician Page:" %>
+            <%= f.label "Popularity filter (only artists with a minimum popularity can send you applications)" %>
+            <%= f.label "minimum Facebook likes on Facebook Musician Page:", style: "margin-left: 7px;" %>
             <%= f.text_field :minimum_fb_likes, class: 'form-control' %>
           </div>
           <div class="form-group">
@@ -53,7 +54,7 @@
               <%= f.select :booking_fee_type, translated_fee_type_options, {}, :required => true, class: 'form-control' %>
             </div>
             <div class="form-group">
-              <div class="additional for_send_inquiry"><%= t 'services.form.note_for_send_inquiry' %></div>
+              <div class="additional for_send_inquiry"><%= t 'services.form.note_for_send_inquiry_jobs' %></div>
               <div class="additional for_free">
                 <% Service.free_fee_types.keys.each do |type| %>
                   <label>

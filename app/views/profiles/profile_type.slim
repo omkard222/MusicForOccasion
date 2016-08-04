@@ -64,7 +64,7 @@
               = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "private_events") : new_profile_path( type: "private_events"), class: "btn btn-primary"
             .col-md-3
               = link_to  image_tag("/images/events.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? profile_type_profiles_path(type: "professionals", edit: true) : profile_type_profiles_path(type: "professionals")
-            .col-md-3 *{:style => "margin-top: 9px;" }
+            .col-md-3 *{:style => "margin-top: 14px;" }
               h4.text-primary MY EVENTS (PRO)
               p You regularly book musicians
               = link_to "Next",  params[:edit] == "true"? profile_type_profiles_path(type: "professionals", edit: true) : profile_type_profiles_path(type: "professionals"), class: "btn btn-primary"
