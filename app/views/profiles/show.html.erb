@@ -47,26 +47,26 @@
         <br>
         <%- if @profile.genres.present? %>
           <h4>
-            <i class="fa fa-music"></i>
+            <i class="fa fa-music" style="padding: 0px 3px 0px 0px;"></i>
             <%= @profile.genres.pluck(:name).join(', ') %>
           </h4>
         <% end %>
         <%- if @profile.instruments.present? %>
           <h4>
-            <i class="fa fa-microphone" style="padding: 0px 2px;"></i>
+            <i class="fa fa-microphone" style="padding: 0px 3px;"></i>
             <%= @instruments.pluck(:name).join(', ') %>
           </h4>
         <% end %>
         <%- if @profile.location.present? %>
             <h4>
-              <i class="fa fa-map-marker" style="padding: 0px 2px;"></i>
+              <i class="fa fa-map-marker" style="padding: 0px 4px 0px 3px;"></i>
               <%= @profile.location %>
             </h4>
         <% end %>
         <%- if @profile.site_url.present? %>
           <% url = @profile.site_url.split("//").last %>
           <h4>
-            <b>@</b>
+            <b  style="padding: 0px 2px 0px 0px;">@</b>
             <a href="http://<%= url%>" target="_blank"><%= @profile.site_url%></a>
           </h4>
         <% end %>
