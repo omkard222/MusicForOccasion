@@ -37,6 +37,10 @@ class JobsController < ApplicationController
     end
   end
 
+  def show
+    @job = Job.find(params[:id])
+  end 
+
   def destroy
     job = Job.find(params[:id])
     job.deleted_at = Time.now
