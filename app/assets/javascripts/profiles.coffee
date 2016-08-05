@@ -36,8 +36,16 @@ $ ->
             reader = new FileReader()
             reader.onload = (e) ->
               image_base64 = e.target.result
+              $(".crop_pic").find(".crop_heading").show()
+              $(".crop_pic").show()
+              $(".profile_pic").hide()
               $('.cropbox').attr 'src', image_base64
               $('.cropbox1').attr 'src', image_base64
+              $('.cropbox').width("auto")
+              $('.cropbox').height("250px")
+              $(".cropbox1").width("auto")
+              $('.jcrop-holder').width($("#cropbox").width())
+              $('.jcrop-tracker').width($("#cropbox").width())
               $('#profile_crop_x').val("0")
               $('#profile_crop_y').val("0")
               $('#profile_crop_w').val($('#cropbox')[0].naturalWidth)
