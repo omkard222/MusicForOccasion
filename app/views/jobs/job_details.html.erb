@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <h3> Send Application: </h3>
+    <%= form_for :booking_request, url: create_book_request_path do |f| %>
+        <div class="">
+          <%= f.hidden_field :job_id, :value => @job.id%>
+          <div class="form-group">
+            <%= label_tag "Job Title" %>
+            <pre class="form-control"><%= @job.title %></pre>
+          </div>
+          <div class="form-group">
+            <%= label_tag "Description" %>
+            <pre class="form-control pre_text_area"><%= @job.description %></pre>
+          </div>
+          <div class="form-group">
+            <%= label_tag "Accomodation Included" %>
+            <pre class="form-control"><%= @job.accommodation %></pre>
+          </div>
+          <div class="form-group">
+            <%= label_tag "Food and Beverage" %>
+            <pre class="form-control"><%= @job.food_and_beverage %></pre>
+          </div>
+          <div class="form-group" id="optional_price">
+            <%= label_tag "Enter Booking fee" %>
+            <%= f.number_field :confirmed_price, class: 'form-control', max: 999999999, min: 0 %>
+          </div>
+          <div class="form-group">
+            <%= label_tag "Message" %>
+            <%= f.text_area :message, class: 'form-control' %>
+          </div>
+        </div>
+        <div class="modal-footer actions">
+          <%= f.submit 'Send', "class" => "btn btn-info btn-block btn-blue-i" %>
+        </div>
+    <% end %>
+  </div>  
+</div>  
