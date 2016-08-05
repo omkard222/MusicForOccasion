@@ -13,7 +13,7 @@ javascript:
       this.updatePreview = bind(this.updatePreview, this);
       this.update = bind(this.update, this);    $('#cropbox').Jcrop({
         aspectRatio: 1,
-        setSelect: [0, 0, 600, 600],
+        setSelect: [0, 0, 250, 250],
         onSelect: this.update,
         onChange: this.update
       });
