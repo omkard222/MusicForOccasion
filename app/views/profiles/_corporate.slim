@@ -15,7 +15,7 @@
     = f.hidden_field "crop_#{attribute}" 
   
   .row
-    .col-md-6
+    .col-md-6.profile_pic
       = f.input :profile_picture, input_html: { id: 'file' }
       = image_tag(@profile.picture, class: 'img-responsive ', id: 'image_profile')
       #fileUpload.div_upload_profile
@@ -26,9 +26,13 @@
             td.padding_left_15
               div= t('profiles.form_for_registered_user.update_picture')
       #fileUploadName
-    .col-md-6
-      h4 style="padding-top: 20px; color: #00b0ff" = "Crop Profile Picture"
-      = image_tag(@profile.picture,  id: 'cropbox', class: "cropbox", style: "width: 250px; height: 250px;")
+    .col-md-6.crop_pic
+      .crop_heading *{style: 'display: none;'}
+        h4 style="padding-top: 20px; color: #00b0ff" = "Crop Profile Picture"
+      = image_tag("/images/plain.jpg",  id: 'cropbox', class: "cropbox", style: "width: auto; height: 250px;")
+      br
+      .crop_heading *{style: 'display: none;'}
+        = link_to "Cancel", "#", class: "cancel_crop btn"
   br
   = f.input :username, :label => "Company Name"
   = f.inputs :location, class: 'location'

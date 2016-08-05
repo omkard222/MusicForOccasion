@@ -44,3 +44,12 @@ javascript:
     $('#profile_crop_h').val($('#cropbox')[0].naturalHeight);
   });
   
+  $(document).ready(function(){
+    $(".crop_pic").hide();
+  });
+  
+  $(document).on("click", ".cancel_crop",function(){
+    $(".crop_pic").find(".crop_heading").hide()
+    $(".crop_pic").hide()
+    $(".profile_pic").show()
+  })
