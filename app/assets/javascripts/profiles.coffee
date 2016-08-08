@@ -53,6 +53,7 @@ $ ->
               $('#profile_crop_y').val("0")
               $('#profile_crop_w').val($('#cropbox')[0].naturalWidth)
               $('#profile_crop_h').val($('#cropbox')[0].naturalHeight)
+              load_crop_div()
             reader.readAsDataURL file
           else
             $('#fileUploadName').html $('Add File').val()
@@ -190,4 +191,21 @@ $('#pop').on 'click', ->
   $('.imagepreview').attr 'src', $('#imageresource').attr('src')
   $('#imagemodal').modal 'show'
   
+load_crop_div = () ->
+  class AvatarCropper
+    constructor: ->
+      $('#cropbox').Jcrop
+        aspectRatio: 1
+        setSelect: [0, 0, 600, 600]
+        onSelect: @update
+        onChange: @update
+    
+    update: (coords) =>
+      $('#profile_crop_x').val $('#cropbox')[0].naturalWidth / $('#cropbox').width() * coords.x
+      $('#profile_crop_y').val $('#cropbox')[0].naturalHeight / $('#cropbox').height() * coords.y
+      $('#profile_crop_w').val $('#cropbox')[0].naturalWidth / $('#cropbox').width() * coords.w
+      $('#profile_crop_h').val $('#cropbox')[0].naturalHeight / $('#cropbox').height() * coords.h
+  
+  jQuery ->
+    new AvatarCropper()
 return

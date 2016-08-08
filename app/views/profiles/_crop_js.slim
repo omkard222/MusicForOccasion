@@ -1,42 +1,4 @@
 javascript:
-  var AvatarCropper,
-    bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-  jQuery(function() {
-    return new AvatarCropper();
-  });
-
-  AvatarCropper = (function() {
-  
-    function AvatarCropper() {
-    
-      this.updatePreview = bind(this.updatePreview, this);
-      this.update = bind(this.update, this);    $('#cropbox').Jcrop({
-        aspectRatio: 1,
-        setSelect: [0, 0, 250, 250],
-        onSelect: this.update,
-        onChange: this.update
-      });
-    }
-    AvatarCropper.prototype.update = function(coords) {
-      $('#profile_crop_x').val($('#cropbox')[0].naturalWidth/ $('#cropbox').width() * coords.x);
-      $('#profile_crop_y').val($('#cropbox')[0].naturalHeight/ $('#cropbox').height() * coords.y);
-      $('#profile_crop_w').val($('#cropbox')[0].naturalWidth/ $('#cropbox').width() * coords.w);
-      $('#profile_crop_h').val($('#cropbox')[0].naturalHeight/ $('#cropbox').height() * coords.h);
-      return this.updatePreview(coords);
-    };
-    AvatarCropper.prototype.updatePreview = function(coords) {
-   
-      return $('#preview').css({
-        width: Math.round(100 / coords.w * $('#cropbox').width()) + 'px',
-        height: Math.round(100 / coords.h * $('#cropbox').height()) + 'px',
-        marginLeft: '-' + Math.round(100 / coords.w * coords.x) + 'px',
-        marginTop: '-' + Math.round(100 / coords.h * coords.y) + 'px'
-      });
-    };
-    return AvatarCropper;
-  })();
-  
   $(document).ready(function(){
     $('#profile_crop_x').val("0");
     $('#profile_crop_y').val("0");
