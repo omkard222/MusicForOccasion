@@ -25,7 +25,7 @@
               .space30
                 = link_to  image_tag("/images/10m.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "event_organizer")
             .col-md-3
-              h4.text-primary EVENT ORGANIZER
+              h4.text-primary EVENT ORGANIZER 
               p You regularly book musicians for your own events
               = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "event_organizer") : new_profile_path( type: "event_organizer"), class: "btn btn-primary"
             .col-md-3
@@ -39,15 +39,15 @@
             .col-md-3
               .space30
                 = link_to  image_tag("/images/11m.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "corporate") : new_profile_path(type: "corporate")
-            .col-md-3
-              h4.text-primary CORPORATE
+            .col-md-3 *{:style => "margin-top: 12px;"}
+              h4.text-primary CORPORATE 
               p You need musicians for your company event(s)
               = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "corporate") : new_profile_path( type: "corporate"), class: "btn btn-primary"
             .col-md-3
               .space30
                 = link_to  image_tag("/images/agent.png", class: 'img-responsive ', id: 'image_profile'), params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "booking_agent") : new_profile_path( type: "booking_agent")
-            .col-md-3
-              h4.text-primary BOOKING AGENT
+            .col-md-3 *{:style => "margin-top: 12px;"}
+              h4.text-primary BOOKING AGENT 
               p You regularly book musicians for your clients
               = link_to "Create Your Profile", params[:edit] == "true"? edit_profile_path(current_user.current_profile.id, type: "booking_agent") : new_profile_path( type: "booking_agent"), class: "btn btn-primary"
         - else
