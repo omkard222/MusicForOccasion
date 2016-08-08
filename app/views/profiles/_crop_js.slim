@@ -10,8 +10,15 @@ javascript:
     $(".crop_pic").hide();
   });
   
+  //$(document).on("click", ".cancel_crop",function(){
+    //$(".crop_pic").find(".crop_heading").hide()
+    //$(".crop_pic").hide()
+    //$(".profile_pic").show()
+  //})
+  
   $(document).on("click", ".cancel_crop",function(){
-    $(".crop_pic").find(".crop_heading").hide()
-    $(".crop_pic").hide()
-    $(".profile_pic").show()
-  })
+      bootbox.dialog({
+        title: "Are you sure you want to discard this image ?",
+        message: "<a class='btn btn_modal_confirm' href='#{edit_profile_path(current_user.current_profile)}'>Yes</a> <button type='button' class='btn btn-default btn_modal_confirm' data-dismiss='modal' aria-hidden='true'>No</button>"
+      });
+  });
