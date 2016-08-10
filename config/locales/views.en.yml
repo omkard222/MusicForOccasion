@@ -81,6 +81,8 @@ en:
       wrong_confirmation: 'Wrong confirmation token'
     new:
       name_placeholder: 'These fields are needed.'
+    new_for_musician:
+      name_placeholder: 'These fields are needed.'  
     edit:
       title: 'EDIT PROFILE'
       update_picture: 'Update Profile Picture'
