@@ -8,6 +8,7 @@ class BookingRequest < ActiveRecord::Base
 
   acts_as_paranoid
   belongs_to :profile
+  belongs_to :job
   belongs_to :service_proposer, class_name: 'Profile', foreign_key: 'service_proposer_id'
   belongs_to :updated_by, class_name: 'User', foreign_key: 'updated_by_id'
   belongs_to :service

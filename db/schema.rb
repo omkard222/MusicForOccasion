@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160730140848) do
+ActiveRecord::Schema.define(version: 20160809125221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20160730140848) do
     t.text     "message"
     t.integer  "updated_by_id"
     t.integer  "profile_id"
+    t.integer  "job_id"
   end
 
   add_index "booking_requests", ["deleted_at"], name: "index_booking_requests_on_deleted_at", using: :btree
@@ -148,6 +149,19 @@ ActiveRecord::Schema.define(version: 20160730140848) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.string   "country_origin"
+    t.integer  "service_type_id"
+    t.boolean  "is_sunday"
+    t.boolean  "is_monday"
+    t.boolean  "is_tuesday"
+    t.boolean  "is_wednesday"
+    t.boolean  "is_thursday"
+    t.boolean  "is_friday"
+    t.boolean  "is_saturday"
+    t.date     "date_from"
+    t.date     "date_to"
+    t.string   "location"
+    t.float    "longitude"
+    t.float    "latitude"
   end
 
   add_index "jobs", ["event_type"], name: "index_jobs_on_event_type", using: :btree

@@ -1,8 +1,10 @@
+
 en:
   layouts:
     menu:
       login:
         browse_musicians: 'Browse Musicians'
+        job_offers: 'Job Offers'
         menu:
           profile: 'View Profile'
           edit_profile: 'Edit Profile'
@@ -145,7 +147,10 @@ en:
       new_booking_request: 'You have received a new booking request for your service'
   conversations:
     show:
-      offer_price_free: 'Offer Price: Free'
+      offer_price_free: 'Offer Price: Unknown budget'
   services:
+    form:
+      select_at_least_one: 'Select at least one'
+  jobs:
     form:
       select_at_least_one: 'Select at least one'

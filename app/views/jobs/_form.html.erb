@@ -16,8 +16,14 @@
             <%= f.text_field :title, required: true, class: 'form-control', :maxlength => 30 %>
           </div>
           <div class="form-group">
-            <%= f.label :type_of_event %>
-            <%= f.select :event_type, ["Bar/Restaurant", "Private Event", "Club/Lounge", "Wedding", "Corporate", "Festival", "Charity"], {}, :required => true, class: 'form-control' %>
+            <%= f.label :location, "Location" %>
+            <%= f.text_field :location, required: true, class: 'form-control', :maxlength => 30 %>
+          </div>
+          <div class="form-group">
+            <%= f.label :event_type %>
+            <%= f.select :event_type, translated_event_type_options, {:prompt => ''}, :required => true, class: 'form-control' %>
+            <%#= f.label :type_of_event %>
+            <%#= f.select :event_type, ["Bar/Restaurant", "Private Event", "Club/Lounge", "Wedding", "Corporate", "Festival", "Charity"], {}, :required => true, class: 'form-control' %>
           </div>
           <div class="form-group">
             <%= f.label :description %>
@@ -50,12 +56,12 @@
           <div class="form-group job_booking_fee_type">
             <div class="form-group">
               <%= f.label :booking_fee_type %>
-              <%= f.select :booking_fee_type, translated_fee_type_options, {}, :required => true, class: 'form-control' %>
+              <%= f.select :booking_fee_type, translated_job_fee_type_options, {}, :required => true, class: 'form-control' %>
             </div>
             <div class="form-group">
-              <div class="additional for_send_inquiry"><%= t 'services.form.note_for_send_inquiry' %></div>
+              <div class="additional for_send_inquiry"><%= t 'jobs.form.note_for_send_inquiry' %></div>
               <div class="additional for_free">
-                <% Service.free_fee_types.keys.each do |type| %>
+                <% Job.free_fee_types.keys.each do |type| %>
                   <label>
                     <%= f.radio_button :free_fee_type, type %>
                     <%= t("services.form.free_fee_types.#{type}") %>
@@ -74,11 +80,56 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <%= f.label :currency %>
-                      <%= f.select :currency, Service.currencies.map(&:upcase).sort, {}, :required => true, class: 'form-control' %>
+                      <%= f.select :currency, Job.currencies.map(&:upcase).sort, {}, :required => true, class: 'form-control' %>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <%= f.label :service_type_id, "Availability" %>
+            <%= f.select :service_type_id, ServiceType.all_service_types, {:prompt => ''}, :required => true, class: 'form-control' %>
+          </div>
+          <div id="days_of_week">
+            <label id='days_of_week_error_label'><%= t('.select_at_least_one')%></label>
+            <div class="field">
+              <%= f.check_box :is_sunday %>
+              <%= f.label :is_sunday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_monday %>
+              <%= f.label :is_monday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_tuesday %>
+              <%= f.label :is_tuesday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_wednesday %>
+              <%= f.label :is_wednesday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_thursday %>
+              <%= f.label :is_thursday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_friday %>
+              <%= f.label :is_friday %>
+            </div>
+            <div class="field">
+              <%= f.check_box :is_saturday %>
+              <%= f.label :is_saturday %>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="field col-md-6 hidden" id="date_from">
+              <%= f.label :date_from, id:'lbl_date_from' %>
+              <%= f.text_field :date_from, class: 'datepicker_date_from form-control', :value => (@job.date_from.strftime('%d/%m/%Y') if @job.date_from) %>
+            </div>
+            <div class="field col-md-6 hidden" id="date_to">
+              <%= f.label :date_to %>
+              <%= f.text_field :date_to, class: 'datepicker_date_to form-control', :value => (@job.date_to.strftime('%d/%m/%Y') if @job.date_to) %>
             </div>
           </div>
           <div class="row">
@@ -106,11 +157,22 @@
         if($('.alert').length > 0) {
           scrollToTop();
         }
-
+        set_datepicker(); 
         if(<%= @job.new_record? %>){
             $('#job_currency').val("<%= session[:preferred_currency].to_s.upcase %>");
         };
 
+        service_type_select_changed($('#job_service_type_id').val());
+
+
+        $('#service_form').submit(function (e) {
+            var check_count = $("#days_of_week").find("input:checked").length;
+            if(check_count == 0 && $('#service_service_type_id').val() == "2") {
+              $('#days_of_week_error_label').effect( "highlight", 3000 );
+              $("#service_is_sunday").focus();
+              return false;
+            }
+        });
 
         $('input[type=number]').on('mousewheel', function(){
           var el = $(this);
@@ -137,8 +199,8 @@
 
             e.preventDefault();
             if (empty_required_fields.length > 0) {
-              $('.service_form_error').remove();
-              var error_html = '<div class="alert alert-danger %> fade in service_form_error">' +
+              $('.job_form_error').remove();
+              var error_html = '<div class="alert alert-danger %> fade in job_form_error">' +
                                 '<button type="button" class="close" data-dismiss="alert">x</button>' +
                                 '<div id="flash_error"> ' + 'Please fill data in those fields:' + empty_required_fields.join(', ') + ' </div>' +
                               '</div>';
@@ -169,5 +231,104 @@
         showAdditionalForSelected();
     });
 
-    $('input#job_country_origin').addresspicker(); 
+    $('input#job_country_origin').addresspicker();
+
+
+    function set_validate_date_from(validate){
+        $('#job_date_from').prop('required', validate);
+        if (!validate) $('#job_date_from').val("");
+    }
+
+    function set_validate_date_to(validate){
+        $('#job_date_to').prop('required', validate);
+        if(!validate) $('#job_date_to').val("");
+    }
+
+    function display_days_of_week_control(){
+        $('#days_of_week').removeClass("hidden");
+        $('#date_from').addClass("hidden");
+        $('#date_to').addClass("hidden");
+        set_validate_date_from(false);
+        set_validate_date_to(false);
+    }
+
+    function display_period_control(){
+        $('#days_of_week').addClass("hidden");
+        $('#date_from').removeClass("hidden");
+        $('#date_to').removeClass("hidden");
+        $('#lbl_date_from').text('From');
+        set_validate_date_from(true);
+        set_validate_date_to(true);
+    }
+
+    function display_single_day_control(){
+        $('#days_of_week').addClass("hidden");
+        $('#date_from').removeClass("hidden");
+        $('#date_to').addClass("hidden");
+        $('#lbl_date_from').text('Date');
+        set_validate_date_from(true);
+        set_validate_date_to(false);
+    }
+
+    function hide_all_controls(){
+        $('#days_of_week').addClass("hidden");
+        $('#date_from').addClass("hidden");
+        $('#date_to').addClass("hidden");
+    }
+
+    function clear_data(){
+        $("input:checkbox").prop('checked', false);
+        $('#job_date_from').val("");
+        $('#job_date_to').val("");
+    }
+
+    function check_days_of_week(checked){
+      $("#days_of_week").find(':checkbox').prop('checked', checked);
+    }
+
+
+    $('#job_service_type_id').change(function() {
+        clear_data();
+        service_type_select_changed($('#job_service_type_id').val());
+    });
+
+    function service_type_select_changed(service_type_id){
+      switch (service_type_id) {
+        case "1":
+          display_single_day_control();
+          break;
+        case "2":
+          if ($("#days_of_week").find("input:checked").length == 0) {
+            check_days_of_week(true); };
+          display_days_of_week_control();
+          break;
+        case "3":
+          display_period_control();
+          break;
+        default:
+          hide_all_controls();
+      }
+    }
+
+    $('.datepicker_date_from').change(function(){
+        var from = $('.datepicker_date_from').val().split("/");
+        var date = new Date(from[2], from[1] - 1, from[0]);
+        $('.datepicker_date_to').datepicker( "option", "minDate", date );
+    });
+
+    $('.datepicker_date_to').change(function(){
+        var from = $('.datepicker_date_to').val().split("/");
+        var date = new Date(from[2], from[1] - 1, from[0]);
+        $('.datepicker_date_from').datepicker( "option", "maxDate", date );
+    });
+
+    function set_datepicker(){
+        var dateToday = new Date();
+        $('.datepicker_date_from').datepicker({ dateFormat: 'dd/mm/yy',
+            minDate: dateToday
+        });
+        $('.datepicker_date_to').datepicker({ dateFormat: 'dd/mm/yy',
+            minDate: dateToday
+        });
+    } 
 </script>

@@ -1,6 +1,6 @@
 # Controller for new service proposal
 class JobsController < ApplicationController
-  before_action :authenticate_user!, except: [:show]
+  before_action :authenticate_user!, except: [:show,:job_details]
   before_action :find_job, only: [:edit, :update]
   include ApplicationHelper
 
@@ -22,7 +22,11 @@ class JobsController < ApplicationController
   end
 
   def index
-    jobs = current_profile.jobs.all
+    if current_profile.profile_type = "musician"
+      jobs = Job.all
+    else
+      jobs = current_profile.jobs.all
+    end
     @jobs = jobs.where(deleted_at: nil)
   end
 
@@ -36,9 +40,23 @@ class JobsController < ApplicationController
       render 'edit', notice: msg
     end
   end
-
+  
+  def job_details
+    @job = Job.find(params[:id])
+  end 
   def show
     @job = Job.find(params[:id])
+    genres = @job.genre_ids
+    genres = genres-[""]
+    g1 = []
+    
+    if genres.present?
+      genres.each do |g|
+        g1.push(Genre.find(g).name)
+      end
+      @genre_name = g1.join(",") 
+    end
+
   end 
 
   def destroy
@@ -58,7 +76,9 @@ class JobsController < ApplicationController
     params.require(:job)
     .permit(:title, :event_type, :description, :booking_fee, :currency, :country_origin,
             :transportation, :accommodation, :food_and_beverage, :minimum_fb_likes,
-            :booking_fee_type, :free_fee_type, :genre_ids => [])
+            :booking_fee_type, :free_fee_type, :service_type_id,
+            :is_sunday, :is_monday, :is_tuesday, :is_wednesday, :is_thursday,
+            :is_friday, :is_saturday, :date_from, :date_to, :location)
   end
 
   def find_job

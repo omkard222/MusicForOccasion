@@ -139,6 +139,32 @@ class HomeController < ApplicationController
     render partial: 'home/list_musicians'
   end
 
+  def job_offers
+    @jobs = Job.all.where(deleted_at: nil).uniq
+    @search_term = params[:location]
+    #@profiles = location_filter(@profiles, @search_term) if @search_term.present?
+    #@profiles = priority_ordering(@profiles, 50)
+  end
+
+  def send_job_offer
+    @job = Job.find(params[:id])
+  end  
+
+  def search_job_offers
+    #raise params.inspect
+    @jobs = Job.all.where(deleted_at: nil).uniq
+
+    @jobs = date_filter(@jobs, params[:event_date]) if params[:event_date].present?
+    # @profiles = Profile.musician_has_services.joins(:user, :musician_genres)
+    @jobs = event_type_filter(@jobs, params[:event_type]) if params[:event_type].present?
+    #@profiles = genres_filter(@profiles, params[:genres]) if params[:genres].present?
+    # @profiles = instruments_filter(@profiles, params[:instruments]) if params[:instruments].present?
+    @search_term = params[:location]
+    @jobs = job_location_filter(@jobs, @search_term) if @search_term.present?
+    #@profiles = priority_ordering(@profiles, 50)
+    render partial: 'home/list_job_offers'
+  end
+
   def contact
   end
 
@@ -152,6 +178,24 @@ class HomeController < ApplicationController
   end
 
   private
+  
+  def event_type_filter(jobs, event_type)
+    jobs.where(event_type: event_type)
+  end
+
+  def date_filter(jobs, event_date)
+    #Date.strptime("12/08/2016", "%d/%m/%Y").strftime("%A")
+    d1 = Date.strptime(event_date, "%d/%m/%Y").strftime("%A").downcase
+    d2 = "is_"+d1
+    #d3 = jobs.where("#{d2} = ?", true).all.count
+    #d1 =Date.strptime("12/08/2016", "%m/%d/%Y")
+    #Job.where("is_monday = ?  OR date_from = ? OR date_from <= ? AND date_to >= ?", true, d1, d1,d1)
+    
+  end
+
+  def job_location_filter(jobs, location)
+    jobs.near(@search_term, ENV['DEFAULT_LOCATION_RADIUS']).order('distance')
+  end
 
   def location_filter(profiles, location)
     profiles.near(@search_term, ENV['DEFAULT_LOCATION_RADIUS']).order('distance')

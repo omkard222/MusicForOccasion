@@ -1,0 +1,122 @@
+<div class="pages fade out">
+  <div class="containerr">
+    <div class="space30"></div>
+    <h1 class="text-center">BROWSE GIGS</h1>
+
+    <div class="space30"></div>
+    <div class="row">
+      <div class="col-md-8 col-md-offset-1">
+        <%= form_tag search_job_offers_path, id: 'search_application_form', class: 'form-horizontal' do %>
+            <div class="form-group">
+              <label class="col-md-2 control-label">Type of Event</label>
+
+              <div class="col-md-10">
+                <%#= text_field_tag 'event_type', nil, placeholder: 'Event type', class: 'form-control' %>
+                <%#= select_tag "event_type", options_for_select(["Bar/Restaurant", "Private Event", "Club/Lounge", "Wedding", "Corporate", "Festival", "Charity"], ""), :class=> 'form-control'%>
+                <%#= select_tag "event_type", ["Bar/Restaurant", "Private Event", "Club/Lounge", "Wedding", "Corporate", "Festival", "Charity"], {}, :required => true, class: 'form-control' %>
+                <%= select_tag "event_type", options_for_select([[], ["Bar/Restaurant",0 ], ["Private Event", 1], ["Club/Lounge", 2], ["Wedding", 3], ["Corporate", 4], ["Festival", 5], ["Charity", 6]]), :class=> 'form-control', prompt: "select event"%>
+ 
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 control-label">Location</label>
+
+              <div class="col-md-8">
+                
+                <%= text_field_tag 'location', nil, id: 'search_location', placeholder: 'City, Country', class: 'form-control', value: params[:location] %> 
+              </div>
+              <span type="button" class="clear_location btn btn-default col-md-2">Clear Location</span>
+            </div>
+            <div class="form-group">
+              <label class="col-md-2 control-label">Date</label>
+
+              <div class="col-md-10">
+                <%= text_field_tag 'event_date', nil, placeholder: 'Select date', class: 'form-control' %> 
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="space40"></div>
+    <div class="row">
+      <div class="col-md-11 col-sm-offset-1">
+        <div id="search-results" align="center">
+          <%= render 'home/list_job_offers' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render 'shared/blankfooter' %>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#event_date').click( function(){
+          var dateToday = new Date();
+          $('#event_date').datepicker({ dateFormat: 'dd/mm/yy',
+              minDate: dateToday
+          });
+
+          selectDate()
+        });   
+
+        $(".clear_location").on("click", function(){
+          $('#search_location').val('');
+          $('#search_location').attr("placeholder", "City, Country");
+          browse_musicians();
+        });
+
+        $('#search_location').val('')
+        var xhr;
+        $('input#search_location').addresspicker({
+            updateCallback: showCallback
+        });
+
+        $(document).ajaxStart(function () {
+            $('#search-results').html('<div class="spinner"><div class="bounce1"></div><div class="bounce2"></div><div class="bounce3"></div></div>');
+        });
+        
+        $('#event_type').on("change", function () {
+            browse_musicians();
+        });
+
+        $('#search_location').on("change", function () {
+            browse_musicians();
+        });
+
+        $('#search_location').focusout(function() {
+          $('#search_location').val($('.ui-menu-item').html());
+        });
+
+        function showCallback(geocodeResult, parsedGeocodeResult) {
+            browse_musicians();
+        }
+
+        function selectDate(){
+          var dd = $("#event_date").val()
+          if(dd !== ""){
+            browse_musicians();
+          }
+          else{
+              setTimeout(function(){
+                  selectDate();
+              },2000);
+          }
+        }
+
+        function browse_musicians() {
+            
+            var event_type = $('#event_type').val();
+            var location = $('#search_location').val();
+            var event_date = $('#event_date').val();
+            if (xhr && xhr.readystate != 4) {
+                xhr.abort();
+            }
+            xhr = $.post("<%= search_job_offers_path %>?event_type=" + event_type + "&location=" + location + "&event_date=" + event_date,  function (data) {
+                $("#search-results").html(data);
+            });
+        }
+
+    });
+</script>

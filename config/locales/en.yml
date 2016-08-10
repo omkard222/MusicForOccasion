@@ -99,6 +99,26 @@ en:
         per_minute: "Price per set of minimum amount of minutes"
         per_hour: "Price per hour"
       minutes_count_error: 'minimum number of minutes per set'
+  jobs:
+    form:
+      note_for_send_inquiry: "People will contact you and you will negociate your fees (note: x3 more enquiries when displaying a min fees)"
+      booking_fee_types:
+        send_inquiry: "Send Inquiry"
+        free: "For Free"
+        minimum_fees: "Minimum fees"
+      free_fee_types:
+        for_fun: "I play for fun"
+        for_charity_event: "I play for a charity event"  
+      event_types:
+        bar_restaurant: "Bar/Restaurant"
+        private_event: "Private Event"
+        club_lounge: "Club/Lounge"
+        wedding: "Wedding"
+        corporate: "Corporate"
+        festival: "Festival"
+        charity: "Charity"
+      note_for_private_event: "Private Event"
+      select_at_least_one: "Select atleast one"      
 
   Created_booking_request: >
     I'm sending you a booking request for the offer: %{headline} at %{currency} <span class='number_font'>%{price}</span>.

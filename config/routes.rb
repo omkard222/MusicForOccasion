@@ -46,8 +46,8 @@ Rails.application.routes.draw do
   get "/connect_social_media/:id" => "profiles#connect_social_media", :as => :connect_social_media 
   get "/user_profile_edit/:id" => "profiles#user_profile_edit", :as => :user_profile_edit
   get "/delete_user_profile/:id" => "profiles#delete_user_profile", :as => :delete_user_profile
-
-
+  get "/job_details/:id" => "jobs#job_details", :as => :job_details
+  post "/create_book_request" => "booking_requests#create_book_request", :as => :create_book_request 
   #patch "/profiles/profile_save_params" => "profiles#profile_save_params", :as => :profile_save_params
   constraints(id: /[0-9]+/) do
     resources :profiles, only: [:show, :edit, :update, :destroy] do
@@ -176,8 +176,11 @@ Rails.application.routes.draw do
   get 'become_a_partner'      => 'home#become_a_partner'
   post'become_a_partner'      => 'home#submit_become_a_partner', as: :submit_become_a_partner
   get 'browse_musicians'      => 'home#browse_musicians'
+  get 'job_offers'            => 'home#job_offers'
   post'browse_musicians'      => 'home#browse_musicians', as: :nearby_musicians
   post'search_musicians'      => 'home#search_musicians'
+  post'search_job_offers'     => 'home#search_job_offers'
+  get '/send_job_offer/:id'   => 'home#send_job_offer', as: :send_job_offer
   get 'contact'               => 'home#contact'
   post'contact'               => 'home#submit_contact_us', as: :submit_contact_us
   get 'help'                  => 'home#help'

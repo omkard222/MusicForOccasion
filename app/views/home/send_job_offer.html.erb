@@ -4,9 +4,6 @@
       <div class="space40"></div>
       <div class="col-lg-8 col-lg-offset-2">
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <h1 class="panel-title">Offer Details</h1>
-          </div>
           <div class="panel-body edit-profile">
             <div class="row">
               <div class="col-md-8 col-md-offset-2">
@@ -24,11 +21,7 @@
                       <pre class="form-control"><%= @job.title %></pre>
                     </div>
                     <div class="form-group">
-                      <%= f.label :description %>
-                      <pre class="form-control pre_text_area"><%= @job.description %></pre>
-                    </div>
-                    <div class="form-group">
-                      <%= f.label :event_type %>
+                      <%= f.label :event_type, "Type of event" %>
                       <div class="form-group">
                         <% case @job.event_type %>
                         <% when 'private_event' %>
@@ -47,6 +40,10 @@
                           <pre class="form-control"><%= "Charity" %></pre>           
                         <% end %>  
                       </div>    
+                    </div>
+                    <div class="form-group">
+                      <%= f.label :description %>
+                      <pre class="form-control pre_text_area"><%= @job.description %></pre>
                     </div>
                     <div class="form-group">
                       <%= f.label "Music genres (optional)" %>
@@ -93,15 +90,15 @@
                       <% when "free" %>
                         <pre class="form-control"><%= "For Free" %></pre>
                       <% when "minimum_fees" %>
-                        <pre class="form-control"><%= "Minimum fees" %></pre>    
+                        <pre class="form-control"><%= "Fixed price" %></pre>    
                       <% end %>  
                       <div class="form-group">
                         <% case @job.booking_fee_type %>
-                        <% when "send_inquiry" %>
+                        <% when 'send_inquiry' %>
                           <div class="additional for_send_inquiry"><%= t 'services.form.note_for_send_inquiry' %></div>
-                        <% when "free" %>
+                        <% when 'free' %>
                           <div class="additional for_free">
-                            <% Job.free_fee_types.keys.each do |type| %>
+                            <% Service.free_fee_types.keys.each do |type| %>
                               <label>
                                 <%= f.radio_button :free_fee_type, type, disabled: true %>
                                 <%= t("services.form.free_fee_types.#{type}") %>
@@ -109,7 +106,7 @@
                               <br>
                             <% end %>
                           </div>
-                        <% when "minimum_fees" %>
+                        <% when 'minimum_fees' %>
                           <div class="additional for_minimum_fees">
                             <div class="row">
                               <div class="col-md-6">
@@ -125,14 +122,36 @@
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </div>  
                         <% end %>
                       </div>
                     </div>
 
                     <div class="space30"></div>
                 <% end %>
-                <h3><%= link_to 'Back', :back , class: 'btn btn-default btn-block btn-base' %></h3>
+                <div>
+                  <%= form_for :booking_request, url: create_book_request_path do |ff| %>
+                    <%= ff.hidden_field :job_id, :value => @job.id%>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group" id="optional_price">
+                          <%= label_tag "Booking fee" %>
+                          <%= ff.number_field :confirmed_price,:required => true, class: 'form-control', max: 999999999, min: 0 %>
+                        </div>
+                      </div>  
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <%= ff.label :currency %>
+                          <%= ff.select :currency, Job.currencies.map(&:upcase).sort, {}, :required => true, class: 'form-control' %>
+                        </div>
+                      </div>
+                    </div>  
+                    <div class="form-group" style="margin-left:30%">
+                      <%= ff.submit 'Save', "class" => "btn bt-large btn-primary" %>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <%= link_to 'cancel', "#",:class => "btn btn-default" %>
+                    </div>
+                  <% end %>
+                </div>
                 <div class="space40"></div>
               </div>
             </div>

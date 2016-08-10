@@ -56,6 +56,7 @@ class Profile < ActiveRecord::Base
   enum paypal_account_email_confirmation_status: [:paypal_unconfirmed, :paypal_confirmation_sent, :paypal_confirmed]
 
   scope :musician_has_services, -> { musician.joins(:services).where(services: { deleted_at: nil }).uniq }
+  scope :booker_has_applications, -> { registered_user.joins(:jobs).where(jobs: { deleted_at: nil }).uniq }
   scope :current, -> { where(current: true).first }
   PICTURE_PRIORITY = 1000000
   geocoded_by :location

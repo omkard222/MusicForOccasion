@@ -3,14 +3,38 @@
     <p class="p_headline"><%= link_to job.title, job_path(job)%></p>
   </td>
   <td>
-    <p class="p_description"><%=  job.description  %></p>
+    <% case job.event_type %>
+    <% when 'private_event' %>
+      <%= "Private Event" %>
+    <% when 'bar_restaurant' %>
+      <%= "Bar/Restaurant" %> 
+    <% when 'club_lounge' %>
+      <%= "Club/Lounge" %>
+    <% when 'wedding' %>
+      <%= "Wedding" %>
+    <% when 'corporate' %>
+      <%= "Corporate" %>
+    <% when 'festival' %>
+      <%= "Festival" %>
+    <% when 'charity' %>
+      <%= "Charity" %>         
+    <% end %>  
   </td>
   <td>
-    <%=  job.accommodation %>
+    <%= "#{ job.available_date }" %>
   </td>
   <td>
-    <%= job.transportation %>
+    <%= job.location %>
   </td>
+  <td>
+    <%= "Quote requested" %>
+  </td>
+  <td>
+    <%= "Still Looking"%>
+  </td>
+  <td>0</td>
+  <td>0</td>
+  <td>0</td>
   <td>
     <%= link_to 'update', edit_job_path(job.id) %>
   </td>
