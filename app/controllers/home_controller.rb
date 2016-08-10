@@ -151,14 +151,10 @@ class HomeController < ApplicationController
   end  
 
   def search_job_offers
-    #raise params.inspect
     @jobs = Job.all.where(deleted_at: nil).uniq
 
     @jobs = date_filter(@jobs, params[:event_date]) if params[:event_date].present?
-    # @profiles = Profile.musician_has_services.joins(:user, :musician_genres)
     @jobs = event_type_filter(@jobs, params[:event_type]) if params[:event_type].present?
-    #@profiles = genres_filter(@profiles, params[:genres]) if params[:genres].present?
-    # @profiles = instruments_filter(@profiles, params[:instruments]) if params[:instruments].present?
     @search_term = params[:location]
     @jobs = job_location_filter(@jobs, @search_term) if @search_term.present?
     #@profiles = priority_ordering(@profiles, 50)
@@ -184,13 +180,12 @@ class HomeController < ApplicationController
   end
 
   def date_filter(jobs, event_date)
-    #Date.strptime("12/08/2016", "%d/%m/%Y").strftime("%A")
     d1 = Date.strptime(event_date, "%d/%m/%Y").strftime("%A").downcase
     d2 = "is_"+d1
     #d3 = jobs.where("#{d2} = ?", true).all.count
-    #d1 =Date.strptime("12/08/2016", "%m/%d/%Y")
+    d3 = Date.strptime(event_date, "%d/%m/%Y")
     #Job.where("is_monday = ?  OR date_from = ? OR date_from <= ? AND date_to >= ?", true, d1, d1,d1)
-    
+    jobs.where("#{d2} = ?  OR date_from = ? OR date_from <= ? AND date_to >= ?", true, d3, d3,d3)
   end
 
   def job_location_filter(jobs, location)

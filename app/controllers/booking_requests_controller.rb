@@ -138,18 +138,15 @@ class BookingRequestsController < ApplicationController
   end
 
   def create_book_request
-    #raise params.inspect
     @job = Job.find(params[:booking_request][:job_id])
-    #raise @job.profile.inspect
     new_request = current_user.current_profile.booking_requests.new()
     new_request.status = 'Pending'
     new_request.currency = params[:booking_request][:currency]
     
     new_request.confirmed_price = params[:booking_request][:confirmed_price]
-    #new_request.message = params[:booking_request][:message]
     
     new_request.job_id = params[:booking_request][:job_id] 
-    new_request.event_location = "delhi"
+    new_request.event_location = @job.location
     new_request.date = Date.today + 2.days
     new_request.service_proposer = @job.profile
     new_request.updated_by = current_user
@@ -161,7 +158,7 @@ class BookingRequestsController < ApplicationController
       new_request.message,
       "Message from #{ username }")
       #BookingStatusMailer.new_booking_request_service_owner_notification(new_request).deliver_later if new_request.service_proposer.user.notify_create_booking
-      redirect_to jobs_path, notice: 'Booking request is created successfully.'
+      redirect_to job_offers_path, notice: 'Booking request is created successfully.'
     else
       flash[:error] = new_request.errors.full_messages.to_sentence
       redirect_to :back
