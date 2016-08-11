@@ -49,6 +49,10 @@ Rails.application.routes.draw do
   get "/job_details/:id" => "jobs#job_details", :as => :job_details
   post "/create_book_request" => "booking_requests#create_book_request", :as => :create_book_request 
   #patch "/profiles/profile_save_params" => "profiles#profile_save_params", :as => :profile_save_params
+  get "/job_app_received/:id" => "booking_requests#job_app_received", :as => :job_app_received
+  get "/job_app_negotiation/:id" => "booking_requests#job_app_negotiation", :as => :job_app_negotiation
+  get "/job_app_confirmed/:id" => "booking_requests#job_app_confirmed", :as => :job_app_confirmed
+  get "/job_app_rejected/:id" => "booking_requests#job_app_rejected", :as => :job_app_rejected
   constraints(id: /[0-9]+/) do
     resources :profiles, only: [:show, :edit, :update, :destroy] do
       get :choose_profile

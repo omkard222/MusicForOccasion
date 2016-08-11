@@ -244,6 +244,38 @@ class BookingRequestsController < ApplicationController
     render json: data
   end
 
+  def job_app_received
+    @job = Job.find(params[:id])
+    booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+    booking_lists.update_expired
+    @request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
+    #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+  end 
+
+  def job_app_negotiation
+    @job = Job.find(params[:id])
+    booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+    booking_lists.update_expired
+    @request_booking_list = booking_lists.select { |booking| booking.status == 'Special Offer' }
+    #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+  end 
+
+  def job_app_confirmed
+    @job = Job.find(params[:id])
+    booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+    booking_lists.update_expired
+    @request_booking_list = booking_lists.select { |booking| booking.status == 'Accepted' }
+    #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+  end 
+
+  def job_app_rejected
+    @job = Job.find(params[:id])
+    booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+    booking_lists.update_expired
+    #@request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' || booking.status == 'Special Offer' || booking.status == 'Accepted' }
+    @request_booking_list_history = booking_lists.select { |booking| booking.status == 'Rejected' || booking.status == 'Cancelled' }
+  end
+
   private
 
   def create_message_from_booking_action(request)

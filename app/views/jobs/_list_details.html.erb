@@ -32,9 +32,18 @@
   <td>
     <%= "Still Looking"%>
   </td>
-  <td>0</td>
-  <td>0</td>
-  <td>0</td>
+  <td>
+    <%= link_to "Applications Received", job_app_received_path(job) %>
+    <div>1</div>
+  </td>
+  <td>
+    <%= link_to "In Negotiation", job_app_negotiation_path(job) %>
+    <div>1</div>
+  </td>
+  <td>
+    <%= link_to "Confirmed", job_app_confirmed_path(job) %>
+    <div>1</div>
+  </td>
   <td>
     <%= link_to 'update', edit_job_path(job.id) %>
   </td>

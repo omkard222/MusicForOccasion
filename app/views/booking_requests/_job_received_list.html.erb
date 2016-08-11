@@ -1,0 +1,111 @@
+<% job = booking.job%>
+<% requestor = booking.profile %>
+<% status = booking.status %>
+<table class="inbox-box">
+  <tr>
+    <td class="col-img-l">
+      <%= profile_picture(requestor) %>
+      <p class="name-label"><%= requestor.virtual_name %></p>
+    </td>
+    <td>
+      <h3>
+        <a href="" data-toggle="tooltip" data-placement="top" title="<%= job.title %>" onclick="return false"><%= job.title %></a>
+        <% if booking.confirmed_price %>
+        (<%= "#{ preferred_currency_session.upcase } "%><span class="number_font"><%="#{ convert_to_preferred_currency(booking.currency, booking.confirmed_price) }"%></span>)
+        <% end %>
+      </h3>
+      <hr/>
+      <p class="msg-label"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;<span class="badge"><%= status %></span></p>
+      <p class="msg-label"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;&nbsp;&nbsp;<%= booking.event_location %></p>
+      <p class="msg-label"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp;<%= booking.date.strftime("%A, %B %d , %Y at %I:%M %p") %></p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <div class="row row-button">
+        <table id="table_booking_detail" class="pull-right">
+          <tr>
+            <td>
+              <a class="btn btn-blue-i-m col-xs-12" href="<%= conversation_path(requestor) %>">Chat <i class="fa fa-comment"></i></a>
+            </td>
+            <% if status == "Accepted" %>
+              <td>
+                <a href="" id="cancel_booking_<%= booking.id.to_s %>" onclick="return false;" class='btn btn-red-i-m col-xs-12'>Cancel</a>
+              </td>
+            <% else %>
+              <td>
+                <%if status== "Special Offer"%>
+                  <a href="" class="btn btn-blue-i-m col-xs-12 edit_special_offer" data-toggle="modal" data-target="#modal_special_offer" data-dismiss="modal"
+                       data-booking_id="<%= booking.id.to_s %>"
+                       data-requestor_id="<%= booking.profile_id.to_s %>"
+                       data-service_id="<%= booking.job_id.to_s %>"
+                       data-service_name="<%= booking.job.title.to_s %>"
+                       data-location="<%= booking.event_location.to_s %>"
+                       data-datetime="<%= booking.date.strftime('%d/%m/%Y %H:%M')%>"
+                       data-special_price="<%= booking.special_price.to_s %>"
+                       data-currency="<%= booking.currency.to_s %>"
+                       data-message="<%= booking.message%>">Edit</a>
+                 <%else%>
+                   <a href="" class="btn btn-blue-i-m col-xs-12 booking_special_offer" data-toggle="modal" data-target="#modal_special_offer" data-dismiss="modal"
+                       data-booking_id="<%= booking.id.to_s %>"
+                       data-requestor_id="<%= booking.profile_id.to_s %>"
+                       data-service_id="<%= booking.job_id.to_s %>"
+                       data-service_name="<%= booking.job.title.to_s %>"
+                       data-location="<%= booking.event_location.to_s %>"
+                       data-datetime="<%= booking.date.strftime('%d/%m/%Y %H:%M')%>">Special Offer</a>
+                 <% end %>
+              </td>
+              <% if booking.confirmed_price && status == 'Pending' %>
+              <td>
+                <a href="" id="accept_<%= booking.id.to_s %>" onclick="return false;" class='btn btn-blue-i-m col-xs-12'>Accept</a>
+              </td>
+              <% end %>
+              <% if status == 'Special Offer' %>
+                <td>
+                  <a href="" id="cancel_request_<%= booking.id.to_s %>" onclick="return false;" class='btn btn-red-i-m col-xs-12'>Cancel</a>
+                </td>
+              <% elsif status == 'Pending' %>
+                <td>
+                  <a href="" id="reject_<%= booking.id.to_s %>" onclick="return false;" class='btn btn-red-i-m col-xs-12'>Reject</a>
+                </td>
+              <% end %>
+            <% end %>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+</table>
+<div class="space10"></div>
+<script type="text/javascript">
+<% if status == 'Pending' %>
+  $('#accept_<%= booking.id.to_s %>').click(function(e){
+      bootbox.dialog({
+        title: "Are you sure you want to accept this booking request?",
+        message: "<a class='btn btn_modal_confirm' href='<%= accept_request_path(booking) %>' data-method='post' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+      });
+  });
+  $('#reject_<%= booking.id.to_s %>').click(function(e){
+      bootbox.dialog({
+        title: "Are you sure you want to reject this booking request?",
+        message: "<a class='btn btn_modal_confirm' href='<%= reject_request_path(booking) %>' data-method='post' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+      });
+  });
+<% end %>
+<% if status == 'Accepted' %>
+  $('#cancel_booking_<%= booking.id.to_s %>').click(function(e){
+      bootbox.dialog({
+        title: "Are you sure you want to cancel this booking request?",
+        message: "<a class='btn btn_modal_confirm' href='<%= cancel_booking_path(booking) %>' data-method='post' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+      });
+  });
+<% end %>
+<% if status == 'Special Offer' %>
+  $('#cancel_request_<%= booking.id.to_s %>').click(function(e){
+      bootbox.dialog({
+        title: "Are you sure you want to cancel this booking request?",
+        message: "<a class='btn btn_modal_confirm' href='<%= cancel_request_path(booking) %>' data-method='post' style='width:90px;'>Yes</a> <button type='button' class='btn btn_modal_confirm btn-default' data-dismiss='modal' aria-hidden='true'>No</button>"
+      });
+  });
+<% end %>
+</script>
