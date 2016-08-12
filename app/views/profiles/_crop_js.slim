@@ -21,7 +21,7 @@ javascript:
       if (action == "new"){
         bootbox.dialog({
           title: "Are you sure you want to discard this image ?",
-          message: "<a class='btn btn_modal_confirm' href='#{new_profile_path}'>Yes</a> <button type='button' class='btn btn-default btn_modal_confirm' data-dismiss='modal' aria-hidden='true'>No</button>"
+          message: "<a class='btn btn_modal_confirm' href='/profiles/new?type=#{@type}'>Yes</a> <button type='button' class='btn btn-default btn_modal_confirm' data-dismiss='modal' aria-hidden='true'>No</button>"
         });
       }
       else {
