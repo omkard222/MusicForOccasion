@@ -22,6 +22,7 @@ class ProfilesController < ApplicationController
     @no_menu = true
     @type = params[:type]
     @user = current_user ? current_user : User.find(params[:user])
+    @action = "new"
     @profile = @user.profiles.build
     unless params[:type] == "musician"
       @profile.sub_type = params[:type] if params[:type]
@@ -383,6 +384,7 @@ class ProfilesController < ApplicationController
   def edit
     session[:user_fb_idd] = ""
     session[:user_fb_idd] = "" 
+    @action = "edit"
     @profile = Profile.find(params[:id])
     @profile.sub_type = params[:type] if params[:type]
     @bank_account = @profile.bank_account || @profile.create_bank_account
