@@ -4,11 +4,12 @@
     <h3 style="margin-left: 350px;"><b>APPLICATIONS RECEIVED</b></h3>
       <div class="space20"></div>
     <div class="row">
+      
       <div class="col-md-10 col-md-offset-2">
        <div class="panel panel-primary">
        <div class="panel-body">
        <div class="table-responsive">
-          <table class="table table-striped">
+          <table class="table">
             <col width="15%">
             <col width="10%">
             <col width="15%">
@@ -55,7 +56,7 @@
               </td>
               <td>
                 <%= link_to "Applications Received", job_app_received_path(@job) %>
-                <div><%= @pending%></div>
+                <div><%= @pending %></div>
               </td>
               <td>
                 <%= link_to "In Negotiation", job_app_negotiation_path(@job)%>
@@ -70,10 +71,10 @@
               </td>
             </tr>
           </table>
-        </div>
-        </div>
         </div>    
       </div>
+    </div>
+    </div>
     </div>  
     <div class="space20"></div>
     <div class="row">

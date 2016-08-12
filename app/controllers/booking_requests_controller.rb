@@ -23,15 +23,30 @@ class BookingRequestsController < ApplicationController
 
   def accept_request
     request = update_status('Accepted')
-    service_name = request.service.headline
-    return unless request.save
-    create_message_from_booking_action(request)
-    if request.special_price
-      BookingStatusMailer.accept_special_offer_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_accept_booking
+    br = BookingRequest.find(params[:booking_request_id])
+    if br.job_id.present?
+      @job = Job.find(br.job_id)
+      service_name = request.job.title
+      return unless request.save
+      create_message_from_job(request,@job)
+      if request.special_price
+        #BookingStatusMailer.accept_special_offer_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_accept_booking
+      else
+        #BookingStatusMailer.accept_booking_request_requestor_notification(request).deliver_later if request.profile.user.notify_accept_booking
+      end
+      redirect_to :back, notice: "You have accepted the offer: '#{service_name}' successfully."
     else
-      BookingStatusMailer.accept_booking_request_requestor_notification(request).deliver_later if request.profile.user.notify_accept_booking
-    end
-    redirect_to :back, notice: "You have accepted the offer: '#{service_name}' successfully."
+      service_name = request.service.headline
+     
+      return unless request.save
+      create_message_from_booking_action(request)
+      if request.special_price
+        BookingStatusMailer.accept_special_offer_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_accept_booking
+      else
+        BookingStatusMailer.accept_booking_request_requestor_notification(request).deliver_later if request.profile.user.notify_accept_booking
+      end
+      redirect_to :back, notice: "You have accepted the offer: '#{service_name}' successfully."
+    end  
   end
 
   def modal_submit
@@ -250,6 +265,9 @@ class BookingRequestsController < ApplicationController
     booking_lists.update_expired
     @request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
     #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+    @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Confirmed").count
+    @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
   end 
 
   def job_app_negotiation
@@ -258,6 +276,9 @@ class BookingRequestsController < ApplicationController
     booking_lists.update_expired
     @request_booking_list = booking_lists.select { |booking| booking.status == 'Special Offer' }
     #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+    @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Confirmed").count
+    @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
   end 
 
   def job_app_confirmed
@@ -266,6 +287,9 @@ class BookingRequestsController < ApplicationController
     booking_lists.update_expired
     @request_booking_list = booking_lists.select { |booking| booking.status == 'Accepted' }
     #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+    @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Confirmed").count
+    @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
   end 
 
   def job_app_rejected
@@ -273,7 +297,10 @@ class BookingRequestsController < ApplicationController
     booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
     booking_lists.update_expired
     #@request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' || booking.status == 'Special Offer' || booking.status == 'Accepted' }
-    @request_booking_list_history = booking_lists.select { |booking| booking.status == 'Rejected' || booking.status == 'Cancelled' }
+    @request_booking_list = booking_lists.select { |booking| booking.status == 'Rejected' || booking.status == 'Cancelled' }
+    @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Confirmed").count
+    @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
   end
 
   private

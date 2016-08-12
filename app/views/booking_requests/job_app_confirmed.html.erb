@@ -8,7 +8,7 @@
        <div class="panel panel-primary">
        <div class="panel-body">
        <div class="table-responsive">
-          <table class="table table-striped">
+          <table class="table">
             <col width="15%">
             <col width="10%">
             <col width="15%">
@@ -21,7 +21,7 @@
             <col width="5%">
             <tr>
               <td>
-                <p class="p_headline"><%= link_to @job.title, job_path(@job)%></p>
+                <p><%= link_to @job.title, job_path(@job)%></p>
               </td>
               <td>
                 <% case @job.event_type %>
@@ -59,7 +59,7 @@
               </td>
               <td>
                 <%= link_to "In Negotiation", job_app_negotiation_path(@job)%>
-                <div><%= @special_offer%></div>
+                <div><%= @special_offer %></div>
               </td>
               <td>
                 <%= link_to "Confirmed", job_app_confirmed_path(@job)%>

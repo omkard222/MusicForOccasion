@@ -1,3 +1,6 @@
+<% @pending = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Pending").count %>
+<% @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Confirmed").count %>
+<% @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Special Offer").count %>
 <tr>
   <td>
     <p class="p_headline"><%= link_to job.title, job_path(job)%></p>
@@ -34,15 +37,15 @@
   </td>
   <td>
     <%= link_to "Applications Received", job_app_received_path(job) %>
-    <div>1</div>
+    <div><%= @pending %></div>
   </td>
   <td>
     <%= link_to "In Negotiation", job_app_negotiation_path(job) %>
-    <div>1</div>
+    <div><%= @special_offer%></div>
   </td>
   <td>
     <%= link_to "Confirmed", job_app_confirmed_path(job) %>
-    <div>1</div>
+    <div><%= @confirmed%></div>
   </td>
   <td>
     <%= link_to 'update', edit_job_path(job.id) %>

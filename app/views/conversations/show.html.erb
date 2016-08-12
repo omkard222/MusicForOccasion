@@ -216,14 +216,26 @@
           $('.reject').removeClass('hidden');
           $('.edit-special').addClass('hidden');
           if (data.status == "Pending"){
-              if (data.user_type == "registered_user")
-              {
-                $('.accept').addClass('hidden');
-                $('.reject').addClass('hidden');
-                $('.cancel').removeClass('hidden');
+              if (data.job_id == 'undefined'){ 
+                if (data.user_type == "registered_user")
+                {
+                  $('.accept').addClass('hidden');
+                  $('.reject').addClass('hidden');
+                  $('.cancel').removeClass('hidden');
+                }else{
+                 $('.special').removeClass('hidden');
+                 } 
               }else{
-               $('.special').removeClass('hidden');
-               }     
+                if (data.user_type == "registered_user")
+                 {
+                $('.special').removeClass('hidden');
+                
+                }else{
+                 $('.accept').addClass('hidden');
+                 $('.reject').addClass('hidden');
+                 $('.cancel').removeClass('hidden');
+                }
+              }       
           }else if (data.status == "Rejected"){
               $('.special').addClass('hidden');
               $('.cancel').addClass('hidden');

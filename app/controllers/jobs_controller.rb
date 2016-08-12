@@ -28,6 +28,7 @@ class JobsController < ApplicationController
       jobs = current_profile.jobs.all
     end
     @jobs = jobs.where(deleted_at: nil)
+    booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where('date < ? AND status <> ?', Date.today, 'Cancelled').update_all(status: 'Expired')
   end
 
   def update
