@@ -22,7 +22,9 @@ class JobsController < ApplicationController
   end
 
   def index
-    if current_profile.profile_type = "musician"
+    
+    if current_user.current_profile.profile_type == "musician"
+      
       jobs = Job.all
     else
       jobs = current_profile.jobs.all
