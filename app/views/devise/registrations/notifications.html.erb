@@ -8,7 +8,7 @@
       <div class="col-md-8 col-xs-12">
         <div class="setting">
           <h1>Email Notifications</h1>
-          <span class="msg-label">Control when GigBazaar sends you emails</span>
+          <span class="msg-label">Control when gigBazaar sends you emails</span>
           <hr/>
           <%= form_for current_user, url: set_notifications_path, method: :put do |f| %>
               <% flash.each do |key, message| %>
@@ -31,7 +31,7 @@
                   <h4><b>Activities related to your offers</b></h4>
                   <h5 class="checkbox-inline">
                     <%#= f.check_box :notify_create_offer, style: 'margin-top: 0px;' %>
-                    <span>Receive an email when you Receive an application</span>
+                    <span>Receive an email when you receive an application</span>
                     <span>
                       <select>
                         <option value="volvo">For each application</option>

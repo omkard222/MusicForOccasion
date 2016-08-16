@@ -36,11 +36,10 @@ class Profile < ActiveRecord::Base
   
 
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
-  after_update :crop_avatar
+  after_save :crop_avatar
   
   def crop_avatar
-
-    profile_picture.recreate_versions! if crop_x.present?
+    profile_picture.recreate_versions! if( profile_picture.present? && crop_x.present?)
   end
 
   # attr_accessor :crop_x, :crop_y, :crop_w, :crop_h, :rotation_angle, 
@@ -52,7 +51,7 @@ class Profile < ActiveRecord::Base
   before_update :if_last_profile
 
   enum profile_type: [:registered_user, :musician]
-  enum sub_type: [:private_events, :event_organizer, :venue, :corporate, :booking_agent]
+  enum sub_type: [:private_events, :event_organizer, :venue, :corporate, :booking_agent, :default]
   enum paypal_account_email_confirmation_status: [:paypal_unconfirmed, :paypal_confirmation_sent, :paypal_confirmed]
 
   scope :musician_has_services, -> { musician.joins(:services).where(services: { deleted_at: nil }).uniq }

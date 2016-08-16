@@ -46,7 +46,8 @@
             <%= f.select :food_and_beverage, options_for_select([["No", false], ["Yes", true]], @job.food_and_beverage), {}, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <%= f.label "Popularity filter (only artists with a minimum popularity can send you applications) minimum Facebook likes on Facebook Musician Page:" %>
+            <%= f.label "Popularity filter (only artists with a minimum popularity can send you applications)" %>
+            <b style = "margin-left: 10px;color: #00b0ff;"> minimum Facebook likes on Facebook Musician Page: </b>
             <%= f.text_field :minimum_fb_likes, class: 'form-control' %>
           </div>
           <div class="form-group">
@@ -60,6 +61,7 @@
             </div>
             <div class="form-group">
               <div class="additional for_send_inquiry"><%= t 'jobs.form.note_for_send_inquiry' %></div>
+
               <div class="additional for_free">
                 <% Job.free_fee_types.keys.each do |type| %>
                   <label>

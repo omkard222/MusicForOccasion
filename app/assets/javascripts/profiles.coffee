@@ -36,8 +36,24 @@ $ ->
             reader = new FileReader()
             reader.onload = (e) ->
               image_base64 = e.target.result
+              $(".crop_pic").find(".crop_heading").show()
+              $(".crop_pic").show()
+              $(".profile_pic").hide()
               $('.cropbox').attr 'src', image_base64
               $('.cropbox1').attr 'src', image_base64
+              $('.cropbox').width("auto")
+              $('.cropbox').height("250px")
+              $(".cropbox1").width("auto")
+              $(".cropbox1").height("250px")
+              $('.jcrop-holder').width($("#cropbox").width())
+              $('.jcrop-tracker').width($("#cropbox").width())
+              $('.jcrop-holder').height("250px")
+              $('.jcrop-tracker').height("250px")
+              $('#profile_crop_x').val("0")
+              $('#profile_crop_y').val("0")
+              $('#profile_crop_w').val($('#cropbox')[0].naturalWidth)
+              $('#profile_crop_h').val($('#cropbox')[0].naturalHeight)
+              load_crop_div()
             reader.readAsDataURL file
           else
             $('#fileUploadName').html $('Add File').val()
@@ -147,32 +163,49 @@ $ ->
     $('#existing_profile_site_logo').removeClass('hidden_field')
     $('#existing_profile_site_logo').text($('#profile_site_logo').val().replace(/.+[\\\/]/, ""))
   
-  new AvatarCropper()
-
-class AvatarCropper
-  constructor: ->
-    $('#cropbox').Jcrop
-      aspectRatio: 1
-      setSelect: [0, 0, 600, 600]
-      onSelect: @update
-      onChange: @update
-  
-  update: (coords) =>
-    $('#user_crop_x').val(coords.x)
-    $('#user_crop_y').val(coords.y)
-    $('#user_crop_w').val(coords.w)
-    $('#user_crop_h').val(coords.h)
-    @updatePreview(coords)
-
-  updatePreview: (coords) =>
-          $('#preview').css
-                  width: Math.round(100/coords.w * $('#cropbox').width()) + 'px'
-                  height: Math.round(100/coords.h * $('#cropbox').height()) + 'px'
-                  marginLeft: '-' + Math.round(100/coords.w * coords.x) + 'px'
-                  marginTop: '-' + Math.round(100/coords.h * coords.y) + 'px'
+  # new AvatarCropper()
+# 
+# class AvatarCropper
+  # constructor: ->
+    # $('#cropbox').Jcrop
+      # aspectRatio: 1
+      # setSelect: [0, 0, 600, 600]
+      # onSelect: @update
+      # onChange: @update
+#   
+  # update: (coords) =>
+    # $('#user_crop_x').val($('#cropbox')[0].naturalWidth/ $('#cropbox').width() * coords.x)
+    # $('#user_crop_y').val($('#cropbox')[0].naturalHeight/ $('#cropbox').height() * coords.y)
+    # $('#user_crop_w').val($('#cropbox')[0].naturalWidth/ $('#cropbox').width() * coords.w)
+    # $('#user_crop_h').val($('#cropbox')[0].naturalHeight/ $('#cropbox').height() * coords.h)
+    # @updatePreview(coords)
+# 
+  # updatePreview: (coords) =>
+          # $('#preview').css
+                  # width: Math.round(100/coords.w * $('#cropbox').width()) + 'px'
+                  # height: Math.round(100/coords.h * $('#cropbox').height()) + 'px'
+                  # marginLeft: '-' + Math.round(100/coords.w * coords.x) + 'px'
+                  # marginTop: '-' + Math.round(100/coords.h * coords.y) + 'px'
 
 $('#pop').on 'click', ->
   $('.imagepreview').attr 'src', $('#imageresource').attr('src')
   $('#imagemodal').modal 'show'
   
+load_crop_div = () ->
+  class AvatarCropper
+    constructor: ->
+      $('#cropbox').Jcrop
+        aspectRatio: 1
+        setSelect: [0, 0, 600, 600]
+        onSelect: @update
+        onChange: @update
+    
+    update: (coords) =>
+      $('#profile_crop_x').val $('#cropbox')[0].naturalWidth / $('#cropbox').width() * coords.x
+      $('#profile_crop_y').val $('#cropbox')[0].naturalHeight / $('#cropbox').height() * coords.y
+      $('#profile_crop_w').val $('#cropbox')[0].naturalWidth / $('#cropbox').width() * coords.w
+      $('#profile_crop_h').val $('#cropbox')[0].naturalHeight / $('#cropbox').height() * coords.h
+  
+  jQuery ->
+    new AvatarCropper()
 return

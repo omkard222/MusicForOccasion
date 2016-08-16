@@ -1,0 +1,33 @@
+javascript:
+  $(document).ready(function(){
+    $('#profile_crop_x').val("0");
+    $('#profile_crop_y').val("0");
+    $('#profile_crop_w').val($('#cropbox')[0].naturalWidth);
+    $('#profile_crop_h').val($('#cropbox')[0].naturalHeight);
+  });
+  
+  $(document).ready(function(){
+    $(".crop_pic").hide();
+  });
+  
+  //$(document).on("click", ".cancel_crop",function(){
+    //$(".crop_pic").find(".crop_heading").hide()
+    //$(".crop_pic").hide()
+    //$(".profile_pic").show()
+  //})
+  
+  $(document).on("click", ".cancel_crop",function(){
+      action = "#{@action}"
+      if (action == "new"){
+        bootbox.dialog({
+          title: "Are you sure you want to discard this image ?",
+          message: "<a class='btn btn_modal_confirm' href='/profiles/new?type=#{@type}'>Yes</a> <button type='button' class='btn btn-default btn_modal_confirm' data-dismiss='modal' aria-hidden='true'>No</button>"
+        });
+      }
+      else {
+        bootbox.dialog({
+          title: "Are you sure you want to discard this image ?",
+          message: "<a class='btn btn_modal_confirm' href='#{edit_profile_path(current_user.current_profile)}'>Yes</a> <button type='button' class='btn btn-default btn_modal_confirm' data-dismiss='modal' aria-hidden='true'>No</button>"
+        });
+      }
+  });

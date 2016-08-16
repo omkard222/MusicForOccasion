@@ -29,14 +29,17 @@ module Users
             resource.profiles.create(profile_type: :registered_user,
                                      location: params[:user][:profile][:location],
                                      username: username,
-                                     stage_name: username)
+                                     stage_name: username,
+                                     sub_type: :default)
 
             set_flash_message :success, :signed_up_success if is_flashing_format?
             session[:is_musician] = nil
+            session[:try_book] = resource.profiles.first.id
             if session[:try_book]
               profile_id = session[:try_book]
               session[:try_book] = nil
-              redirect_to profile_path(profile_id)
+              redirect_to profile_type_profiles_path(type: 'registered_user', edit: false) 
+              # redirect_to profile_path(profile_id)
             else
               redirect_to root_path
             end
