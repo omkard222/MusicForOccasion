@@ -52,7 +52,11 @@ class BookingRequestsController < ApplicationController
   def modal_submit
     booking = BookingRequest.find(params[:booking_request_id])
     if booking
-      headline = booking.service.headline
+      if booking.service_id.present?
+        headline = booking.service.headline
+      else
+        headline = booking.job.title
+      end   
       if params[:booking_request_action] == "Accept" && (booking.status == "Pending" || booking.status == "Special Offer")
         if modal_accpet_request(booking)
           flash[:success] = "You have accepted the offer: '"+headline+"' successfully."
@@ -82,15 +86,29 @@ class BookingRequestsController < ApplicationController
 
   def reject_request
     booking = update_status('Rejected')
-    service_name = booking.service.headline
-    return unless booking.save
-    create_message_from_booking_action(booking)
-    if booking.special_price
-      BookingStatusMailer.reject_special_offer_booking_request_service_owner_notification(booking).deliver_later if booking.service_proposer.user.notify_reject_booking
+    br = BookingRequest.find(params[:booking_request_id])
+    if br.service_id.present?
+      service_name = booking.service.headline
+      return unless booking.save
+      create_message_from_booking_action(booking)
+      if booking.special_price
+        BookingStatusMailer.reject_special_offer_booking_request_service_owner_notification(booking).deliver_later if booking.service_proposer.user.notify_reject_booking
+      else
+        BookingStatusMailer.reject_booking_request_requestor_notification(booking).deliver_later if booking.profile.user.notify_reject_booking
+      end
+      redirect_to :back, notice: "You have rejected the offer: '#{service_name}' successfully."
     else
-      BookingStatusMailer.reject_booking_request_requestor_notification(booking).deliver_later if booking.profile.user.notify_reject_booking
-    end
-    redirect_to :back, notice: "You have rejected the offer: '#{service_name}' successfully."
+      @job = Job.find(br.job_id)
+      service_name = booking.job.title
+      return unless booking.save
+      create_message_from_job(booking, @job)
+      if booking.special_price
+        #BookingStatusMailer.reject_special_offer_booking_request_service_owner_notification(booking).deliver_later if booking.service_proposer.user.notify_reject_booking
+      else
+        #BookingStatusMailer.reject_booking_request_requestor_notification(booking).deliver_later if booking.profile.user.notify_reject_booking
+      end
+      redirect_to :back, notice: "You have rejected the offer: '#{service_name}' successfully."
+    end  
   end
 
   def cancel_request
@@ -204,14 +222,26 @@ class BookingRequestsController < ApplicationController
   def special_offer
     booking = BookingRequest.find(params[:booking_request][:id])
     if booking.update_attributes(special_offer_params)
-      create_message_from_booking_action(booking)
-      recipient = booking.profile
-        current_admin_or_profile.send_message(
-          recipient,
-          booking.message,
-          "Message from #{ username }")
-      BookingStatusMailer.special_offer_booking_request_requestor_notification(booking).deliver_later if recipient.user.notify_create_special_offer
-      @msg = 'Special offer has been sent successfully.'
+      if booking.service_id.present?
+        create_message_from_booking_action(booking)
+        recipient = booking.profile
+          current_admin_or_profile.send_message(
+            recipient,
+            booking.message,
+            "Message from #{ username }")
+        BookingStatusMailer.special_offer_booking_request_requestor_notification(booking).deliver_later if recipient.user.notify_create_special_offer
+        @msg = 'Special offer has been sent successfully.'
+      else
+        @job = Job.find(booking.job_id)
+        create_message_from_job(booking, @job)
+        recipient = booking.profile
+          current_admin_or_profile.send_message(
+            recipient,
+            booking.message,
+            "Message from #{ username }")
+        #BookingStatusMailer.special_offer_booking_request_requestor_notification(booking).deliver_later if recipient.user.notify_create_special_offer
+        @msg = 'Special offer has been sent successfully.'
+      end  
     else
       @msg = 'Please check for the date and try again.'
     end
@@ -266,7 +296,7 @@ class BookingRequestsController < ApplicationController
     @request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
     #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
     @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
-    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Confirmed").count
+    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
     @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
   end 
 
@@ -277,7 +307,7 @@ class BookingRequestsController < ApplicationController
     @request_booking_list = booking_lists.select { |booking| booking.status == 'Special Offer' }
     #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
     @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
-    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Confirmed").count
+    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
     @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
   end 
 
@@ -288,7 +318,7 @@ class BookingRequestsController < ApplicationController
     @request_booking_list = booking_lists.select { |booking| booking.status == 'Accepted' }
     #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
     @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
-    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Confirmed").count
+    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
     @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
   end 
 
@@ -299,7 +329,7 @@ class BookingRequestsController < ApplicationController
     #@request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' || booking.status == 'Special Offer' || booking.status == 'Accepted' }
     @request_booking_list = booking_lists.select { |booking| booking.status == 'Rejected' || booking.status == 'Cancelled' }
     @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
-    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Confirmed").count
+    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
     @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
   end
 
@@ -430,12 +460,17 @@ class BookingRequestsController < ApplicationController
     request = update_status('Accepted')
     can_save = request.save
     if can_save
-      create_message_from_booking_action(request)
-      if request.special_price
-        BookingStatusMailer.accept_special_offer_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_accept_booking
+      if request.service_id.present?
+        create_message_from_booking_action(request)
+        if request.special_price
+          BookingStatusMailer.accept_special_offer_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_accept_booking
+        else
+          BookingStatusMailer.accept_booking_request_requestor_notification(request).deliver_later if request.profile.user.notify_accept_booking
+        end
       else
-        BookingStatusMailer.accept_booking_request_requestor_notification(request).deliver_later if request.profile.user.notify_accept_booking
-      end
+        @job = Job.find(request.job_id)
+        create_message_from_job(request, @job)
+      end  
     end
     return can_save
   end
@@ -444,12 +479,17 @@ class BookingRequestsController < ApplicationController
     request = update_status('Rejected')
     can_save = request.save
     if can_save
-      create_message_from_booking_action(request)
-      if request.special_price
-        BookingStatusMailer.reject_special_offer_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_reject_booking
+      if request.service_id.present?
+        create_message_from_booking_action(request)
+        if request.special_price
+          BookingStatusMailer.reject_special_offer_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_reject_booking
+        else
+          BookingStatusMailer.reject_booking_request_requestor_notification(request).deliver_later if request.profile.user.notify_reject_booking
+        end
       else
-        BookingStatusMailer.reject_booking_request_requestor_notification(request).deliver_later if request.profile.user.notify_reject_booking
-      end
+        @job = Job.find(request.job_id)
+        create_message_from_job(request, @job)
+      end   
     end
     return can_save
   end
@@ -459,15 +499,20 @@ class BookingRequestsController < ApplicationController
     request = update_status('Cancelled')
     can_save = request.save
     if can_save
-      create_message_from_booking_action(request)
-      if cancel_status == "Pending"
-        BookingStatusMailer.cancel_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_cancel_booking
-      elsif cancel_status == "Special Offer"
-        BookingStatusMailer.cancel_special_offer_booking_request_service_owner_notification(request).deliver_later if request.profile.user.notify_cancel_booking
-      elsif cancel_status == 'Accepted'
-        send_email_cancel_confirmed =  request.updated_by_id != request.profile.user_id ? request.profile.user.notify_cancel_confirmed_booking : request.service_proposer.user.notify_cancel_confirmed_booking
-        BookingStatusMailer.cancel_confirmed_booking_request_requestor_notification(request).deliver_later if send_email_cancel_confirmed
-      end
+      if request.service_id.present?
+        create_message_from_booking_action(request)
+        if cancel_status == "Pending"
+          BookingStatusMailer.cancel_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_cancel_booking
+        elsif cancel_status == "Special Offer"
+          BookingStatusMailer.cancel_special_offer_booking_request_service_owner_notification(request).deliver_later if request.profile.user.notify_cancel_booking
+        elsif cancel_status == 'Accepted'
+          send_email_cancel_confirmed =  request.updated_by_id != request.profile.user_id ? request.profile.user.notify_cancel_confirmed_booking : request.service_proposer.user.notify_cancel_confirmed_booking
+          BookingStatusMailer.cancel_confirmed_booking_request_requestor_notification(request).deliver_later if send_email_cancel_confirmed
+        end
+      else
+        @job = Job.find(request.job_id)
+        create_message_from_job(request, @job)
+      end   
     end
     return can_save
   end

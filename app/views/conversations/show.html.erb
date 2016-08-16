@@ -216,7 +216,7 @@
           $('.reject').removeClass('hidden');
           $('.edit-special').addClass('hidden');
           if (data.status == "Pending"){
-              if (data.job_id == 'undefined'){ 
+              if (data.job_id === undefined){
                 if (data.user_type == "registered_user")
                 {
                   $('.accept').addClass('hidden');
@@ -243,10 +243,19 @@
               $('.reject').addClass('hidden');
           }else if (data.status == "Special Offer"){
             if (data.user_type == "musician"){
-              $('.cancel').removeClass('hidden');
-              $('.accept').addClass('hidden');
-              $('.reject').addClass('hidden');
-            }  
+              if (data.service_id === undefined){
+                $('.cancel').addClass('hidden');
+                $('.accept').removeClass('hidden');
+                $('.reject').removeClass('hidden');
+                
+                
+              }else{   
+                $('.cancel').removeClass('hidden');
+                $('.accept').addClass('hidden');
+                $('.reject').addClass('hidden');
+
+              }
+            } 
           }
         }
 

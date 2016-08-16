@@ -1,5 +1,5 @@
 <% @pending = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Pending").count %>
-<% @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Confirmed").count %>
+<% @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Accepted").count %>
 <% @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Special Offer").count %>
 <tr>
   <td>

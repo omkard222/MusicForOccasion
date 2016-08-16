@@ -10,10 +10,10 @@
        <div class="panel-body">
        <div class="table-responsive">
           <table class="table">
+            <col width="25%">
+            <col width="5%">
             <col width="15%">
             <col width="10%">
-            <col width="15%">
-            <col width="15%">
             <col width="5%">
             <col width="5%">
             <col width="10%">
@@ -22,7 +22,8 @@
             <col width="5%">
             <tr>
               <td>
-                <p class="p_headline"><%= link_to @job.title, job_path(@job)%></p>
+                <h4><strong><%= link_to @job.title, job_path(@job)%></strong></h4>
+                <div><%= @job.description %></div>
               </td>
               <td>
                 <% case @job.event_type %>
@@ -201,3 +202,10 @@
     });
   </script>
 <% end %>
+<style>
+  .table td { 
+    border-top: none !important;
+    border-left: none !important;
+  }
+</style>
+
