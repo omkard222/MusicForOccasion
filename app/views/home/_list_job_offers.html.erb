@@ -52,7 +52,7 @@
           <td>
             <div class="space5"></div>
             <div style="float:left; margin-right: 7%">
-              <div><i class="glyphicon glyphicon-home"></i></div>
+              <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "20x20")%></div>
               <% if job.accommodation %>
                 <div><i class="glyphicon glyphicon-ok"></i></div>
               <% else %>
@@ -62,7 +62,7 @@
             </div>
             <div class="space5"></div>
             <div style="float:left; margin-right: 7%">  
-              <div><i class="fa fa-car"></i></div>
+              <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "20x20")%></div>
               <% if job.transportation %>
                 <div><i class="glyphicon glyphicon-ok"></i></div>
               <% else%>
@@ -71,7 +71,7 @@
             </div>
             <div class="space5"></div>
             <div style="float:left">  
-              <div><i class="glyphicon glyphicon-cutlery"></i></div>
+              <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "20x20")%></i></div>
               <% if job.food_and_beverage %>
                 <div><i class="glyphicon glyphicon-ok"></i></div>
               <% else %>
