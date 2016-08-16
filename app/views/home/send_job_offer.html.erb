@@ -1,3 +1,6 @@
+<% if @br.present? %>
+  <div class="overlay"></div>
+<% end %>  
 <section class="login-body">
   <div class="container">
     <div class="row">
@@ -161,4 +164,15 @@
     </div>
   </div>
 </section>
-
+<style type="text/css">
+  .overlay{
+  position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   background: #ddd;
+   opacity: 0.6;
+   z-index: 99;
+   height: 100%;
+ }
+</style>
