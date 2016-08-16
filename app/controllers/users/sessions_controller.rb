@@ -35,7 +35,11 @@ module Users
           session[:try_book] = nil
           redirect_to profile_path(profile_id)
         else
-          redirect_to root_path
+          if resource.profiles.count == 1
+            redirect_to profile_type_profiles_path(type: 'registered_user', edit: false)
+          else 
+            redirect_to root_path
+          end   
         end
       end
       yield resource if block_given?
