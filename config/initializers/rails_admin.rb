@@ -432,16 +432,12 @@ RailsAdmin.config do |config|
     end
   end
   config.model 'Partner' do
-    uu = bindings[:object]
     [list, show, edit].each do
       field :id
       field :name
       field :order
       field :partner_picture do 
         label 'Upload Picture'
-        #formatted_value do
-          #bindings[:object].partner_picture.url
-        #end 
       end   
       
     end
@@ -449,16 +445,16 @@ RailsAdmin.config do |config|
       field :id do
         visible false
       end
-      field :name
-      field :order
-      field :partner_picture
     end
 
     list do 
       field :partner_picture do
-        formatted_value do
-          #uu.name
-        end  
+        pretty_value do
+          util = bindings[:object]
+          %{<div class="blah">
+             #{util.partner_picture.url.split("/").last}
+           </div >}.html_safe
+        end
       end 
     end   
   end
