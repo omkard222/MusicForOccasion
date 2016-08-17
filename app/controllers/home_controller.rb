@@ -4,6 +4,10 @@ class HomeController < ApplicationController
   def index
     @profiles = Profile.musician_has_services
     @profiles = priority_ordering(@profiles, 6)
+    @partners = Partner.all
+    @partner_first_row = Partner.where(order: [1,2,3,4,5,6])
+    @partner_second_row = Partner.where(order: [7,8,9,10,11,12])
+    @partner_third_row = Partner.where(order: [13,14,15,16,17,18])
   end
 
   def new_visitor

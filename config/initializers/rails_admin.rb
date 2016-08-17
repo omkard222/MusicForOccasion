@@ -431,4 +431,31 @@ RailsAdmin.config do |config|
       field :updated_at
     end
   end
+  config.model 'Partner' do
+    [list, show, edit].each do
+      field :id
+      field :name
+      field :order
+      field :partner_picture do 
+        label 'Upload Picture'
+      end   
+      
+    end
+    edit do
+      field :id do
+        visible false
+      end
+    end
+
+    list do 
+      field :partner_picture do
+        pretty_value do
+          util = bindings[:object]
+          %{<div class="blah">
+             #{util.partner_picture.url.split("/").last}
+           </div >}.html_safe
+        end
+      end 
+    end   
+  end
 end
