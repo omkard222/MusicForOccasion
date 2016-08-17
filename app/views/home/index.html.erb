@@ -65,15 +65,142 @@
 </div>
 <%= render 'newsletter/subsciption' %>
  <div>
-   <h3 class= "text-center" style=""> Our partners </h3>
-  <div class="row">
-    <div class="col-md-11 col-md-offset-1">
-      <% Partner.all.each do |p| %>
-        <div class="col-md-1">
-           <%= image_tag(p.partner_picture, :size => "80x80") %>
-        </div>
-      <% end %>
-    </div>    
-  </div>
+   <% if @partners.present? %>
+     <h2 class= "text-center" style="color: #00b0ff;font-size: 50px;"> Our partners </h2>
+   <% end %>  
+  <% if @partner_first_row.present? %> 
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
+          <div class="col-md-2 partner">
+             <% p = @partner_first_row.where(:order => 1).first%>
+             <% if p.present?%>
+               <%= image_tag(p.partner_picture, :size => "120x120") %>
+             <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_first_row.where(:order => 2).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_first_row.where(:order => 3).first%>
+             <% if p.present?%>
+               <%= image_tag(p.partner_picture, :size => "120x120") %>
+             <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_first_row.where(:order => 4).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_first_row.where(:order => 5).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_first_row.where(:order => 6).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+      </div>    
+    </div>
+  <% end %>  
+  <% if @partner_second_row.present? %>
+    <div class="space20"></div>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
+        <div class="col-md-2 partner">
+             <% p = @partner_second_row.where(:order => 7).first%>
+             <% if p.present?%>
+               <%= image_tag(p.partner_picture, :size => "120x120") %>
+             <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_second_row.where(:order => 8).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_second_row.where(:order => 9).first%>
+             <% if p.present?%>
+               <%= image_tag(p.partner_picture, :size => "120x120") %>
+             <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_second_row.where(:order => 10).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_second_row.where(:order => 11).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_second_row.where(:order => 12).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+      </div>    
+    </div>
+  <% end %>
+
+  <% if @partner_third_row.present? %>
+    <div class="space20"></div>
+    <div class="row">
+      <div class="col-md-11 col-md-offset-1">
+        <div class="col-md-2 partner">
+             <% p = @partner_third_row.where(:order => 13).first%>
+             <% if p.present?%>
+               <%= image_tag(p.partner_picture, :size => "120x120") %>
+             <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_third_row.where(:order => 14).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_third_row.where(:order => 15).first%>
+             <% if p.present?%>
+               <%= image_tag(p.partner_picture, :size => "120x120") %>
+             <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_third_row.where(:order => 16).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_third_row.where(:order => 17).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+          <div class="col-md-2 partner">
+            <% p = @partner_third_row.where(:order => 18).first%>
+            <% if p.present?%>
+              <%= image_tag(p.partner_picture, :size => "120x120") %>
+            <% end %>  
+          </div>
+      </div>    
+    </div>
+  <% end %>
  </div>
+ <div class="space20"></div>
 <%= render '/shared/landingfooter' %>
+
+<style type="text/css">
+  
+</style>
