@@ -11,6 +11,7 @@
     - if current_user.current_profile.profile_type == "musician"     
       li
         a href=job_offers_path
+          i.fa.fa-search>
           = t('.job_offers')    
   ul.nav.navbar-nav.navbar-right
     /! Hidden li included to remove active class from about link when scrolled up past about section

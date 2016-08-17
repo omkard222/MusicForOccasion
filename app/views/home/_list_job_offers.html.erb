@@ -5,6 +5,19 @@
 <% else %>
 
   <table class="table table-hover">
+    <col width="10%">
+    <col width="25%">
+    <col width="5%">
+    <col width="20%">
+    <col width="5%">
+    <col width="5%">
+
+    <col width="10%">
+    <col width="5%">
+    <col width="5%">
+    <col width="5%">
+    <col width="5%">
+
     <thead>
       <tr>
         <th>Propose by</th>
@@ -52,30 +65,30 @@
           <td>
             <div class="space5"></div>
             <div style="float:left; margin-right: 7%">
-              <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "20x20")%></div>
+              <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "25x25")%></div>
+
               <% if job.accommodation %>
-                <div><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
               <% else %>
-                <div><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
               <% end %>  
               <div class="space5"></div>
             </div>
-            <div class="space5"></div>
             <div style="float:left; margin-right: 7%">  
-              <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "20x20")%></div>
+              <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "25x25")%></div>
               <% if job.transportation %>
-                <div><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
               <% else%>
-                <div><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
               <% end %>  
             </div>
             <div class="space5"></div>
             <div style="float:left">  
-              <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "20x20")%></i></div>
+              <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "25x25")%></i></div>
               <% if job.food_and_beverage %>
-                <div><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
               <% else %>
-                <div><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
               <% end %>  
             </div>
           </td>
