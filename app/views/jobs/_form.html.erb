@@ -60,17 +60,7 @@
               <%= f.select :booking_fee_type, translated_job_fee_type_options, {}, :required => true, class: 'form-control' %>
             </div>
             <div class="form-group">
-              <div class="additional for_send_inquiry"><%= t 'jobs.form.note_for_send_inquiry' %></div>
-
-              <div class="additional for_free">
-                <% Job.free_fee_types.keys.each do |type| %>
-                  <label>
-                    <%= f.radio_button :free_fee_type, type %>
-                    <%= t("services.form.free_fee_types.#{type}") %>
-                  </label>
-                  <br>
-                <% end %>
-              </div>
+              <div class="additional for_send_inquiry"><%#= t 'jobs.form.note_for_send_inquiry' %></div>
               <div class="additional for_minimum_fees">
                 <div class="row">
                   <div class="col-md-6">
@@ -222,10 +212,10 @@
         fixForm('#job_form');
 
         function showAdditionalForSelected(){
+
           $('.job_booking_fee_type.form-group .additional').hide();
 
-          var selected_item = '.for_'+$('#job_booking_fee_type').val();
-
+          var selected_item = '.for_'+$('#job_booking_fee_type').val(); 
           $(selected_item).show();
         }
 
