@@ -217,6 +217,7 @@
           $('.edit-special').addClass('hidden');
           if (data.status == "Pending"){
               if (data.job_id === undefined){
+                alert("job undefined")
                 if (data.user_type == "registered_user")
                 {
                   $('.accept').addClass('hidden');
@@ -226,11 +227,13 @@
                  $('.special').removeClass('hidden');
                  } 
               }else{
+                alert(data.job_id)
                 if (data.user_type == "registered_user")
                  {
                 $('.special').removeClass('hidden');
                 
                 }else{
+                  alert("cancel only")
                  $('.accept').addClass('hidden');
                  $('.reject').addClass('hidden');
                  $('.cancel').removeClass('hidden');
