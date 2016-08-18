@@ -59,11 +59,10 @@
                 a href=edit_profile_path(current_user.current_profile)
                   i.fa.fa-pencil-square-o>
                   = t('.menu.edit_profile')
-              - if false
-                li
-                  a href=jobs_path
-                    i.fa.fa-list-alt>
-                    = t('.menu.jobs')
+              li
+                a href=jobs_path
+                  i.fa.fa-list-alt>
+                  = t('.menu.jobs')
               li
                 a href=list_my_booking_path
                   i.fa.fa-calendar>
