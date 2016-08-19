@@ -268,7 +268,7 @@ class BookingRequestsController < ApplicationController
                 location:   booking_request.event_location,
                 message:    booking_request.message,
                 requestor:  booking_request.updated_by_id,
-                user_type:  current_user.profiles.first.profile_type
+                user_type:  current_user.current_profile.profile_type
               }
     else
       data = {  id:         booking_request.id,
@@ -283,7 +283,7 @@ class BookingRequestsController < ApplicationController
                 location:   booking_request.event_location,
                 message:    booking_request.message,
                 requestor:  booking_request.updated_by_id,
-                user_type:  current_user.profiles.first.profile_type
+                user_type:  current_user.current_profile.profile_type
               } 
     end           
     render json: data
