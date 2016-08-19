@@ -1,4 +1,4 @@
-<% if @br.present? %>
+<% if false %>
   <div class="overlay"></div>
 <% end %>  
 <section class="login-body">
@@ -99,16 +99,6 @@
                         <% case @job.booking_fee_type %>
                         <% when 'send_inquiry' %>
                           <div class="additional for_send_inquiry"><%#= t 'services.form.note_for_send_inquiry' %></div>
-                        <% when 'free' %>
-                          <div class="additional for_free">
-                            <% Service.free_fee_types.keys.each do |type| %>
-                              <label>
-                                <%= f.radio_button :free_fee_type, type, disabled: true %>
-                                <%= t("services.form.free_fee_types.#{type}") %>
-                              </label>
-                              <br>
-                            <% end %>
-                          </div>
                         <% when 'minimum_fees' %>
                           <div class="additional for_minimum_fees">
                             <div class="row">
@@ -129,32 +119,55 @@
                         <% end %>
                       </div>
                     </div>
-
-                    <div class="space30"></div>
-                <% end %>
-                <div>
-                  <%= form_for :booking_request, url: create_book_request_path do |ff| %>
-                    <%= ff.hidden_field :job_id, :value => @job.id%>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group" id="optional_price">
-                          <%= label_tag "Propose your booking fees for this offer" %>
-                          <%= ff.number_field :confirmed_price,:required => true, class: 'form-control', max: 999999999, min: 0 %>
-                        </div>
-                      </div>  
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <%= ff.label :currency %>
-                          <div class="space20"></div>
-                          <%= ff.select :currency, Job.currencies.map(&:upcase).sort, {}, :required => true, class: 'form-control' %>
-                        </div>
-                      </div>
-                    </div>  
-                    <div class="form-group" style="margin-left:30%">
-                      <%= ff.submit 'send application', "class" => "btn bt-large btn-primary" %>&nbsp;&nbsp;&nbsp;&nbsp;
-                      <%= link_to 'cancel', "#",:class => "btn btn-default" %>
+                    <div class="form-group">
+                      <%= f.label "Available on" %>
+                      <pre class="form-control"><%= @job.available_date %></pre>
                     </div>
-                  <% end %>
+
+                    <div class="space20"></div>
+                <% end %>
+              <div>
+                <%= form_for :booking_request, url: create_book_request_path do |ff| %>
+                  <%= ff.hidden_field :job_id, :value => @job.id%>
+                  <%= hidden_field_tag :servicecalendar, @job.calendar_picker, :class => "service_calendar"%>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div class="form-group" id="optional_price">
+                        <%= label_tag "Event Date" %>
+                        <%= ff.text_field :date, class: 'datepicker modal-booking form-control', :autocomplete => :off, required: true, readonly: true %>
+                      </div>
+                    </div>
+                  </div>  
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group" id="optional_price">
+                        <%= label_tag "Propose your booking fees for this offer" %>
+                        <% if @job.booking_fee_type == "free" %>
+                          <%= ff.number_field :confirmed_price, value: 0, class: 'form-control', max: 0, min: 0%>
+                        <% else %>
+                          <%= ff.number_field :confirmed_price,:required => true, class: 'form-control', max: 999999999, min: 0 %>
+                        <% end %>  
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <%= ff.label :currency %>
+                        <div class="space20"></div>
+                        <%= ff.select :currency, Job.currencies.map(&:upcase).sort, {}, :required => true, class: 'form-control' %>
+                      </div>
+                    </div>
+                  </div>
+                  <% if @br.present? %>
+                   <div class="form-group" style="margin-left:30%">
+                     <p> Application already sent. </p> 
+                   </div>
+                  <% else %>  
+                    <div class="form-group" style="margin-left:30%">
+                      <%= ff.submit 'Send application', "class" => "btn bt-large btn-primary" %>&nbsp;&nbsp;&nbsp;&nbsp;
+                      <%= link_to 'Cancel', "#",:class => "btn btn-default" %>
+                    </div>
+                  <% end %>  
+                <% end %>
                 </div>
                 <div class="space40"></div>
               </div>
@@ -168,7 +181,79 @@
 <script type="text/javascript">
   $(document).ready(function () {
     $('#booking_request_currency').val("<%= session[:preferred_currency].to_s.upcase %>");
-  });  
+  
+        $('.datepicker').val("");
+        var calendar = $(".service_calendar").val().toString();
+        if (calendar.split("|")[0] == "1") {
+            $('.datepicker').datetimepicker('destroy');
+            $('.datepicker').datetimepicker({
+                format: 'd/m/Y H:i',
+                minDate: new Date(calendar.split("|")[1]),
+                maxDate: new Date(calendar.split("|")[1]),
+                onGenerate: function (ct) {
+                    var validDate = calendar.split("|")[2];
+                    if (validDate != ct.dateFormat('d/m/Y')) {
+                        disable_time();
+                    }
+                }
+            });
+            var dateTime = new Date();
+            $('.datepicker').val(calendar.split("|")[2] + " 12:00");
+        }
+        else if (calendar.split("|")[0] == "2") {
+            var valid_days = [];
+            for (var i = 1; i <= 7; i++) {
+                if (calendar.split("|")[i] == "T") {
+                    valid_days.push(i - 1);
+                }
+            }
+            var dateMin = new Date();
+            $('.datepicker').datetimepicker('destroy');
+            $(".datepicker").datetimepicker({
+                format: 'd/m/Y H:i',
+                beforeShowDay: function (date) {
+                    var day = date.getDay();
+                    day1 = calendar.split("|")[1] == "T" ? day : day != 0
+                    day2 = calendar.split("|")[2] == "T" ? day : day != 1
+                    day3 = calendar.split("|")[3] == "T" ? day : day != 2
+                    day4 = calendar.split("|")[4] == "T" ? day : day != 3
+                    day5 = calendar.split("|")[5] == "T" ? day : day != 4
+                    day6 = calendar.split("|")[6] == "T" ? day : day != 5
+                    day7 = calendar.split("|")[7] == "T" ? day : day != 6
+                    return [(day1 && day2 && day3 && day4 && day5 && day6 && day7)];
+                },
+                minDate: dateMin,
+                onGenerate: function (ct) {
+                    if (valid_days.indexOf(ct.getDay()) == -1 || new Date(ct) < new Date(dateMin)) {
+                        disable_time();
+                    }
+                }
+            });
+        }
+        else if (calendar.split("|")[0] == "3") {
+            var dateMin = new Date();
+            dateMin = dateMin > new Date(calendar.split("|")[1]) ? dateMin : calendar.split("|")[1];
+            $('.datepicker').datetimepicker('destroy');
+            $('.datepicker').datetimepicker({
+                format: 'd/m/Y H:i',
+                minDate: new Date(dateMin),
+                maxDate: new Date(calendar.split("|")[2]),
+                defaultDate: dateMin,
+                onGenerate: function (ct) {
+                    if (new Date(ct) < new Date(dateMin) || new Date(ct) > new Date(calendar.split("|")[2])) {
+                        disable_time();
+                    }
+                }
+            });
+        }
+
+        function disable_time() {
+            $('.xdsoft_time_variant .xdsoft_time').each(function () {
+                $(this).addClass('xdsoft_disabled');
+            });
+        }
+
+    });   
 </script>
 <style type="text/css">
   .overlay{

@@ -255,6 +255,12 @@
                 $('.reject').addClass('hidden');
 
               }
+            }else if (data.user_type == "registered_user"){ 
+              if (data.service_id === undefined){
+                $('.cancel').removeClass('hidden');
+                $('.accept').addClass('hidden');
+                $('.reject').addClass('hidden');
+              } 
             } 
           }
         }

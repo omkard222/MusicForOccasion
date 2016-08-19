@@ -21,11 +21,20 @@
         = (unread_msg_count > 0 ? unread_msg_count : '')
     li.dropdown
       a#sign_up_link.avatar.dropdown-toggle aria-expanded='false' aria-haspopup='true' data-toggle='dropdown' href='#' role='button'
-        = image_tag(current_user.current_profile.picture, class: 'picture_round')
-        | &nbsp;
-        = current_user.current_profile.virtual_name
-        | &nbsp;
-        span.caret
+        - if current_user.is_musician?
+          = image_tag(current_user.current_profile.picture, class: 'picture_round')
+          | &nbsp;
+          = current_user.current_profile.virtual_name
+          | &nbsp;
+          span.caret
+        - else
+          - if current_user.profiles.count > 1 
+            = image_tag(current_user.current_profile.picture, class: 'picture_round')
+            | &nbsp;
+            = current_user.current_profile.virtual_name
+            | &nbsp;
+            span.caret  
+             
       ul.dropdown-menu
         - if current_user.current_profile
           - if current_user.is_musician?  
@@ -48,7 +57,20 @@
             li
               a href=list_my_booking_path
                 i.fa.fa-calendar>
-                = t('.menu.bookings_sent')    
+                = t('.menu.bookings_sent')
+
+            li
+              a href=edit_user_login_path
+                i.fa.fa-cog>
+                = t('.menu.settings')
+            li
+              a href=profiles_users_profiles_list_path
+                i.fa.fa-cog>
+                = t('.menu.add_switch_profile')          
+            li
+              a data-method='delete' href=destroy_user_session_path rel='nofollow'
+                i.fa.fa-sign-out>
+                = t('.menu.sign_out')        
           - else  
             - if current_user.profiles.count > 1
               li
@@ -69,15 +91,15 @@
                   = t('.menu.bookings_my')   
 
               
-        li
-          a href=edit_user_login_path
-            i.fa.fa-cog>
-            = t('.menu.settings')
-        li
-          a href=profiles_users_profiles_list_path
-            i.fa.fa-cog>
-            = t('.menu.add_switch_profile')          
-        li
-          a data-method='delete' href=destroy_user_session_path rel='nofollow'
-            i.fa.fa-sign-out>
-            = t('.menu.sign_out')
+              li
+                a href=edit_user_login_path
+                  i.fa.fa-cog>
+                  = t('.menu.settings')
+              li
+                a href=profiles_users_profiles_list_path
+                  i.fa.fa-cog>
+                  = t('.menu.add_switch_profile')          
+              li
+                a data-method='delete' href=destroy_user_session_path rel='nofollow'
+                  i.fa.fa-sign-out>
+                  = t('.menu.sign_out')

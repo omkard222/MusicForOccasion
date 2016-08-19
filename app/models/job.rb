@@ -54,6 +54,25 @@ class Job < ActiveRecord::Base
       end
     end
   end
+
+  def calendar_picker
+    if service_type_id == 1
+      return "1|#{ Date.parse(date_from.to_s).strftime("%Y/%m/%d") }|#{ Date.parse(date_from.to_s).strftime("%d/%m/%Y") }"
+    elsif service_type_id == 2
+      msg = ""
+      msg = is_sunday ? msg + "T|" : msg + "F|"
+      msg = is_monday ? msg + "T|" : msg + "F|"
+      msg = is_tuesday ? msg + "T|" : msg + "F|"
+      msg = is_wednesday ? msg + "T|" : msg + "F|"
+      msg = is_thursday ? msg + "T|" : msg + "F|"
+      msg = is_friday ? msg + "T|" : msg + "F|"
+      msg = is_saturday ? msg + "T" : msg + "F"
+      return "2|"+msg
+    elsif service_type_id == 3
+      return "3|#{ Date.parse(date_from.to_s).strftime("%Y/%m/%d") }|#{ Date.parse(date_to.to_s).strftime("%Y/%m/%d") }"
+    end
+  end
+  
   private
   
   def initial_values

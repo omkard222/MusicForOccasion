@@ -36,9 +36,10 @@
   br
   = f.input :username, :label => "Venue Name"
   = f.inputs :location, class: 'location'
-  br
-  div *{style: 'width: 250px;'}
-    div *{id: "one_marker", style: 'width: 250px; height: 100px;'}
+  - if params[:action] != "new"
+    br
+    div *{style: 'width: 250px;'}
+      div *{id: "one_marker", style: 'width: 250px; height: 100px;'}
   br
   = f.input :biography, :label => "Description"
   = f.input :site_url, :label => "Website"
