@@ -15,10 +15,15 @@
           = t('.job_offers')    
   ul.nav.navbar-nav.navbar-right
     /! Hidden li included to remove active class from about link when scrolled up past about section
-    li
-      a href=conversations_path
-        i.fa.fa-envelope-o.fa-lg
-        = (unread_msg_count > 0 ? unread_msg_count : '')
+    - if current_user.current_profile.profile_type == "registered_user" && current_user.profiles.count == 1
+      li
+        a data-method='delete' href=destroy_user_session_path
+          = t('.menu.sign_out')
+    - else     
+      li
+        a href=conversations_path
+          i.fa.fa-envelope-o.fa-lg
+          = (unread_msg_count > 0 ? unread_msg_count : '')
     li.dropdown
       a#sign_up_link.avatar.dropdown-toggle aria-expanded='false' aria-haspopup='true' data-toggle='dropdown' href='#' role='button'
         - if current_user.is_musician?
@@ -33,8 +38,7 @@
             | &nbsp;
             = current_user.current_profile.virtual_name
             | &nbsp;
-            span.caret  
-             
+            span.caret           
       ul.dropdown-menu
         - if current_user.current_profile
           - if current_user.is_musician?  
@@ -102,4 +106,4 @@
               li
                 a data-method='delete' href=destroy_user_session_path rel='nofollow'
                   i.fa.fa-sign-out>
-                  = t('.menu.sign_out')
+                  = t('.menu.sign_out')             
