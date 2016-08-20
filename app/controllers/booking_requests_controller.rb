@@ -290,36 +290,96 @@ class BookingRequestsController < ApplicationController
   end
 
   def job_app_received
-    @job = Job.find(params[:id])
-    booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
-    booking_lists.update_expired
-    @request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
-    #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
-    @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
-    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
-    @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    if params[:sort_by].present?
+      @job = Job.find(params[:id])
+      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists.update_expired
+      @request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
+      if params[:sort_by] == "Fees" 
+        @request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
+      elsif params[:sort_by] == "Fans"
+         booking_lists.joins(:profile).order("profiles.facebook_page_likes desc")
+      elsif params[:sort_by] == "Name"
+         booking_lists.joins(:profile).order("profiles.stage_name desc") 
+      elsif params[:sort_by] == "Genre"
+        #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
+      end
+      #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+      @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+      @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
+      @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    else
+      @job = Job.find(params[:id])
+      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists.update_expired
+      @request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
+      #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+      @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+      @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
+      @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    end 
   end 
 
   def job_app_negotiation
-    @job = Job.find(params[:id])
-    booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
-    booking_lists.update_expired
-    @request_booking_list = booking_lists.select { |booking| booking.status == 'Special Offer' }
-    #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
-    @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
-    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
-    @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    if params[:sort_by].present?
+      @job = Job.find(params[:id])
+      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists.update_expired
+      @request_booking_list = booking_lists.select { |booking| booking.status == 'Special Offer' }
+      if params[:sort_by] == "Fees" 
+        @request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
+      elsif params[:sort_by] == "Fans"
+         booking_lists.joins(:profile).order("profiles.facebook_page_likes desc")
+      elsif params[:sort_by] == "Name"
+         booking_lists.joins(:profile).order("profiles.stage_name desc") 
+      elsif params[:sort_by] == "Genre"
+        #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
+      end
+      #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+      @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+      @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
+      @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    else
+      @job = Job.find(params[:id])
+      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists.update_expired
+      @request_booking_list = booking_lists.select { |booking| booking.status == 'Special Offer' }
+      #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+      @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+      @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
+      @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    end 
   end 
 
   def job_app_confirmed
-    @job = Job.find(params[:id])
-    booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
-    booking_lists.update_expired
-    @request_booking_list = booking_lists.select { |booking| booking.status == 'Accepted' }
-    #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
-    @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
-    @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
-    @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    if params[:sort_by].present?
+      @job = Job.find(params[:id])
+      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists.update_expired
+      @request_booking_list = booking_lists.select { |booking| booking.status == 'Accepted' }
+      if params[:sort_by] == "Fees" 
+        @request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
+      elsif params[:sort_by] == "Fans"
+         booking_lists.joins(:profile).order("profiles.facebook_page_likes desc")
+      elsif params[:sort_by] == "Name"
+         booking_lists.joins(:profile).order("profiles.stage_name desc") 
+      elsif params[:sort_by] == "Genre"
+        #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
+      end
+      #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+      @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+      @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
+      @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    else
+      @job = Job.find(params[:id])
+      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists.update_expired
+      @request_booking_list = booking_lists.select { |booking| booking.status == 'Accepted' }
+      #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
+      @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
+      @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Accepted").count
+      @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => @job.id, :status => "Special Offer").count
+    end 
   end 
 
   def job_app_rejected

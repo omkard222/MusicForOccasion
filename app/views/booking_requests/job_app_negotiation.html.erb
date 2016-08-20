@@ -23,6 +23,7 @@
               <td>
                 <div><h4><strong><%= link_to @job.title, job_path(@job)%></strong></h4></div>
                 <div><%= @job.description %></div>
+                <input type="hidden" name="job_id" id="job_id" value = <%= @job.id %> >
               </td>
               <td>
                 <% case @job.event_type %>
@@ -78,10 +79,10 @@
     </div>  
     <div class="space20"></div>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <%= render 'layouts/job/job_status', job: @job%>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-7">
         <% flash.each do |key, message| %>
             <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
               <button type="button" class="close" data-dismiss="alert">x</button>
@@ -96,6 +97,9 @@
               <%= render 'job_received_list', booking: booking %>
           <% end %>
         </div>
+      </div>
+      <div class="col-md-2">
+       Sort by:  <%= select_tag "sort_by", options_for_select([["Fees","Fees" ], ["Fans", "Fans"], ["Name", "Name"], ["Genre", "Genre"]]), :class=> 'form-control', prompt: ""%>
       </div>
     </div>
     <div class="space50"></div>
@@ -150,6 +154,21 @@
 </div>
 <%= content_for(:bottom_script) do %>
   <script type="text/javascript">
+
+    $("#sort_by").on('change', function(){
+      var ss = $("#sort_by").val();
+      var id = $("#job_id").val();
+      var form_data = {sort_by : ss}
+      $.ajax({
+          type: "GET",
+          url: "/job_app_negotiation/"+id , //sumbits it to the given url of the form
+          data: form_data,
+          dataType: "html" // you want a difference between normal and ajax-calls, and json is standard
+      }).success(function(json){
+          console.log("success", json);
+      }); 
+    });
+
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
         $('input[type=number]').on('mousewheel', function(){

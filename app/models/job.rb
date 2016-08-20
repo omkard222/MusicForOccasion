@@ -72,6 +72,16 @@ class Job < ActiveRecord::Base
       return "3|#{ Date.parse(date_from.to_s).strftime("%Y/%m/%d") }|#{ Date.parse(date_to.to_s).strftime("%Y/%m/%d") }"
     end
   end
+
+  def expired?
+    if service_type_id == 1
+      date_from < Date.today
+    elsif service_type_id == 2
+      false
+    elsif service_type_id == 3
+      date_to < Date.today
+    end
+  end
   
   private
   
