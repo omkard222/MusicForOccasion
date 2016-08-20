@@ -206,7 +206,7 @@
               <%= job_fee_or_free(job) %>
             <% end %>  
           </td>
-          <td>Still Looking</td>
+          <td><%= job.status%></td>
           <td><%= link_to "View Offer", send_job_offer_path(job) %></td>
         </tr>
       <% end %>  
@@ -214,9 +214,9 @@
   </table>
 <% end %>
 
-<% if @expired_jobs.present? %>
+<% if @deleted_jobs.present? %>
   <div class="space20"></div>
-  <h3><b> Expired Gigs</b></h3>
+  <h3><b> Previous Gigs</b></h3>
   <div class="space20"></div>
   <table class="table spot">
     <col width="10%">
