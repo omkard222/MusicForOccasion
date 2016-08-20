@@ -3,12 +3,12 @@
       <h4>No available Job offers.</h4>
     </div>
 <% else %>
-
-  <table class="table table-hover">
+  <h3><b> GIGS</b></h3>
+  <table class="table spot">
     <col width="10%">
     <col width="20%">
     <col width="5%">
-    <col width="20%">
+    <col width="15%">
     <col width="5%">
     <col width="5%">
 
@@ -16,7 +16,7 @@
     <col width="5%">
     <col width="5%">
     <col width="5%">
-    <col width="5%">
+    <col width="10%">
 
     <thead>
       <tr>
@@ -38,9 +38,15 @@
         <tr>
           <td>
             <span><%= image_tag(job.profile.profile_picture.url, :size=> "70x70", :class=>"img-circle")%></span>
-            <p><%= job.profile.stage_name%></p>
+            <% @profile = Profile.find(job.profile_id)%>
+            <%= link_to job.profile.stage_name, profile_path(@profile) %>
           </td>
-          <td><%= job.description%></td>
+          <td>
+            <div><b><%= job.title%></b></div>
+            <div>
+              <%= job.description%>
+            </div>  
+          </td>
           <td>
             <% case job.event_type %>
             <% when 'private_event' %>
@@ -107,7 +113,206 @@
       <% end %>  
     </tbody>
   </table>
-<% end %>  
+<% end %>
+<% if @expired_jobs.present? %>
+  <div class="space20"></div>
+  <h3> Expired Gigs</h3>
+  <div class="space20"></div>
+  <table class="table spot">
+    <col width="10%">
+    <col width="20%">
+    <col width="5%">
+    <col width="15%">
+    <col width="5%">
+    <col width="5%">
+
+    <col width="15%">
+    <col width="5%">
+    <col width="5%">
+    <col width="5%">
+    <col width="10%">
+
+    <tbody>
+      <% @expired_jobs.each do |job| %>
+        <tr>
+          <td>
+            <span><%= image_tag(job.profile.profile_picture.url, :size=> "70x70", :class=>"img-circle")%></span>
+            <% @profile = Profile.find(job.profile_id)%>
+            <%= link_to job.profile.stage_name, profile_path(@profile) %>
+          </td>
+          <td>
+            <div><b><%= job.title%></b></div>
+            <div>
+              <%= job.description%>
+            </div>  
+          </td>
+          <td>
+            <% case job.event_type %>
+            <% when 'private_event' %>
+              <%= "Private Event" %>
+            <% when 'bar_restaurant' %>
+              <%= "Bar/Restaurant" %> 
+            <% when 'club_lounge' %>
+              <%= "Club/Lounge" %>
+            <% when 'wedding' %>
+              <%= "Wedding" %>
+            <% when 'corporate' %>
+              <%= "Corporate" %>
+            <% when 'festival' %>
+              <%= "Festival" %>
+            <% when 'charity' %>
+              <%= "Charity" %>         
+            <% end %>  
+          </td>
+          <td><%= "#{ job.available_date }" %></td>
+          <td><%= job.location%></td>
+          <td><%= job.minimum_fb_likes%></td>
+          <td>
+            <div class="space5"></div>
+            <div style="float:left; margin-right: 7%">
+              <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "25x25")%></div>
+
+              <% if job.accommodation %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+              <% else %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+              <% end %>  
+              <div class="space5"></div>
+            </div>
+            <div style="float:left; margin-right: 7%">  
+              <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "25x25")%></div>
+              <% if job.transportation %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+              <% else%>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+              <% end %>  
+            </div>
+            <div class="space5"></div>
+            <div style="float:left">  
+              <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "25x25")%></i></div>
+              <% if job.food_and_beverage %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+              <% else %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+              <% end %>  
+            </div>
+          </td>
+          <td><%= job.country_origin%></td>
+          <td>
+            <% case job.booking_fee_type %>
+            <% when "send_inquiry"%>
+              <%= "Quote Requested "%>
+            <% when "minimum_fees"%>
+              <%= job_fee_or_free(job) %>
+            <% end %>  
+          </td>
+          <td>Still Looking</td>
+          <td><%= link_to "View Offer", send_job_offer_path(job) %></td>
+        </tr>
+      <% end %>  
+    </tbody>
+  </table>
+<% end %>
+
+<% if @expired_jobs.present? %>
+  <div class="space20"></div>
+  <h3><b> Expired Gigs</b></h3>
+  <div class="space20"></div>
+  <table class="table spot">
+    <col width="10%">
+    <col width="20%">
+    <col width="5%">
+    <col width="15%">
+    <col width="5%">
+    <col width="5%">
+
+    <col width="15%">
+    <col width="5%">
+    <col width="5%">
+    <col width="5%">
+    <col width="10%">
+
+    <tbody>
+      <% @deleted_jobs.each do |job| %>
+        <tr>
+          <td>
+            <span><%= image_tag(job.profile.profile_picture.url, :size=> "70x70", :class=>"img-circle")%></span>
+            <% @profile = Profile.find(job.profile_id)%>
+            <%= link_to job.profile.stage_name, profile_path(@profile) %>
+          </td>
+          <td>
+            <div><b><%= job.title%></b></div>
+            <div>
+              <%= job.description%>
+            </div>  
+          </td>
+          <td>
+            <% case job.event_type %>
+            <% when 'private_event' %>
+              <%= "Private Event" %>
+            <% when 'bar_restaurant' %>
+              <%= "Bar/Restaurant" %> 
+            <% when 'club_lounge' %>
+              <%= "Club/Lounge" %>
+            <% when 'wedding' %>
+              <%= "Wedding" %>
+            <% when 'corporate' %>
+              <%= "Corporate" %>
+            <% when 'festival' %>
+              <%= "Festival" %>
+            <% when 'charity' %>
+              <%= "Charity" %>         
+            <% end %>  
+          </td>
+          <td><%= "#{ job.available_date }" %></td>
+          <td><%= job.location%></td>
+          <td><%= job.minimum_fb_likes%></td>
+          <td>
+            <div class="space5"></div>
+            <div style="float:left; margin-right: 7%">
+              <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "25x25")%></div>
+
+              <% if job.accommodation %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+              <% else %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+              <% end %>  
+              <div class="space5"></div>
+            </div>
+            <div style="float:left; margin-right: 7%">  
+              <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "25x25")%></div>
+              <% if job.transportation %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+              <% else%>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+              <% end %>  
+            </div>
+            <div class="space5"></div>
+            <div style="float:left">  
+              <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "25x25")%></i></div>
+              <% if job.food_and_beverage %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+              <% else %>
+                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+              <% end %>  
+            </div>
+          </td>
+          <td><%= job.country_origin%></td>
+          <td>
+            <% case job.booking_fee_type %>
+            <% when "send_inquiry"%>
+              <%= "Quote Requested "%>
+            <% when "minimum_fees"%>
+              <%= job_fee_or_free(job) %>
+            <% end %>  
+          </td>
+          <td>Done</td>
+          <td><%= link_to "View Offer", send_job_offer_path(job) %></td>
+        </tr>
+      <% end %>  
+    </tbody>
+  </table>
+<% end %>    
 <script type="text/javascript">
   $('div.rating').rateit();
   function bigImg(x) {
@@ -118,18 +323,16 @@
   }
 </script>
 <style>
-  
-  
-  .table {
-    border: 2px solid #00b0ff;
+ .spot > tbody > tr > td {
+    border-top: 1px solid #00b0ff;
   }
-  .table > tbody > tr{
-    border: 2px solid #00b0ff;
+  .spot {
+    border: 1px solid #00b0ff;
+
   }
-  .table > thead > tr > th{
-    /*border-left: none !important;
-    border: 2px solid #00b0ff;*/
-    
+
+  .spot > thead > tr > th{
+    border: none  !important;
   }
   
 </style>

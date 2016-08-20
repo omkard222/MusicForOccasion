@@ -144,8 +144,14 @@ class HomeController < ApplicationController
   end
 
   def job_offers
-    @jobs = Job.all.where(deleted_at: nil).uniq
+    @jobs_all = Job.all.where(deleted_at: nil).uniq
     @search_term = params[:location]
+    @deleted_jobs = Job.where.not(deleted_at: nil)
+    @jobs = @jobs_all.reject(&:expired?)
+    @expired_jobs = @jobs_all - @jobs
+    #@services.reject(&:expired?) 
+    #@expired_jobs = @jobs.collect(&:expired?)
+    #raise @expired_jobs.inspect
     #@profiles = location_filter(@profiles, @search_term) if @search_term.present?
     #@profiles = priority_ordering(@profiles, 50)
   end
