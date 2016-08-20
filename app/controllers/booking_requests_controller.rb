@@ -300,11 +300,11 @@ class BookingRequestsController < ApplicationController
 
         @request_booking_list = booking_lists.sort_by(&:confirmed_price).reverse
       elsif params[:sort_by] == "Fans"
-        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc")
+        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc").reverse
         #@request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc").includes(:profile => :user)
       elsif params[:sort_by] == "Name"
         @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc")
-        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc").includes(:profile => :user)
+        #@request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc").includes(:profile => :user)
       else
         @request_booking_list = booking_lists
         #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
