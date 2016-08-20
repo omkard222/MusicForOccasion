@@ -163,7 +163,7 @@
           type: "GET",
           url: "/job_app_received/"+id , //sumbits it to the given url of the form
           data: form_data,
-          dataType: "html" // you want a difference between normal and ajax-calls, and json is standard
+          dataType: "script" // you want a difference between normal and ajax-calls, and json is standard
       }).success(function(json){
           console.log("success", json);
       }); 

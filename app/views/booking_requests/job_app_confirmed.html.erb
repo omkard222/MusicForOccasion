@@ -91,7 +91,7 @@
         <% end %>
         <div id="my_booking_list">
           <% if @request_booking_list.count == 0 %>
-              <h3>You have no booking request.</h3>
+            <h3>You have no booking request.</h3>
           <% end %>
           <% @request_booking_list.each do |booking| %>
               <%= render 'job_received_list', booking: booking %>
@@ -163,8 +163,9 @@
           type: "GET",
           url: "/job_app_confirmed/"+id , //sumbits it to the given url of the form
           data: form_data,
-          dataType: "html" // you want a difference between normal and ajax-calls, and json is standard
+          dataType: "script" // you want a difference between normal and ajax-calls, and json is standard
       }).success(function(json){
+          
           console.log("success", json);
       }); 
     });
