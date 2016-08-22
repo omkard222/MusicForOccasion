@@ -109,7 +109,7 @@
           </td>
           <td>Still Looking</td>
           <td>
-            <% if current_user.current_profile.facebook_page_likes > 29%>
+            <% if current_user.current_profile.facebook_page_likes.present? && current_user.current_profile.facebook_page_likes > 29%>
               <%= link_to "View Offer", send_job_offer_path(job)%>
             <% else %>
               <%= link_to "View Offer", "#", :id => "view_offer" %>
