@@ -109,11 +109,15 @@
           </td>
           <td>Still Looking</td>
           <td>
+           <% if current_user.present? %>
             <% if current_user.current_profile.facebook_page_likes.present? && current_user.current_profile.facebook_page_likes > 29%>
               <%= link_to "View Offer", send_job_offer_path(job)%>
             <% else %>
-              <%= link_to "View Offer", "#", :id => "view_offer" %>
-            <% end %>    
+              <%= link_to "View Offer", "#", :class => "view_offer" %>
+            <% end %>
+           <% else %>
+              <%= link_to "View Offer", "#", :class => "view_offer_sign" %>
+           <% end %>      
           </td>
         </tr>
       <% end %>  
@@ -327,10 +331,12 @@
   function normalImg(x) {
     $(".btn-booking").show();
   }
-  $("#view_offer").on('click', function(e){
+  $(".view_offer").on('click', function(e){
     alert("You cannot access to this offer. This offer is limited to musicians with a minimum fan radar 30");
-    var fb_like = '<%= current_user.current_profile.facebook_page_likes%>'
     
+  });
+  $(".view_offer_sign").on('click', function(e){
+    alert("You Need to Sign up OR Sign in")
   });  
 </script>
 <style>
