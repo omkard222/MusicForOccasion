@@ -46,6 +46,62 @@
     </div>
   </div>
 </div>
+
+<!-- No login Modal -->
+<div class="modal fade" id="noLoginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-m" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h1 class="modal-title" id="myModalLabel">Oops !</h1>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <table>
+            <col width="80%">
+            <col width="20%">
+            <tr>
+              <td>
+                <div class="notice_not_allow" id="div_action_no_user" style="margin-top:10px">
+                  Please sign-up or sign-in.
+                </div>
+              </td>
+              <td>
+                <%= link_to 'Log In', old_visitor_try_book_registrations_path(profile_id: @profile.id), method: :post, class: 'btn btn-send btn-send-modal' %>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="notice_not_allow" style="margin-top:10px">
+                  Or sign up, it takes only 30 seconds!
+                </div>
+              </td>
+              <td>
+                <div>
+                    <span class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id="sign_up_link"><span class="font-white btn btn-send btn-dropdown">Sign
+                        up <span class="caret"></span></span></a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="<%= new_visitor_try_book_registrations_path(profile_id: @profile.id) %>" data-method='post' id="visitor_sign_up_link"><i class="fa fa-headphones"></i>
+                            I want to book musicians</a>
+                        </li>
+                        <li role="separator" class="divider"></li>
+                        <li>
+                          <a href="<%= new_musician_registration_path %>"><i class="fa fa-music"></i> I’m a musician</a>
+                        </li>
+                      </ul>
+                    </span>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <%= render 'shared/blankfooter' %>
 
 <script type="text/javascript">
@@ -120,5 +176,12 @@
         }
 
     });
+  function modal_call() {
+      <% if user_signed_in? %>
+        
+      <% else %>
+        $('#noLoginModal').modal('show');
+      <% end %>
+    } 
 
 </script>

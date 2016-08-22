@@ -3,12 +3,14 @@
       <h4>No available Job offers.</h4>
     </div>
 <% else %>
+
+
   <h3><b> GIGS</b></h3>
   <table class="table spot">
     <col width="10%">
     <col width="20%">
     <col width="5%">
-    <col width="15%">
+    <col width="13%">
     <col width="5%">
     <col width="5%">
 
@@ -16,7 +18,7 @@
     <col width="5%">
     <col width="5%">
     <col width="5%">
-    <col width="10%">
+    <col width="12%">
 
     <thead>
       <tr>
@@ -116,7 +118,7 @@
               <%= link_to "View Offer", "#", :class => "view_offer" %>
             <% end %>
            <% else %>
-              <%= link_to "View Offer", "#", :class => "view_offer_sign" %>
+              <a class="btn btn-send click_able" onclick="modal_call()">View Offer</a>
            <% end %>      
           </td>
         </tr>
@@ -124,6 +126,7 @@
     </tbody>
   </table>
 <% end %>
+
 <% if @expired_jobs.present? %>
   <div class="space20"></div>
   <h3> Expired Gigs</h3>
