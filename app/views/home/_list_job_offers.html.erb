@@ -113,9 +113,9 @@
           <td>
            <% if current_user.present? %>
             <% if current_user.current_profile.facebook_page_likes.present? && current_user.current_profile.facebook_page_likes > 29%>
-              <%= link_to "View Offer", send_job_offer_path(job)%>
+              <%= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
             <% else %>
-              <%= link_to "View Offer", "#", :class => "view_offer" %>
+              <%= link_to "View Offer", "#", :class => "view_offer btn btn-send" %>
             <% end %>
            <% else %>
               <a class="btn btn-send click_able" onclick="modal_call()">View Offer</a>
@@ -129,7 +129,7 @@
 
 <% if @expired_jobs.present? %>
   <div class="space20"></div>
-  <h3> Expired Gigs</h3>
+  <h3> <b>Expired Gigs</b></h3>
   <div class="space20"></div>
   <table class="table spot">
     <col width="10%">
