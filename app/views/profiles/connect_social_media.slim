@@ -20,7 +20,8 @@
           #modal-window3.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"
           #modal-window4.modal.fade aria-hidden="true" aria-labelledby="myModalLabel" role="dialog"       
           = semantic_form_for @profile do |f|
-            .space30
+            = hidden_field_tag :id, @profile.id, :name => "profile[id]"
+            .space30 
             - if @profile.facebook_page_id && @profile.facebook_page_likes
               = f.input :facebook_page_likes, input_html: {disabled: "disabled"}
               .space5
