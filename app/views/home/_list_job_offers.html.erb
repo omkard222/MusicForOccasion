@@ -37,9 +37,9 @@
       <% @jobs.each do |job| %>
         <tr>
           <td>
-            <span><%= image_tag(job.profile.profile_picture.url, :size=> "70x70", :class=>"img-circle")%></span>
+            <div><%= image_tag(job.profile.profile_picture.url, :size=> "70x70", :class=>"img-circle")%></div>
             <% @profile = Profile.find(job.profile_id)%>
-            <%= link_to job.profile.stage_name, profile_path(@profile) %>
+            <div><%= link_to job.profile.stage_name, profile_path(@profile) %></div>
           </td>
           <td>
             <div><b><%= job.title%></b></div>
