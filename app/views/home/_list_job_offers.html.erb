@@ -74,27 +74,27 @@
               <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "25x25")%></div>
 
               <% if job.accommodation %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
               <div class="space5"></div>
             </div>
             <div style="float:left; margin-right: 7%">  
               <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "25x25")%></div>
               <% if job.transportation %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else%>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
             </div>
             <div class="space5"></div>
             <div style="float:left">  
               <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "25x25")%></i></div>
               <% if job.food_and_beverage %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
             </div>
           </td>
@@ -108,7 +108,13 @@
             <% end %>  
           </td>
           <td>Still Looking</td>
-          <td><%= link_to "View Offer", send_job_offer_path(job) %></td>
+          <td>
+            <% if current_user.current_profile.facebook_page_likes > 29%>
+              <%= link_to "View Offer", send_job_offer_path(job)%>
+            <% else %>
+              <%= link_to "View Offer", "#", :id => "view_offer" %>
+            <% end %>    
+          </td>
         </tr>
       <% end %>  
     </tbody>
@@ -173,27 +179,27 @@
               <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "25x25")%></div>
 
               <% if job.accommodation %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
               <div class="space5"></div>
             </div>
             <div style="float:left; margin-right: 7%">  
               <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "25x25")%></div>
               <% if job.transportation %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else%>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
             </div>
             <div class="space5"></div>
             <div style="float:left">  
               <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "25x25")%></i></div>
               <% if job.food_and_beverage %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
             </div>
           </td>
@@ -273,27 +279,27 @@
               <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "25x25")%></div>
 
               <% if job.accommodation %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
               <div class="space5"></div>
             </div>
             <div style="float:left; margin-right: 7%">  
               <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "25x25")%></div>
               <% if job.transportation %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else%>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
             </div>
             <div class="space5"></div>
             <div style="float:left">  
               <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "25x25")%></i></div>
               <% if job.food_and_beverage %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-ok"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
-                <div style="margin-left:5px;"><i class="glyphicon glyphicon-remove"></i></div>
+                <div style="margin-left:5px;"><%= image_tag("/images/cross_one.png", :size=> "25x25")%></div>
               <% end %>  
             </div>
           </td>
@@ -321,6 +327,11 @@
   function normalImg(x) {
     $(".btn-booking").show();
   }
+  $("#view_offer").on('click', function(e){
+    alert("You cannot access to this offer. This offer is limited to musicians with a minimum fan radar 30");
+    var fb_like = '<%= current_user.current_profile.facebook_page_likes%>'
+    
+  });  
 </script>
 <style>
  .spot > tbody > tr > td {

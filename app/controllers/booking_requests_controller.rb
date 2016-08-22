@@ -191,6 +191,7 @@ class BookingRequestsController < ApplicationController
       new_request.message,
       "Message from #{ username }")
       #BookingStatusMailer.new_booking_request_service_owner_notification(new_request).deliver_later if new_request.service_proposer.user.notify_create_booking
+      flash[:success] = 'Application successfully sent.'
       redirect_to job_offers_path, notice: 'Booking request is created successfully.'
     else
       flash[:error] = new_request.errors.full_messages.to_sentence
