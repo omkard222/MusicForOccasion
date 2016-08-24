@@ -312,7 +312,8 @@ class BookingRequestsController < ApplicationController
         #@request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc").includes(:profile => :user)
       elsif params[:sort_by] == "Genre"
         #@request_booking_list = booking_lists.joins(:profile => :musician_genres).reorder!.order("profiles.musician_genres")
-        @request_booking_list = booking_lists.joins(:profile => :genres).uniq.reorder!.order("genres desc")
+        @request_booking_list = booking_lists.joins(:profile => :genres).reorder!.order("genres asc").to_a.uniq
+        #@request_booking_list = @request_booking_list.order("genres asc")        
         #@request_booking_list = booking_lists.joins(:profile => :genres).where(:service_proposer_id => current_user.current_profile.id, :job_id => params[:id], status: 'Pending').reorder!.order("genres desc")
         #@request_booking_list = @request_booking_list.where(:service_proposer_id => current_user.current_profile.id, :job_id => params[:id], status: 'Pending')
       else
