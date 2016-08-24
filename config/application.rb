@@ -10,7 +10,7 @@ module BookingCoreProject
   # default rails application config
   class Application < Rails::Application
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.serve_static_assets = true
+    #config.serve_static_assets = true
     config.active_record.raise_in_transactional_callbacks = true
     config.autoload_paths += %W(#{config.root}/lib #{config.root}/app/uploaders)
     config.active_job.queue_adapter = :delayed_job
