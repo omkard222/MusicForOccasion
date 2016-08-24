@@ -106,8 +106,12 @@
             <% case job.booking_fee_type %>
             <% when "send_inquiry"%>
               <%= "Quote Requested "%>
-            <% when "minimum_fees"%>
-              <%= job_fee_or_free(job) %>
+            <% when "free" %>
+              <%= "Free" %>
+            <% when "minimum_fees" %>
+              $<%= convert_to_preferred_currency(job.currency, job.booking_fee) %>
+            <% else %>
+              <%= "Quote requested" %>
             <% end %>  
           </td>
           <td>Still Looking</td>
@@ -116,6 +120,7 @@
             <% if current_user.current_profile.facebook_page_likes.present? && current_user.current_profile.facebook_page_likes > 0%>
               <%= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
             <% else %>
+              <%#= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
               <%= link_to "View Offer", "#", :class => "view_offer btn btn-send" %>
             <% end %>
            <% else %>
@@ -221,7 +226,10 @@
             <% end %>  
           </td>
           <td>Booked</td>
-          <td><%= link_to "View Offer", send_job_offer_path(job) %></td>
+          <td>
+            <%#= link_to "View Offer", send_job_offer_path(job) %>
+            <%= link_to "View Offer", "#" %>
+          </td>
         </tr>
       <% end %>  
     </tbody>
@@ -321,7 +329,10 @@
             <% end %>  
           </td>
           <td>Done</td>
-          <td><%= link_to "View Offer", send_job_offer_path(job) %></td>
+          <td>
+            <%#= link_to "View Offer", send_job_offer_path(job) %>
+            <%= link_to "View Offer", "#" %>
+          </td>
         </tr>
       <% end %>  
     </tbody>
@@ -336,7 +347,7 @@
     $(".btn-booking").show();
   }
   $(".view_offer").on('click', function(e){
-    alert("You cannot access to this offer. This offer is limited to musicians with a minimum fan radar 30");
+    alert("You cannot access to this offer. This offer is limited to musicians with a minimum fan radar 1");
     
   });
   $(".view_offer_sign").on('click', function(e){

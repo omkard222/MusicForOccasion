@@ -180,7 +180,8 @@ class BookingRequestsController < ApplicationController
     
     new_request.job_id = params[:booking_request][:job_id] 
     new_request.event_location = @job.location
-    new_request.date = Date.today + 2.days
+    #new_request.date = Date.today + 2.days
+    new_request.date = params[:booking_request][:date]
     new_request.service_proposer = @job.profile
     new_request.updated_by = current_user
     if new_request.save!
@@ -191,8 +192,9 @@ class BookingRequestsController < ApplicationController
       new_request.message,
       "Message from #{ username }")
       #BookingStatusMailer.new_booking_request_service_owner_notification(new_request).deliver_later if new_request.service_proposer.user.notify_create_booking
-      flash[:success] = 'Application successfully sent.'
-      redirect_to job_offers_path, notice: 'Booking request is created successfully.'
+      #flash[:success] = 'Application successfully sent.'
+      redirect_to job_offers_path, notice: 'Application sent successfully.'
+      #redirect_to list_my_booking_path, notice: 'Application sent successfully.'
     else
       flash[:error] = new_request.errors.full_messages.to_sentence
       redirect_to :back
@@ -293,19 +295,23 @@ class BookingRequestsController < ApplicationController
   def job_app_received
     if params[:sort_by].present?
       @job = Job.find(params[:id])
-      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id], status: 'Pending')
+      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id], status: 'Pending').includes(:job => :profile)
       booking_lists.update_expired
       #@request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
       
       if params[:sort_by] == "Fees"
-
         @request_booking_list = booking_lists.sort_by(&:confirmed_price).reverse
-      elsif params[:sort_by] == "Fans"
+      elsif params[:sort_by] == "Date"
+        @request_booking_list = booking_lists.sort_by(&:date).reverse 
+      elsif params[:sort_by] == "Fans" 
         @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc").reverse
         #@request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc").includes(:profile => :user)
       elsif params[:sort_by] == "Name"
-        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc")
+        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name")
         #@request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc").includes(:profile => :user)
+      elsif params[:sort_by] == "Genre"
+        #@request_booking_list = booking_lists.joins(:profile => :musician_genres).reorder!.order("profiles.musician_genres")
+        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc").includes(:profile => :user)
       else
         @request_booking_list = booking_lists
         #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price);

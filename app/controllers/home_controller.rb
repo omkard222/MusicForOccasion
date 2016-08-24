@@ -144,9 +144,9 @@ class HomeController < ApplicationController
   end
 
   def job_offers
-    @jobs_all = Job.all.where(deleted_at: nil).uniq
+    @jobs_all = Job.where(deleted_at: nil).uniq.includes(:profile)
     @search_term = params[:location]
-    @deleted_jobs = Job.where.not(deleted_at: nil)
+    @deleted_jobs = Job.where.not(deleted_at: nil).includes(:profile)
     @jobs = @jobs_all.reject(&:expired?)
     @expired_jobs = @jobs_all - @jobs
     #@services.reject(&:expired?) 

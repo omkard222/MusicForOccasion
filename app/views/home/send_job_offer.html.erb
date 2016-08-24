@@ -134,7 +134,7 @@
                     <div class="col-md-8">
                       <div class="form-group" id="optional_price">
                         <%= label_tag "Event Date" %>
-                        <%= ff.text_field :date, class: 'datepicker modal-booking form-control', :autocomplete => :off, required: true, readonly: true %>
+                        <%= ff.text_field :date, class: 'datepicker modal-booking form-control', :autocomplete => :off, required: true%>
                       </div>
                     </div>
                   </div>  
@@ -160,6 +160,7 @@
                   <% if @br.present? %>
                    <div class="form-group" style="margin-left:30%">
                      <p> Application already sent. </p> 
+                     <p><%= link_to "Back", :back%></p>
                    </div>
                   <% else %>  
                     <div class="form-group" style="margin-left:30%">

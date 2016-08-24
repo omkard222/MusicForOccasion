@@ -15,10 +15,13 @@
         <% end %>
       </h3>
       <hr/>
+      <% if requestor.genres.present? %>
+        <i class="fa fa-music"></i> <%= requestor.genres.pluck(:name).first%>
+      <% end %>  
       <% if requestor.facebook_page_likes.present? %>
-        <p>Fans:<%= requestor.facebook_page_likes %></p>
+        <p><i class="glyphicon glyphicon-star"></i>Fans:<%= requestor.facebook_page_likes %></p>
       <% else %>
-        <p>Fans: 0 </p>
+        <p><i class="glyphicon glyphicon-star"></i>Fans: 0 </p>
       <% end %>  
       <p class="msg-label"><i class="fa fa-tag"></i>&nbsp;&nbsp;&nbsp;<span class="badge"><%= status %></span></p>
 

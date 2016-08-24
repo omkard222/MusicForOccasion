@@ -139,6 +139,8 @@ en:
       connect_soundcloud: 'Connect Soundcloud'
       disconnect_soundcloud: 'Disconnect Soundcloud'
       tracks: 'Soundcloud track plays'
+    connect_social_media: 
+      connect_page: 'Connect page'
     tech_rider_form_item:
       choose_file_from_my_computer: 'Choose file from my computer '
   booking_status_mailer:

@@ -30,7 +30,17 @@
     <%= job.location %>
   </td>
   <td>
-    <%= "Quote requested" %>
+    <% case job.booking_fee_type %>
+    <% when "send_inquiry" %>
+      <%= "Quote requested" %>
+    <% when "free" %>
+      <%= "Free" %>
+    <% when "minimum_fees" %>
+      $<%= convert_to_preferred_currency(job.currency, job.booking_fee) %>
+    <% else %>
+      <%= "Quote requested" %>           
+    <% end %> 
+    
   </td>
   <td>
     <%= "Still Looking"%>
