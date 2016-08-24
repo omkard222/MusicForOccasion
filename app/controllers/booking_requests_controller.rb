@@ -295,7 +295,8 @@ class BookingRequestsController < ApplicationController
   def job_app_received
     if params[:sort_by].present?
       @job = Job.find(params[:id])
-      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id], status: 'Pending').includes(:job => :profile)
+      booking_lists = BookingRequest.where(:service_proposer_id => current_user.current_profile.id, :job_id => params[:id], status: 'Pending').includes(:job, profile: [:user,:genres])
+      #booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id], status: 'Pending').includes(:job => :profile)
       booking_lists.update_expired
       #@request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
       
@@ -304,14 +305,14 @@ class BookingRequestsController < ApplicationController
       elsif params[:sort_by] == "Date"
         @request_booking_list = booking_lists.sort_by(&:date).reverse 
       elsif params[:sort_by] == "Fans" 
-        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc").reverse
+        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc")
         #@request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc").includes(:profile => :user)
       elsif params[:sort_by] == "Name"
         @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name")
         #@request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc").includes(:profile => :user)
       elsif params[:sort_by] == "Genre"
         #@request_booking_list = booking_lists.joins(:profile => :musician_genres).reorder!.order("profiles.musician_genres")
-        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name desc").includes(:profile => :user)
+        @request_booking_list = booking_lists.joins(:profile => :genres).reorder!.order("genres desc")
       else
         @request_booking_list = booking_lists
         #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
@@ -325,7 +326,8 @@ class BookingRequestsController < ApplicationController
       end
     else
       @job = Job.find(params[:id])
-      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists = BookingRequest.where(:service_proposer_id => current_user.current_profile.id, :job_id => params[:id], status: 'Pending').includes(:job, profile: [:user,:genres])
+      #booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
       booking_lists.update_expired
       @request_booking_list = booking_lists.select { |booking| booking.status == 'Pending' }
       #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
