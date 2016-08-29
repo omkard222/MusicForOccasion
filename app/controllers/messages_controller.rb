@@ -11,6 +11,10 @@ class MessagesController < ApplicationController
     redirect_to conversation_path(recipient)
   end
 
+  def new
+    @profile = Profile.find(params[:id])
+  end 
+
   def message_for_admin
     recipient = Admin.find(params[:id])
     current_admin_or_profile.send_message(

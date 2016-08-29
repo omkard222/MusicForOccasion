@@ -1,0 +1,16 @@
+<div style="margin-top:50px;">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-2">
+			<%= form_tag create_message_path do %>
+			  <div class="input-group">
+			    <input type="hidden" name="id" value="<%= @profile.id %>">
+			    <input type="text" name="msg_body" class="form-control" placeholder="Send message">
+			    <span class="input-group-btn">
+			      <%= submit_tag 'Send', class: 'btn btn-default btn-send' %>
+			    </span>
+			  </div>
+			<% end %>
+	  </div>		
+	</div>	
+</div>	
+
