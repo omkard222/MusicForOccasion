@@ -22,7 +22,7 @@
 
     <thead>
       <tr>
-        <th>Propose by</th>
+        <th>Proposed by</th>
         <th>Details</th>
         <th>Type</th>
         <th>Availabilities</th>
@@ -92,7 +92,7 @@
             </div>
             <div style="float:left; margin-right: 5%; margin-top: 1px;">  
               <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "30x30")%></i></div>
-              <div class="space3"></div>
+              <div class="space4"></div>
               <% if job.food_and_beverage %>
                 <div style="margin-left:1px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
@@ -116,7 +116,8 @@
           <td>Still Looking</td>
           <td>
            <% if current_user.present? %>
-            <% if current_user.current_profile.facebook_page_likes.present? && current_user.current_profile.facebook_page_likes > 0%>
+            <% fb_likes = job.minimum_fb_likes.to_i - 1 %>
+            <% if current_user.current_profile.facebook_page_likes.present? && current_user.current_profile.facebook_page_likes > fb_likes %>
               <%= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
             <% else %>
               <%#= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
@@ -206,6 +207,7 @@
             </div>
             <div style="float:left; margin-right: 5%; margin-top:1px;">  
               <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "30x30")%></i></div>
+              <div class="space4"></div>
               <% if job.food_and_beverage %>
                 <div style="margin-left:1px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
@@ -307,6 +309,7 @@
             </div>
             <div style="float:left; margin-right: 5%; margin-top:1px;">  
               <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "30x30")%></i></div>
+              <div class="space4"></div>
               <% if job.food_and_beverage %>
                 <div style="margin-left:1px;"><%= image_tag("/images/tick.png", :size=> "25x25")%></div>
               <% else %>
