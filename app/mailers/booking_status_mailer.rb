@@ -21,7 +21,11 @@ class BookingStatusMailer < Mailboxer::NotificationMailer
 
 #create
   def new_booking_request_service_owner_notification(booking)
-    @service = booking.service
+    if booking.service_id.present?
+      @service = booking.service
+    else
+      @service = booking.job
+    end   
     @service_owner = booking.service_proposer
     
     @recipient_name = @service_owner.display_name
