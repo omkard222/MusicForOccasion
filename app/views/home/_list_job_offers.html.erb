@@ -113,7 +113,8 @@
             <% when "free" %>
               <%= "Free" %>
             <% when "minimum_fees" %>
-              $<%= convert_to_preferred_currency(job.currency, job.booking_fee) %>
+              <span><%= convert_to_preferred_currency(job.currency, job.booking_fee) %>
+              <%= "#{preferred_currency_session}".upcase%></span>
             <% else %>
               <%= "Quote requested" %>
             <% end %>  

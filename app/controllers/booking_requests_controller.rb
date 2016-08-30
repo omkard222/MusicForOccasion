@@ -343,17 +343,25 @@ class BookingRequestsController < ApplicationController
   def job_app_negotiation
     if params[:sort_by].present?
       @job = Job.find(params[:id])
-      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists = BookingRequest.where(:service_proposer_id => current_user.current_profile.id, :job_id => params[:id], status: 'Special Offer').includes(:job, profile: [:user,:genres])
+      #booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
       booking_lists.update_expired
-      @request_booking_list = booking_lists.select { |booking| booking.status == 'Special Offer' }
-      if params[:sort_by] == "Fees" 
-        @request_booking_list = @request_booking_list.sort_by(&:confirmed_price).reverse;
+      #@request_booking_list = booking_lists.select { |booking| booking.status == 'Special Offer' }
+      if params[:sort_by] == "Fees"
+        @request_booking_list = booking_lists.sort_by(&:confirmed_price).reverse 
+      elsif params[:sort_by] == "Date"
+        @request_booking_list = booking_lists.sort_by(&:date).reverse   
       elsif params[:sort_by] == "Fans"
-         booking_lists.joins(:profile).order("profiles.facebook_page_likes desc")
+        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc")
+        #booking_lists.joins(:profile).order("profiles.facebook_page_likes desc")
       elsif params[:sort_by] == "Name"
-         booking_lists.joins(:profile).order("profiles.stage_name desc") 
+        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name")
+        #booking_lists.joins(:profile).order("profiles.stage_name desc") 
       elsif params[:sort_by] == "Genre"
+        @request_booking_list = booking_lists.joins(:profile => :genres).reorder!.order("genres asc").to_a.uniq
         #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
+      else
+        @request_booking_list = booking_lists
       end
       #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
       @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
@@ -377,17 +385,26 @@ class BookingRequestsController < ApplicationController
   def job_app_confirmed
     if params[:sort_by].present?
       @job = Job.find(params[:id])
-      booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
+      booking_lists = BookingRequest.where(:service_proposer_id => current_user.current_profile.id, :job_id => params[:id], status: 'Accepted').includes(:job, profile: [:user,:genres])
+      #booking_lists = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => params[:id])
       booking_lists.update_expired
       @request_booking_list = booking_lists.select { |booking| booking.status == 'Accepted' }
-      if params[:sort_by] == "Fees" 
-        @request_booking_list = @request_booking_list.sort_by(&:confirmed_price).reverse;
+      if params[:sort_by] == "Fees"
+        @request_booking_list = booking_lists.sort_by(&:confirmed_price).reverse  
+        #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price).reverse;
+      elsif params[:sort_by] == "Date"
+        @request_booking_list = booking_lists.sort_by(&:date).reverse    
       elsif params[:sort_by] == "Fans"
-         booking_lists.joins(:profile).order("profiles.facebook_page_likes desc")
+        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.facebook_page_likes desc")
+        #booking_lists.joins(:profile).order("profiles.facebook_page_likes desc")
       elsif params[:sort_by] == "Name"
-         booking_lists.joins(:profile).order("profiles.stage_name desc") 
+        @request_booking_list = booking_lists.joins(:profile).reorder!.order("profiles.stage_name")
+        #booking_lists.joins(:profile).order("profiles.stage_name desc") 
       elsif params[:sort_by] == "Genre"
+        @request_booking_list = booking_lists.joins(:profile => :genres).reorder!.order("genres asc").to_a.uniq
         #@request_booking_list = @request_booking_list.sort_by(&:confirmed_price);
+      else
+        @request_booking_list = booking_lists
       end
       #@request_booking_list_history = booking_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }
       @pending = booking_lists.select { |booking| booking.status == 'Pending' }.count
