@@ -25,7 +25,8 @@ class BookingStatusMailer < Mailboxer::NotificationMailer
       @service = booking.service
     else
       @service = booking.job
-    end   
+    end
+    @booking = booking    
     @service_owner = booking.service_proposer
     
     @recipient_name = @service_owner.display_name

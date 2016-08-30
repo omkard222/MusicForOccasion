@@ -2,7 +2,7 @@
   - sentence_ending = t('.for_free')
 - else
   - sentence_ending = "#{ t('.at') } #{ @service.currency.upcase }  #{ @service.booking_fee }."
-- if @service.headline.present?
+- if @booking.service_id.present?
   %p #{ t('.new_booking_request') } #{ link_to @service.headline, service_url(@service) } #{ sentence_ending }
 -else
   %p #{ t('.new_booking_request') } #{ link_to @service.title, service_url(@service) } #{ sentence_ending }
