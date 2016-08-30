@@ -79,10 +79,10 @@
     </div>  
     <div class="space20"></div>
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <%= render 'layouts/job/job_status', job: @job%>
       </div>
-      <div class="col-md-8">
+      <div class="col-md-7">
         <% flash.each do |key, message| %>
             <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
               <button type="button" class="close" data-dismiss="alert">x</button>
