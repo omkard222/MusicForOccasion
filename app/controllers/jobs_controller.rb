@@ -6,11 +6,20 @@ class JobsController < ApplicationController
 
   def new
    @job = Job.new
+   @select2_form = {
+        genre_id: [['', Genre.order(:name).all.map { |g| ["#{g.name}", g.id] }]]
+    }
   end
 
   def create
     @job = current_profile.jobs.new(new_job_params)
     if @job.save
+      genres_id = params[:job][:genre_id]
+      if genres_id.present?
+        genres_id.each do |key, value|
+          JobGenre.create(job_id: @job.id, genre_id: key)
+        end
+      end  
       # BookingStatusMailer.service_creation_notification(
         # current_profile).deliver_later if current_user.notify_create_offer
       flash[:success] = 'Offer has been created successfully.'
@@ -81,7 +90,8 @@ class JobsController < ApplicationController
             :transportation, :accommodation, :food_and_beverage, :minimum_fb_likes,
             :booking_fee_type, :free_fee_type, :service_type_id,
             :is_sunday, :is_monday, :is_tuesday, :is_wednesday, :is_thursday,
-            :is_friday, :is_saturday, :date_from, :date_to, :location)
+            :is_friday, :is_saturday, :date_from, :date_to, :location,
+            genre_ids: [])
   end
 
   def find_job

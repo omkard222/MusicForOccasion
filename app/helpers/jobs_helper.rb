@@ -14,4 +14,8 @@ module JobsHelper
       "#{preferred_currency_session.upcase} <span class='#{number_class}'>#{convert_to_preferred_currency(job.currency, job.booking_fee)}</span>".html_safe
    	end
   end
+
+  def job_genres
+    Genre.pluck(:name, :id).each {|pair| pair << {selected: true} if @job.genre_ids.include?(pair[1]) }
+  end 
 end

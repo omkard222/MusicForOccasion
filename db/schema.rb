@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160816070443) do
+ActiveRecord::Schema.define(version: 20160831054522) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,13 @@ ActiveRecord::Schema.define(version: 20160816070443) do
   end
 
   add_index "additional_pictures", ["profile_id"], name: "index_additional_pictures_on_profile_id", using: :btree
+
+  create_table "additional_videos", force: :cascade do |t|
+    t.integer  "profile_id"
+    t.string   "video_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -114,6 +121,15 @@ ActiveRecord::Schema.define(version: 20160816070443) do
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
+  create_table "emails", force: :cascade do |t|
+    t.string   "name"
+    t.string   "mail"
+    t.string   "subject"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "genres", force: :cascade do |t|
     t.string "name"
   end
@@ -129,6 +145,13 @@ ActiveRecord::Schema.define(version: 20160816070443) do
 
   add_index "instruments_profiles", ["instrument_id"], name: "index_instruments_profiles_on_instrument_id", using: :btree
   add_index "instruments_profiles", ["profile_id"], name: "index_instruments_profiles_on_profile_id", using: :btree
+
+  create_table "job_genres", force: :cascade do |t|
+    t.integer  "job_id"
+    t.integer  "genre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "jobs", force: :cascade do |t|
     t.string   "title"
@@ -354,6 +377,9 @@ ActiveRecord::Schema.define(version: 20160816070443) do
     t.integer  "profile_id"
     t.integer  "minutes_count"
     t.integer  "min_num_people"
+    t.string   "location"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "services", ["deleted_at"], name: "index_services_on_deleted_at", using: :btree

@@ -29,10 +29,19 @@
             <%= f.label :description %>
             <%= f.text_area :description, class: 'form-control', rows: 3 %>
           </div>
+            <%#= f.label "Music genres (optional)" %>
+            <%#= f.select :genre_ids, Genre.pluck(:name, :id), {}, {multiple: true, class: 'form-control', id: "select"} %>
           <div class="form-group">
-            <%= f.label "Music genres (optional)" %>
-            <%= f.select :genre_ids, Genre.pluck(:name, :id), {}, {multiple: true, class: 'form-control', id: "select"} %>
-          </div>
+            <%= f.label :genre_id %>
+            <%= select_tag :genre_id,
+                           grouped_options_for_select(
+                                   @select2_form[:genre_id]
+                           ),
+                           name: 'job[genre_id][]',
+                           multiple: true, required: true,
+                           'style' => 'display: block; visibility: visible; position: absolute; margin-top: 4px; margin-left: 4px; width: 100%; height:34px;', class: 'form-control' %>
+
+          </div> 
           <div class="form-group">
             <%= f.label :local_transportation_included %>
             <%= f.select :transportation, options_for_select([["No", false], ["Yes", true]], @job.transportation), {}, class: 'form-control' %>
@@ -141,6 +150,8 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+        $('#genre_id').select2();
+        $('#job_genres').select2()
         $("#select").select2();
         var scrollToTop = function(){
           $("html, body").scrollTop(0);

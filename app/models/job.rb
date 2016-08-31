@@ -1,9 +1,10 @@
 class Job < ActiveRecord::Base
 
-  serialize :genre_ids, Array
+  #serialize :genre_ids, Array
   belongs_to :profile
   belongs_to :service_type
   has_many :booking_requests, dependent: :destroy
+  has_many :genres, through: :job_genres
   after_initialize :initial_values
   enum event_type: [:bar_restaurant, :private_event, :club_lounge, :wedding, :corporate, :festival, :charity]
   enum booking_fee_type: [:send_inquiry, :free, :minimum_fees]
