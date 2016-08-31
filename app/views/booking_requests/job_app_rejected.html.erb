@@ -98,6 +98,9 @@
           <% end %>
         </div>
       </div>
+      <div class="col-md-2">
+       Sort by:  <%= select_tag "sort_by", options_for_select([["Fees","Fees" ], ["Fans", "Fans"], ["Name", "Name"], ["Genre", "Genre"], ["Date", "Date"]]), :class=> 'form-control', prompt: ""%>
+      </div>
     </div>
     <div class="space50"></div>
   </div>
@@ -151,6 +154,20 @@
 </div>
 <%= content_for(:bottom_script) do %>
   <script type="text/javascript">
+
+    $("#sort_by").on('change', function(){
+      var ss = $("#sort_by").val();
+      var id = $("#job_id").val();
+      var form_data = {sort_by : ss}
+      $.ajax({
+          type: "GET",
+          url: "/job_app_rejected/"+id , //sumbits it to the given url of the form
+          data: form_data,
+          dataType: "script" // you want a difference between normal and ajax-calls, and json is standard
+      }).success(function(json){
+          console.log("success", json);
+      }); 
+    }); 
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
         $('input[type=number]').on('mousewheel', function(){
