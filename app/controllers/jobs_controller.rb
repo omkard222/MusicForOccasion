@@ -44,6 +44,17 @@ class JobsController < ApplicationController
 
   def update
     if @job.update(new_job_params)
+      genres_id = params[:job][:genre_id]
+      if genres_id.present?
+        job_genres = @job.job_genres
+        # @genres = @job.genres.collect() 
+        job_genres.each do |g|
+          g.destroy
+        end 
+        genres_id.each do |key, value|
+          JobGenre.create(job_id: @job.id, genre_id: key)
+        end
+      end  
       flash[:success] = 'Offer has been updated successfully.'
       redirect_to jobs_path
     else
@@ -56,6 +67,16 @@ class JobsController < ApplicationController
   def job_details
     @job = Job.find(params[:id])
   end 
+
+  def edit
+    @job = Job.find(params[:id])
+    @select2_form = {
+        genre_id: [['', Genre.order(:name).all.map { |g| ["#{g.name}", g.id] }]]
+    }
+    @selected_keys = @job.genres.collect(&:id)
+    #raise @selected_keys.inspect
+  end 
+  
   def show
     @job = Job.find(params[:id])
     genres = @job.genre_ids

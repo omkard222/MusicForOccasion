@@ -24,6 +24,7 @@
               <td>
                 <h4><strong><%= link_to @job.title, job_path(@job)%></strong></h4>
                 <div><%= @job.description %></div>
+                <input type="hidden" name="job_id" id="job_id" value = <%= @job.id %> >
               </td>
               <td>
                 <% case @job.event_type %>

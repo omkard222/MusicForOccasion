@@ -35,7 +35,7 @@
             <%= f.label :genre_id %>
             <%= select_tag :genre_id,
                            grouped_options_for_select(
-                                   @select2_form[:genre_id]
+                              @select2_form[:genre_id], @selected_keys
                            ),
                            name: 'job[genre_id][]',
                            multiple: true, required: true,

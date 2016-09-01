@@ -115,29 +115,58 @@ class BookingRequestsController < ApplicationController
     booking = BookingRequest.find(params[:booking_request_id])
     cancel_status = booking.status
     request = update_status('Cancelled')
-    service_name = request.service.headline
-    @msg = 'Request is not cancelled. Please try again.'
-    return unless request.save
-    create_message_from_booking_action(request)
-    if cancel_status == "Pending"
-      BookingStatusMailer.cancel_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_cancel_booking
-    elsif cancel_status == "Special Offer"
-      BookingStatusMailer.cancel_special_offer_booking_request_service_owner_notification(request).deliver_later if request.profile.user.notify_cancel_booking
-    end
-    @msg = "You have cancelled the offer: '#{service_name}' successfully."
-    redirect_to :back, notice: @msg
+    if request.service_id.present?
+      service_name = request.service.headline
+      @msg = 'Request is not cancelled. Please try again.'
+      return unless request.save
+      create_message_from_booking_action(request)
+      if cancel_status == "Pending"
+        BookingStatusMailer.cancel_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_cancel_booking
+      elsif cancel_status == "Special Offer"
+        BookingStatusMailer.cancel_special_offer_booking_request_service_owner_notification(request).deliver_later if request.profile.user.notify_cancel_booking
+      end
+      @msg = "You have cancelled the offer: '#{service_name}' successfully."
+      redirect_to :back, notice: @msg
+    else
+      service_name = request.job.title
+      @job = request.job
+      @msg = 'Request is not cancelled. Please try again.'
+      return unless request.save
+      #create_message_from_booking_action(request)
+      create_message_from_job(booking, @job)
+      if cancel_status == "Pending"
+        #BookingStatusMailer.cancel_booking_request_service_owner_notification(request).deliver_later if request.service_proposer.user.notify_cancel_booking
+      elsif cancel_status == "Special Offer"
+        #BookingStatusMailer.cancel_special_offer_booking_request_service_owner_notification(request).deliver_later if request.profile.user.notify_cancel_booking
+      end
+      @msg = "You have cancelled the offer: '#{service_name}' successfully."
+      redirect_to :back, notice: @msg
+    end   
   end
 
   def cancel_booking
     booking = update_status('Cancelled')
-    service_name = booking.service.headline
-    @msg = 'Request is not cancelled. Please try again.'
-    return unless booking.save
-    create_message_from_booking_action(booking)
-    send_email_cancel_confirmed =  booking.updated_by_id != booking.profile.user_id ? booking.profile.user.notify_cancel_confirmed_booking : booking.service_proposer.user.notify_cancel_confirmed_booking
-    BookingStatusMailer.cancel_confirmed_booking_request_requestor_notification(booking).deliver_later if send_email_cancel_confirmed
-    @msg = "You have cancelled the offer: '#{service_name}' successfully."
-    redirect_to :back, notice: @msg
+    if booking.service_id.present?
+      service_name = booking.service.headline
+      @msg = 'Request is not cancelled. Please try again.'
+      return unless booking.save
+      create_message_from_booking_action(booking)
+      send_email_cancel_confirmed =  booking.updated_by_id != booking.profile.user_id ? booking.profile.user.notify_cancel_confirmed_booking : booking.service_proposer.user.notify_cancel_confirmed_booking
+      BookingStatusMailer.cancel_confirmed_booking_request_requestor_notification(booking).deliver_later if send_email_cancel_confirmed
+      @msg = "You have cancelled the offer: '#{service_name}' successfully."
+      redirect_to :back, notice: @msg
+    else
+      service_name = booking.job.title
+      @job = booking.job
+      @msg = 'Request is not cancelled. Please try again.'
+      return unless booking.save
+      create_message_from_job(booking, @job)
+      #create_message_from_booking_action(booking)
+      send_email_cancel_confirmed =  booking.updated_by_id != booking.profile.user_id ? booking.profile.user.notify_cancel_confirmed_booking : booking.service_proposer.user.notify_cancel_confirmed_booking
+      #BookingStatusMailer.cancel_confirmed_booking_request_requestor_notification(booking).deliver_later if send_email_cancel_confirmed
+      @msg = "You have cancelled the offer: '#{service_name}' successfully."
+      redirect_to :back, notice: @msg
+    end   
   end
 
   def create
