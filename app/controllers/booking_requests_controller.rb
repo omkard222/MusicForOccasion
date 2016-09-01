@@ -15,7 +15,7 @@ class BookingRequestsController < ApplicationController
   end
 
   def my_booking
-    request_lists = BookingRequest.request_list(current_user.current_profile.id)
+    request_lists = BookingRequest.request_list(current_user.current_profile.id).where("service_id IS NOT NULL")
     request_lists.update_expired
     @my_booking_list = request_lists.select { |booking| booking.status == 'Pending' || booking.status == 'Special Offer' || booking.status == 'Accepted' }
     @my_booking_list_history = request_lists.select { |booking| booking.status == 'Expired' || booking.status == 'Cancelled' || booking.status == 'Rejected' }

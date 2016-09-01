@@ -91,7 +91,7 @@
         <% end %>
         <div id="my_booking_list">
           <% if @request_booking_list.count == 0 %>
-              <h3>You have no booking request.</h3>
+              <h3>You have no application request.</h3>
           <% end %>
           <% @request_booking_list.each do |booking| %>
               <%= render 'job_received_list', booking: booking %>

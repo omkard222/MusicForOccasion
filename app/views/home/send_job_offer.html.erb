@@ -50,7 +50,7 @@
                     </div>
                     <div class="form-group">
                       <%= f.label "Music genres (optional)" %>
-                      <pre class="form-control"><%= @genre_name %></pre>
+                      <pre class="form-control"><%= @job_genres %></pre>
                     </div>
                     <div class="form-group">
                       <%= f.label "Local transportation included"%>
@@ -188,7 +188,7 @@
         if (calendar.split("|")[0] == "1") {
             $('.datepicker').datetimepicker('destroy');
             $('.datepicker').datetimepicker({
-                format: 'd/m/Y H:i',
+                format: 'd/m/Y',
                 minDate: new Date(calendar.split("|")[1]),
                 maxDate: new Date(calendar.split("|")[1]),
                 onGenerate: function (ct) {
@@ -211,7 +211,7 @@
             var dateMin = new Date();
             $('.datepicker').datetimepicker('destroy');
             $(".datepicker").datetimepicker({
-                format: 'd/m/Y H:i',
+                format: 'd/m/Y',
                 beforeShowDay: function (date) {
                     var day = date.getDay();
                     day1 = calendar.split("|")[1] == "T" ? day : day != 0
@@ -236,7 +236,7 @@
             dateMin = dateMin > new Date(calendar.split("|")[1]) ? dateMin : calendar.split("|")[1];
             $('.datepicker').datetimepicker('destroy');
             $('.datepicker').datetimepicker({
-                format: 'd/m/Y H:i',
+                format: 'd/m/Y',
                 minDate: new Date(dateMin),
                 maxDate: new Date(calendar.split("|")[2]),
                 defaultDate: dateMin,

@@ -159,6 +159,10 @@ class HomeController < ApplicationController
   def send_job_offer
     @job = Job.find(params[:id])
     @br = BookingRequest.where(:job_id => @job.id, :profile_id => current_user.current_profile.id).first
+    if @job.job_genres.present?  
+      @job_genres = @job.job_genres.map{|x| x.genre.name}
+      @job_genres = @job_genres.join(",")
+    end   
   end  
 
   def search_job_offers
