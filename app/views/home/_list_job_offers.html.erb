@@ -9,9 +9,9 @@
   
   <table class="table spot">
     <col width="10%">
-    <col width="20%">
+    <col width="17%">
     <col width="5%">
-    <col width="10%">
+    <col width="13%">
     <col width="5%">
     <col width="5%">
 
@@ -44,7 +44,7 @@
             <% @profile = Profile.find(job.profile_id)%>
             <div><%= link_to job.profile.virtual_name, profile_path(@profile) %></div>
           </td>
-          <td style="word-wrap: break-word;min-width: 160px;max-width: 160px;">
+          <td style="word-wrap: break-word;min-width: 150px;max-width: 150px;">
             <div><b><%= job.title%></b></div>
             <div>
               <% if job.description && job.description.length > 50 %>
@@ -127,8 +127,12 @@
             <% if current_user.current_profile.facebook_page_likes.present? && current_user.current_profile.facebook_page_likes > fb_likes %>
               <%= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
             <% else %>
-              <%#= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
-              <%= link_to "View Offer", "#", :onclick=>"show_alert(#{fb_like})", :class => "view_offer btn btn-send" %>
+              <% if job.minimum_fb_likes == 0%>
+                <%= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
+              <% else %>  
+                <%#= link_to "View Offer", send_job_offer_path(job), :class=>"btn btn-send"%>
+                <%= link_to "View Offer", "#", :onclick=>"show_alert(#{fb_like})", :class => "view_offer btn btn-send" %>
+              <% end %>  
             <% end %>
            <% else %>
               <a class="btn btn-send click_able" onclick="modal_call()">View Offer</a>

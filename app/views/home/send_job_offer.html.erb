@@ -159,13 +159,13 @@
                   </div>
                   <% if @br.present? %>
                    <div class="form-group" style="margin-left:30%">
-                     <p> Application already sent. </p> 
-                     <p style="margin-left: 50px;"><%= link_to "Back", :back, :class => "btn btn-default move-left"%%></p>
+                     <p><b> Application already sent. </b></p> 
+                     <p style="margin-left: 50px;"><%= link_to "Close", :back, :class => "btn btn-default move-left"%%></p>
                    </div>
                   <% else %>  
                     <div class="form-group" style="margin-left:30%">
                       <%= ff.submit 'Send application', "class" => "btn bt-large btn-primary" %>&nbsp;&nbsp;&nbsp;&nbsp;
-                      <%= link_to 'Cancel', "#",:class => "btn btn-default" %>
+                      <%= link_to 'Cancel', job_offers_path,:class => "btn btn-default" %>
                     </div>
                   <% end %>  
                 <% end %>
