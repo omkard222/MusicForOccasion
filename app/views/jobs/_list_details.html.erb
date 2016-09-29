@@ -2,10 +2,17 @@
 <% @confirmed = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Accepted").count %>
 <% @special_offer = BookingRequest.booking_list(current_user.current_profile.id).where(:job_id => job.id, :status => "Special Offer").count %>
 <tr>
-  <td>
-    <p class="p_headline"><%= link_to job.title, job_path(job)%></p>
+  <td style="word-wrap: break-word;">
+    <div><b><%= link_to job.title, job_path(job)%></b></div>
+    <div>
+      <% if job.description && job.description.length > 90 %>
+        <%= job.description[0..90]%><%= "..."%>
+      <% else %>
+        <%= job.description%>
+      <% end %>  
+    </div>  
   </td>
-  <td>
+  <td class="non_mobile">
     <% case job.event_type %>
     <% when 'private_event' %>
       <%= "Private Event" %>
@@ -23,10 +30,10 @@
       <%= "Charity" %>         
     <% end %>  
   </td>
-  <td>
+  <td class="non_mobile">
     <%= "#{ job.available_date }" %>
   </td>
-  <td>
+  <td class="non_mobile">
     <%= job.location %>
   </td>
   <td>
@@ -42,29 +49,25 @@
     <% end %> 
     
   </td>
-  <td>
+  <td class="non_mobile">
     <%= "Still Looking"%>
   </td>
   <td>
-    <%= link_to "Applications Received", job_app_received_path(job) %>
+    <%= link_to "View", job_app_received_path(job), class: "btn btn-default space10" %>
     <div><%= @pending %></div>
   </td>
   <td>
-    <%= link_to "In Negotiation", job_app_negotiation_path(job) %>
+    <%= link_to "View", job_app_negotiation_path(job), class: "btn btn-default space10" %>
     <div><%= @special_offer%></div>
   </td>
   <td>
-    <%= link_to "Confirmed", job_app_confirmed_path(job) %>
-    <div class="space20"></div>
+    <%= link_to "View", job_app_confirmed_path(job), class: "btn btn-default space10" %>
     <div><%= @confirmed%></div>
   </td>
   <td>
-    <%= link_to 'update', edit_job_path(job.id) %>
+    <%= link_to 'update', edit_job_path(job.id), class: "btn btn-send space10" %>
+    <a href="" class="btn btn-default" id="delete_<%= job.id.to_s %>" onclick="return false;">delete</a>
   </td>
-  <td>
-    <a href="" id="delete_<%= job.id.to_s %>" onclick="return false;">delete</a>
-  </td>
-</tr>
 <script type="text/javascript">
   $('#delete_<%= job.id.to_s %>').click(function(e){
       bootbox.dialog({
@@ -73,3 +76,4 @@
       });
   });
 </script>
+</tr>

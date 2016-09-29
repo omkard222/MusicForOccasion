@@ -20,42 +20,43 @@
       </div>
       <div class="row">
         <div class="col-sm-12">
-          <div class="table-responsive">
+          <div>
             <table class="table table-striped">
+              <col width="20%">
+              <col class="non_mobile" width="10%">
+              <col class="non_mobile" width="10%">
+              <col class="non_mobile" width="10%">
+              <col width="5%">
+              <col class="non_mobile" width="5%">
               <col width="10%">
-              <col width="30%">
-              <col width="25%">
-              <col width="25%">
-              <col width="5%">
-              <col width="5%">
+              <col width="10%">
+              <col width="10%">
+              <col width="10%">
               <thead>
               <tr>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Availabilities</th>
-                <th>Location</th>
-                <th>Total Fees</th>
-                <th>Status</th>
+                <th>Details</th>
+                <th class="non_mobile">Type</th>
+                <th class="non_mobile">When</th>
+                <th class="non_mobile">Where</th>
+                <th>Fees</th>
+                <th class="non_mobile">Status</th>
                 <th>
                  Applications Received
                 <%#= link_to "Applications Received", job_app_received_path() %>
                 </th>
-                <th>In negotiation</th>
-                <th>Confirmed</th>
-                <th></th>
+                <th>Applications In negotiation</th>
+                <th>Applications Confirmed</th>
                 <th></th>
               </tr>
               </thead>
               <tbody>
-              <tr>
-                <% if @jobs.present? %>
-                  <% @jobs.each do |job| %>
-                      <%= render 'list_details', job: job %>
-                  <% end %>
-                <% else %>
-                  <h4>You have no offers</h4>
+              <% if @jobs.present? %>
+                <% @jobs.each do |job| %>
+                  <%= render 'list_details', job: job %>
                 <% end %>
-              </tr>
+              <% else %>
+                <h4>You have no offers</h4>
+              <% end %>
               </tbody>
             </table>
           </div>
@@ -65,3 +66,4 @@
   </div>
 </div>
 <%= render 'shared/blankfooter' %>
+<%= render 'shared/jobs_table_design' %>
