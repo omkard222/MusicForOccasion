@@ -1,11 +1,17 @@
 <div class="pages fade out">
-  <div class="containerr">
+  <div class="container">
     <div class="space30"></div>
     <h1 class="text-center">BROWSE GIGS</h1>
 
     <div class="space30"></div>
     <div class="row">
       <div class="col-md-8 col-md-offset-1">
+        <% flash.each do |key, message| %>
+            <div class="alert alert-<%= flash_type(key.to_s) %> fade in">
+              <button type="button" class="close" data-dismiss="alert">x</button>
+              <div id="flash_<%= key %>"> <%= sanitize(message) %> </div>
+            </div>
+        <% end %>
         <%= form_tag search_job_offers_path, id: 'search_application_form', class: 'form-horizontal' do %>
             <div class="form-group">
               <label class="col-md-2 control-label">Type of Event</label>
@@ -18,13 +24,13 @@
             </div>
             <div class="clear_here"></div>
             <div class="form-group">
-              <label class="col-md-2 control-label">Location</label>
+              <label class="col-md-2 col-xs-12 control-label">Location</label>
 
-              <div class="col-md-8">
+              <div class="col-md-8 col-xs-12">
                 
                 <%= text_field_tag 'location', nil, id: 'search_location', placeholder: 'City, Country', class: 'form-control', value: params[:location] %> 
               </div>
-              <span type="button" class="clear_location btn btn-default col-md-2">Clear Location</span>
+              <span type="button" class="clear_location btn btn-default col-md-2 cll">Clear Location</span>
             </div>
             <div class="form-group">
               <label class="col-md-2 control-label">Date</label>
@@ -38,12 +44,12 @@
     </div>
     <div class="space40"></div>
     <div class="row">
-      <div class="col-md-11 col-sm-offset-1">
+      <div class="col-md-12">
         <div id="search-results" align="center">
-          <%= render 'home/list_job_offers' %>
+          <%= render 'home/job_offer'%>
         </div>
       </div>
-    </div>
+    </div>      
   </div>
 </div>
 
@@ -182,6 +188,23 @@
       <% else %>
         $('#noLoginModal').modal('show');
       <% end %>
-    } 
+    }
+
+  $('div.rating').rateit();
+  function bigImg(x) {
+    $(".btn-booking").hide();
+  }
+  function normalImg(x) {
+    $(".btn-booking").show();
+  }
+  
+  function show_alert(x){
+    alert("You cannot access to this offer. This offer is limited to musicians with a minimum fan radar " + x);
+  } 
+  $(".view_offer_sign").on('click', function(e){
+    alert("You Need to Sign up OR Sign in")
+  });     
 
 </script>
+
+<%= render 'shared/jobs_table_design' %>

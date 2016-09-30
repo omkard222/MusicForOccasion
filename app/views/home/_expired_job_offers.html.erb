@@ -1,0 +1,98 @@
+<tr>
+	<td>
+      <div><%= image_tag(job.profile.profile_picture.url, :size=> "70x70", :class=>"img-autoheight img-circle")%></div>
+      <% @profile = Profile.find(job.profile_id)%>
+      <% if job.profile.virtual_name && job.profile.virtual_name.length > 15 %>
+        <div><%= link_to job.profile.virtual_name[0..15] + "...", profile_path(@profile) %></div>
+      <% else %>
+        <div><%= link_to job.profile.virtual_name, profile_path(@profile) %></div>
+      <% end %>  
+    </td>
+    <td style="white-space: normal !important;word-break:break-all;">
+      <div><b><%= job.title%></b></div>
+      <div>
+        <% if job.description && job.description.length > 50 %>
+          <%= job.description[0..50]%><%= "..."%>
+        <% else %>
+          <%= job.description%>
+        <% end %>  
+      </div>  
+    </td>
+    <td class="non_mobile">
+      <% case job.event_type %>
+      <% when 'private_event' %>
+        <%= "Private Event" %>
+      <% when 'bar_restaurant' %>
+        <%= "Bar/Restaurant" %> 
+      <% when 'club_lounge' %>
+        <%= "Club/Lounge" %>
+      <% when 'wedding' %>
+        <%= "Wedding" %>
+      <% when 'corporate' %>
+        <%= "Corporate" %>
+      <% when 'festival' %>
+        <%= "Festival" %>
+      <% when 'charity' %>
+        <%= "Charity" %>         
+      <% end %>  
+    </td>
+    <td><%= "#{ job.available_date }" %></td>
+    <td><%= job.location%></td>
+    <!-- <td><%= job.minimum_fb_likes%></td>
+    <td>
+      <div class="row">
+      <div class="col-md-8 col-xs-12" style="display: -moz-grid-group;">
+      <div class="col-md-4 col-xs-4">
+        <div class="row">
+          <div><%= image_tag("/images/house.png", :class => 'img-responsive', :size => "30x30")%></div>
+        </div>
+        <div class="row">
+          <% if job.accommodation %>
+            <div><%= image_tag("/images/tick.png", :size=> "25x25", :class => 'img-responsive')%></div>
+          <% else %>
+            <div><%= image_tag("/images/cross_one.png", :size=> "25x25", :class => 'img-responsive')%></div>
+          <% end %>  
+        </div>
+      </div>
+      <div class="col-md-4 col-xs-4">  
+        <div class="row">  
+          <div><%= image_tag("/images/car.png", :class => 'img-responsive', :size => "30x30")%></div>
+        </div>
+        <div class="row">
+          <% if job.transportation %>
+            <div><%= image_tag("/images/tick.png", :size=> "25x25", :class => 'img-responsive')%></div>
+          <% else%>
+            <div><%= image_tag("/images/cross_one.png", :size=> "25x25", :class => 'img-responsive')%></div>
+          <% end %>
+        </div>    
+      </div>
+      <div class="col-md-4 col-xs-4">
+        <div class="row">  
+          <div><%= image_tag("/images/food.png", :class => 'img-responsive', :size => "30x30")%></i></div>
+        </div>
+        <div class="row">  
+          <% if job.food_and_beverage %>
+            <div><%= image_tag("/images/tick.png", :size=> "25x25", :class => 'img-responsive')%></div>
+          <% else %>
+            <div><%= image_tag("/images/cross_one.png", :size=> "25x25", :class => 'img-responsive')%></div>
+          <% end %>
+        </div>    
+      </div>
+      </div>
+      </div>
+    </td>
+    <td><%= job.country_origin%></td> -->
+    <td class="non_mobile">Booked</td>
+    <td>
+      <% case job.booking_fee_type %>
+      <% when "send_inquiry"%>
+        <%= "Quote Requested "%>
+      <% when "minimum_fees"%>
+        <%= job_fee_or_free(job) %>
+      <% end %>  
+    </td>
+    <td>
+      <%#= link_to "View Offer", send_job_offer_path(job) %>
+      <%= link_to "View Offer", "#", class: "btn btn-send" %>
+    </td>
+  </tr>

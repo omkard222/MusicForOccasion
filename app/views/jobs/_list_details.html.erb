@@ -66,7 +66,7 @@
   </td>
   <td>
     <%= link_to 'update', edit_job_path(job.id), class: "btn btn-send space10" %>
-    <a href="" class="btn btn-default" id="delete_<%= job.id.to_s %>" onclick="return false;">delete</a>
+    <a href="" class="btn btn-default btn-delete" id="delete_<%= job.id.to_s %>" onclick="return false;">delete</a>
   </td>
 <script type="text/javascript">
   $('#delete_<%= job.id.to_s %>').click(function(e){

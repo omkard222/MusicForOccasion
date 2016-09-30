@@ -1,0 +1,138 @@
+<% if @jobs.blank? %>
+    <div align="center">
+      <h4>No available Job offers.</h4>
+    </div>
+<% else %>
+<h3><b> GIGS</b></h3>
+
+<div class="table-responsive">
+  <table class="table table-striped spot">
+    <col width="10%">
+    <col width="15%">
+    <col class="non_mobile" width="5%">
+    <col width="5%">
+    <col width="15%">
+    <!-- <col width="5%">
+
+    <col width="20%">
+    <col width="5%"> -->
+    <col class="non_mobile" width="5%">
+    <col width="5%">
+    <col width="10%">
+    
+    <thead>
+      <tr>
+        <th>Proposed by</th>
+        <th>Details</th>
+        <th class="non_mobile">Type</th>
+        <th>When</th>
+        <th>Where</th>
+        <!-- <th>Minimum Fans</th>
+        <th>Facilities</th>
+        <th>Prefered Nationality</th> -->
+        <th class="non_mobile">Status</th>
+        <th>Fees</th>
+        <th>Infos</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr>
+        <% @jobs.each do |myjob| %>
+          <%= render 'home/list_job_offers', job: myjob %>
+          <%#= render 'services/list_details', service: my_service %>
+        <% end %>
+      </tr>
+    </tbody>
+  </table>
+</div>    
+<div class="table-responsive">
+  <table class="table table-striped spot">
+    <col width="10%">
+    <col width="15%">
+    <col class="non_mobile" width="5%">
+    <col width="5%">
+    <col width="15%">
+    <!-- <col width="5%">
+
+    <col width="20%">
+    <col width="5%"> -->
+    <col class="non_mobile" width="5%">
+    <col width="5%">
+    <col width="10%">
+    <thead>
+    <tr>
+      <th>Proposed by</th>
+      <th>Details</th>
+      <th class="non_mobile">Type</th>
+      <th>When</th>
+      <th>Where</th>
+      <!-- <th>Minimum Fans</th>
+      <th>Facilities</th>
+      <th>Prefered Nationality</th> -->
+      <th class="non_mobile">Status</th>
+      <th>Fees</th>
+      <th>Infos</th>
+    </tr>
+    </thead>
+    <tbody>    
+      <tr>
+        <% if @expired_jobs.present? %>
+          <div class="space20"></div>
+          <h3><b> Expired Gigs</b></h3>
+          <div class="space20"></div>
+          <% @expired_jobs.each do |myjob| %>
+            <%= render 'home/expired_job_offers', job: myjob %>
+            <%#= render 'services/list_details', service: my_service %>
+          <% end %>
+        <% end %>  
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="table-responsive">
+  <table class="table table-striped spot">
+    <col width="10%">
+    <col width="15%">
+    <col class="non_mobile" width="5%">
+    <col width="5%">
+    <col width="15%">
+    <!-- <col width="5%">
+
+    <col width="20%">
+    <col width="5%"> -->
+    <col class="non_mobile" width="5%">
+    <col width="5%">
+    <col width="10%">
+    <thead>
+    <tr>
+      <th>Proposed by</th>
+      <th>Details</th>
+      <th class="non_mobile">Type</th>
+      <th>When</th>
+      <th>Where</th>
+      <!-- <th>Minimum Fans</th>
+      <th>Facilities</th>
+      <th>Prefered Nationality</th> -->
+      <th class="non_mobile">Status</th>
+      <th>Fees</th>
+      <th>Infos</th>
+    </tr>
+    </thead>
+    <tbody>    
+      <tr>
+      <% if @deleted_jobs.present? %>
+        <div class="space20"></div>
+        <h3><b> Previous Gigs</b></h3>
+        <div class="space20"></div>
+        <% @deleted_jobs.each do |myjob| %>
+          <%= render 'home/deleted_job_offers', job: myjob %>
+          <%#= render 'services/list_details', service: my_service %>
+        <% end %>
+      <% end %>  
+      </tr>
+    </tbody>
+  </table>
+</div>
+<% end %>
+
