@@ -65,8 +65,8 @@
     <div><%= @confirmed%></div>
   </td>
   <td>
-    <%= link_to 'update', edit_job_path(job.id), class: "btn btn-send space10" %>
-    <a href="" class="btn btn-default btn-delete" id="delete_<%= job.id.to_s %>" onclick="return false;">delete</a>
+    <%= link_to 'Update', edit_job_path(job.id), class: "btn btn-send space10" %>
+    <a href="" class="btn btn-default btn-delete" id="delete_<%= job.id.to_s %>" onclick="return false;">Delete</a>
   </td>
 <script type="text/javascript">
   $('#delete_<%= job.id.to_s %>').click(function(e){
